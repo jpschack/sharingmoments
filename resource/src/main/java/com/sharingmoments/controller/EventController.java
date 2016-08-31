@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sharingmoments.error.RessourceNotFoundException;
+import com.sharingmoments.error.ResourceNotFoundException;
 import com.sharingmoments.persistence.dto.EventDto;
 import com.sharingmoments.persistence.model.Event;
 import com.sharingmoments.persistence.model.Location;
@@ -71,7 +71,7 @@ public class EventController {
 		if (event != null) {
 			return event;
 		} else {
-			throw new RessourceNotFoundException();
+			throw new ResourceNotFoundException();
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class EventController {
 			eventService.deleteEvent(event);
 			return ResponseEntity.ok(null);
 		} else {
-			throw new RessourceNotFoundException();
+			throw new ResourceNotFoundException();
 		}
 	}
 	

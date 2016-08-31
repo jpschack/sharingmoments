@@ -41,6 +41,16 @@
                 "CANCEL": "Cancel",
                 "CREATE": "Create the event"
             }
+        },
+        "FIRST_LOGIN_MODAL": {
+            "HEADLINE": "Welcome to SharingMoments",
+            "INTRO": "Please check your inbox and verify your account by clicking the link in our mail. Thanks!",
+            "BUTTON_TEXT": "Let's go!"
+        },
+        "REGISTRATION_CONFIRM_MODAL": {
+            "HEADLINE": "Account verified",
+            "INTRO": "Your account has been verified. Thanks.",
+            "BUTTON_TEXT": "Ok"
         }
     }
 }

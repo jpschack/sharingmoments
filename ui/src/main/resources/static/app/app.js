@@ -60,7 +60,7 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
     $locationProvider.html5Mode(true);
     $stateProvider
         .state('/', {
-            url: '/',
+            url: '/?firstLogin',
             templateUrl: 'app/index/index-content.html',
             controller: 'IndexContentCtrl',
             data: {

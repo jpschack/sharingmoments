@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sharingmoments.error.RessourceNotFoundException;
+import com.sharingmoments.error.ResourceNotFoundException;
 import com.sharingmoments.persistence.model.Event;
 import com.sharingmoments.persistence.model.Photo;
 import com.sharingmoments.persistence.model.User;
@@ -43,7 +43,7 @@ public class UserController {
 		if (user != null) {
 			return user;
 		} else {
-			throw new RessourceNotFoundException();
+			throw new ResourceNotFoundException();
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class UserController {
 		final User user = userService.getUserByID(userId);
 		
 		if (user == null) {
-			throw new RessourceNotFoundException();
+			throw new ResourceNotFoundException();
 		}
 		
 		return photoService.getPhotosByUser(user, pageable);
@@ -63,7 +63,7 @@ public class UserController {
 		final User user = userService.getUserByID(userId);
 		
 		if (user == null) {
-			throw new RessourceNotFoundException();
+			throw new ResourceNotFoundException();
 		}
 		
 		return eventService.getEventsByUser(user, pageable);

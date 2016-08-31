@@ -1,9 +1,4 @@
-angular.module('indexApp').controller('IndexContentCtrl', function($stateParams, $location, $state) {
-    if ($stateParams.firstLogin) {
-        //show modal and inform user about verifing his email address
-        //also show some first introduction
-    }
-
+angular.module('indexApp').controller('IndexContentCtrl', function($scope, $stateParams, $location, $state, $uibModal) {
     //Redirects
     if ($location.search().redirectUrl && $location.search().status == "succeeded") {
         if ($location.search().redirectUrl == "updatePassword" && $location.search().id && $location.search().token) {
@@ -12,6 +7,28 @@ angular.module('indexApp').controller('IndexContentCtrl', function($stateParams,
             $state.go($location.search().redirectUrl);
         }
     }
+
+    if ($location.search().registrationConfirm == "succeeded") {
+        var modURL = 'app/index/registration-confirm-modal.html';
+        var newMomentsModal = $uibModal.open({ scope: $scope, templateUrl: modURL, controller: 'RegistrationConfirmModalCtrl', size: 'sm' });
+    }
+
+    if ($stateParams.firstLogin) {
+        var modURL = 'app/index/first-login-alert-modal.html';
+        var newMomentsModal = $uibModal.open({ scope: $scope, templateUrl: modURL, controller: 'FirstLoginAlertModalCtrl', size: 'sm' });
+    }
 });
 
-angular.module('indexApp').controller('IndexCtrl', function($state, $location) {});
+angular.module('indexApp').controller('RegistrationConfirmModalCtrl', function($scope, $uibModalInstance) {
+    $scope.close = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+angular.module('indexApp').controller('FirstLoginAlertModalCtrl', function($scope, $uibModalInstance) {
+    $scope.close = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+angular.module('indexApp').controller('IndexCtrl', function() {});

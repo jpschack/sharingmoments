@@ -92,19 +92,19 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
         final VerificationToken verificationToken = userService.getVerificationToken(token);
         
         if (verificationToken == null) {
-            return "redirect:http://localhost:8080/?redirectUrl=login&status=badtoken";
+            return "redirect:http://localhost:8080/";
         }
 
         final User user = verificationToken.getUser();
         final Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "redirect:http://localhost:8080/?redirectUrl=login&status=badtoken";
+            return "redirect:http://localhost:8080/";
         }
 
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
         
-        return "redirect:http://localhost:8080/?redirectUrl=login&status=succeeded";
+        return "redirect:http://localhost:8080/?registrationConfirm=succeeded";
     }
     
     @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sharingmoments.error.RessourceNotFoundException;
+import com.sharingmoments.error.ResourceNotFoundException;
 import com.sharingmoments.persistence.model.User;
 import com.sharingmoments.persistence.model.UserImage;
 import com.sharingmoments.persistence.service.AwsS3Service;
@@ -71,7 +71,7 @@ public class UserImageController {
 			userImageService.deleteUserImage(userImage);
 			return ResponseEntity.ok(null);
 		} else {
-			throw new RessourceNotFoundException();
+			throw new ResourceNotFoundException();
 		}
 	}
 	
