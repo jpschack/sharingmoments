@@ -1,0 +1,18 @@
+{
+    "UPDATEPASSWORD": {
+        "HEADLINE": "Change Password",
+        "NEWPASSWORD": "New Password",
+        "CONFIRMPASSWORD": "Confirm your new password",
+        "SAVE": "Save",
+        "VALIDATION": {
+            "MISSING": "Please choose your new Password.",
+            "TOOSHORT": "Sorry this password is too short. Please choose one with at least 6 characters.",
+            "TOOLONG": "Sorry this password is too long. Please choose one with at most 20 characters.",
+            "CONFIRM": "Please confirm your new password."
+        },
+        "REQUEST_ERROR": {
+            "SERVER_ERROR": "Sorry, there seems to be something wrong! Please try again later."
+        },
+        "SUCCESS": "Your password was changed successfully. You are logged in."
+    }
+}

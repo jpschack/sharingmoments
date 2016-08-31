@@ -1,0 +1,68 @@
+<div class="account-page">
+    <div class="col-md-3 navigation-container">
+        <ul class="nav nav-pills nav-stacked well">
+            <li role="presentation" ui-sref-active-eq="active"><a ui-sref="account">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.HEADLINE' | translate }}</a></li>
+            <li role="presentation" ui-sref-active-eq="active"><a ui-sref=".privacy">{{ 'ACCOUNT.NAVIGATION.SECURITY.HEADLINE' | translate }}</a></li>
+            <li role="presentation" ui-sref-active-eq="active"><a ui-sref=".password">{{ 'ACCOUNT.NAVIGATION.PASSWORD.HEADLINE' | translate }}</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9 account-container">
+        <div class="well" ui-view>
+            <div class="edit-account-details-container" ng-controller="EditAccountCtrl">
+                <h2>{{ 'ACCOUNT.NAVIGATION.ACCOUNT.HEADLINE' | translate }}</h2>
+                <hr>
+                <form class="account-form" name="accountForm">
+                    <div class="request-error" ng-show="alert">
+                        <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()">{{alert.msg}}</div>
+                    </div>
+                    <div class="row custom-input-group" ng-class="{'has-error': accountForm.email.$invalid && accountForm.email.$dirty}">
+                        <div class="col-md-2"><label for="email" class="control-label custom-control-label">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.EMAIL' | translate }}</label></div>
+                        <div class="col-md-10">
+                            <input type="email" name="email" class="form-control" placeholder="{{ 'ACCOUNT.NAVIGATION.ACCOUNT.EMAIL' | translate }}" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }" required>
+                            <div class="alert alert-danger" ng-messages="accountForm.email.$error" ng-if="accountForm.email.$invalid && accountForm.email.$dirty">
+                                <ul>
+                                    <li ng-message="required">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.MISSING' | translate }}</li>
+                                    <li ng-message="email">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.INVALID' | translate }}</li>
+                                    <li ng-message="taken">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.TAKEN' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row custom-input-group" ng-class="{'has-error': accountForm.username.$invalid && accountForm.username.$dirty}">
+                        <div class="col-md-2"><label for="username" class="control-label custom-control-label">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.USERNAME' | translate }}</label></div>
+                        <div class="col-md-10">
+                            <input type="text" name="username" class="form-control" placeholder="{{ 'ACCOUNT.NAVIGATION.ACCOUNT.USERNAME' | translate }}" ng-model="user.username" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required>
+                            <div class="alert alert-danger" ng-messages="accountForm.username.$error" ng-if="accountForm.username.$invalid && accountForm.username.$dirty">
+                                <ul>
+                                    <li ng-message="required">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.MISSING' | translate }}</li>
+                                    <li ng-message="minlength">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TOOSHORT' | translate }}</li>
+                                    <li ng-message="maxlength">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TOOLONG' | translate }}</li>
+                                    <li ng-message="taken">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TAKEN' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row custom-input-group">
+                        <div class="col-md-2"><label for="name" class="control-label custom-control-label">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.NAME' | translate }}</label></div>
+                        <div class="col-md-10">
+                            <input type="text" name="name" class="form-control" placeholder="{{ 'ACCOUNT.NAVIGATION.ACCOUNT.NAME' | translate }}" ng-model="user.name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 form-button">
+                            <button type="button" class="btn btn-primary btn-block" ng-click="saveAccount()">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.SAVE' | translate }}</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div class="delete-account-container">
+                    <div class="row">
+                        <div class="col-md-3 delete-account-button">
+                            <button type="button" class="btn btn-danger btn-block" ng-click="deleteAccount()">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.DELETE' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

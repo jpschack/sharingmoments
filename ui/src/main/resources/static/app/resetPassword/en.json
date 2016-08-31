@@ -1,0 +1,19 @@
+{
+    "RESETPASSWORD": {
+        "HEADLINE": "Forgot your Password?",
+        "INTRO": "Just enter your email address and you will receive a mail to reset your password.",
+        "EMAIL": "Email",
+        "SEND": "Send",
+        "VALIDATION": {
+            "EMAIL": {
+                "MISSING": "Please enter a valid email address.",
+                "INVALID": "Sorry, this email address is not valid."
+            }
+        },
+        "REQUEST_ERROR": {
+            "SERVER_ERROR": "Sorry, there seems to be something wrong! Please try again later.",
+            "CLIENT_ERROR": "Sorry, for this email address there is no account."
+        },
+        "SUCCESS": "You should receive an email soon. Please check your inbox."
+    }
+}

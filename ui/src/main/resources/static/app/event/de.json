@@ -1,0 +1,15 @@
+{
+    "PROFILE": {
+        "NAVIGATION": {
+            "EVENTS": "Events",
+            "PHOTOS": "Fotos"
+        },
+        "EDIT": "Profil bearbeiten",
+        "UPDATE_USER_IMAGE_MODAL": {
+            "HEADLINE": "Profilbild ändern",
+            "UPLOAD": "Foto hochladen",
+            "DELETE_CURRENT": "Aktuelles Foto löschen",
+            "CANCEL": "Abbrechen"
+        }
+    }
+}

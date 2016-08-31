@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+debug: true
+
+zuul:
+  host:
+    socket-timeout-millis: 100000
+    connect-timeout-millis: 100000
+  routes:
+    resource:
+      path: /api/v1/resource/**
+      url: http://localhost:9000/api/v1/resource
+    uaa:
+      path: /api/v1/uaa/**
+      url: http://localhost:9999/api/v1/uaa
+    googleLocationApi:
+      path: /api/google/maps/places/**
+      url: https://maps.googleapis.com/maps/api/place
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+multipart:
+  maxFileSize: 10Mb

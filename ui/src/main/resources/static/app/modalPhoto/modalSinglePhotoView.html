@@ -1,0 +1,9 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 single-photo-view">
+            <img class="single-photo-img" ng-src="{{photo.url}}">
+            <div class="photo-date"><span class="glyphicon glyphicon-time"></span> {{photo.createdAt}}</div>
+            <div class="photo-description" ng-show="photo.description">{{photo.description}}</div>
+        </div>
+    </div>
+</div>

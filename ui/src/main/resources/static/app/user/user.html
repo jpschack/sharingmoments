@@ -1,0 +1,29 @@
+<div class="user-page">
+    <div class="row user-details">
+        <div class="col-md-4">
+            <div class="user-profile-img-container">
+                <a href="">
+                    <div class="spinner-container" ng-show="userImageUpdating"><img class="spinner-img" src="/pix/spinner.gif" /></div>
+                    <img class="media-object img-circle user-profile-img" ng-src="{{user.userImage.url}}">
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12 account-details">
+                    <div class="user-username" ng-bind="'@' + user.username"></div>
+                </div>
+            </div>
+            <div class="row"><div class="col-md-12 user-name" ng-bind="user.name"></div></div>
+            <div class="row user-contents">
+                <div class="col-md-2"><a href=""><strong>0</strong> Photos</a></div>
+                <div class="col-md-2"><a href=""><strong>0</strong> Events</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 user-photos">
+            
+        </div>
+    </div>
+</div>

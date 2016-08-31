@@ -1,0 +1,9 @@
+<div class="update-user-image-modal-body">
+    <div class="flex-container"><div class="flex-item headline">{{ 'PROFILE.UPDATE_USER_IMAGE_MODAL.HEADLINE' | translate }}</div></div>
+    <div class="flex-container-upload-input">
+        <label for="file-upload" class="custom-file-upload">{{ 'PROFILE.UPDATE_USER_IMAGE_MODAL.UPLOAD' | translate }}</label>
+        <input id="file-upload" type="file" accept="image/*" custom-on-change="uploadFile" />
+    </div>
+    <button class="btn btn-default btn-block" ng-click="deleteUserImage()">{{ 'PROFILE.UPDATE_USER_IMAGE_MODAL.DELETE_CURRENT' | translate }}</button>
+    <button class="btn btn-default btn-block" ng-click="cancel()">{{ 'PROFILE.UPDATE_USER_IMAGE_MODAL.CANCEL' | translate }}</button>
+</div>

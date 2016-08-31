@@ -1,0 +1,29 @@
+{
+    "SIGNUP": {
+        "HEADLINE": "Registrieren Sie sich jetzt",
+        "EMAIL": "Email",
+        "USERNAME": "Username",
+        "NAME": "Name",
+        "PASSWORD": "Passwort",
+        "SIGNUP": "Registrieren",
+        "VALIDATION": {
+            "EMAIL": {
+                "MISSING": "Bitte geben Sie eine Email-Adresse ein.",
+                "INVALID": "Diese Email-Adresse ist nicht valide."
+            },
+            "USERNAME": {
+                "MISSING": "Bitte geben Sie einen Usernamen für Ihren Account ein.",
+                "TOOSHORT": "Ihr gewählter Username ist leider zu kurz. Bitte wählen Sie einen mit wenigstens 3 Zeichen.",
+                "TOOLONG": "Ihr gewählter Username ist leider zu lang. Bitte wählen Sie einen mit höchstens 20 Zeichen."
+            },
+            "PASSWORD": {
+                "MISSING": "Bitte wählen Sie ein neues Passwort.",
+                "TOOSHORT": "Ihr gewähltes Passwort is leider zu kurz. Bitte wählen Sie eins mit wenigstens 6 Zeichen.",
+                "TOOLONG": "Ihr gewähltes Passwort is leider zu lang. Bitte wählen Sie eins mit höchstens 20 Zeichen."
+            }
+        },
+        "REQUEST_ERROR": {
+            "SERVER_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal."
+        }
+    }
+}

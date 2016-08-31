@@ -1,0 +1,70 @@
+<div class="new-event-modal">
+    <div class="modal-header">
+        <h2>{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.HEADLINE' | translate }}</h2>
+    </div>
+    <div class="modal-body">
+        <div class="new-event-form">
+            <div class="row custom-input-group">
+                <div class="col-md-2"><label class="control-label custom-control-label" for="event-name">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.NAME' | translate }}</label></div>
+                <div class="col-md-10">
+                    <input type="text" name="event-name" id="event-name" class="form-control" placeholder="{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.NAME.PLACEHOLDER' | translate }}" ng-model="event.name" ng-model-options="{ updateOn: 'blur' }" required>
+                </div>
+            </div>
+            <div class="row custom-input-group">
+                <div class="col-md-2"><label class="control-label custom-control-label" for="event-location">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.LOCATION' | translate }}</label></div>
+                <div class="col-md-10">
+                    <input type="text" name="event-location" id="event-location" class="form-control" placeholder="{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.LOCATION.PLACEHOLDER' | translate }}" ng-model="event.location" ng-change="searchForLocations()" ng-click="clickedLocationSearchInput()">
+                    <span class="location-search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showLocationDropdown" on-toggle="toggled(open)">
+                        <ul class="uib-dropdown-menu scrollable-menu" uib-dropdown-menu>
+                            <div ng-if="locationSuggestions.length">
+                                <li class="single-location-result" role="menuitem" ng-repeat="location in locationSuggestions">
+                                    <a class="location-link btn btn-link" ng-click="selectLocation(location)">
+                                        <div class="row location-name">{{location.name}}</div>
+                                        <div class="row location-address" ng-if="location.formatted_address"><span class="glyphicon glyphicon-map-marker"> {{location.formatted_address}}</span></div>
+                                    </a>
+                                </li>
+                            </div>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+            <div class="row custom-input-group">
+                <div class="col-md-2">
+                    <label class="control-label custom-control-label" for="event-start-date">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.START_DATE' | translate }}</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group input-group-date">
+                        <input type="text" name="event-start-date" id="event-start-date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="event.startDate" is-open="startDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="startDateChanged()" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openStartDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label custom-control-label" for="enable-end-date"><input type="checkbox" name="enable-end-date" id="enable-end-date" ng-model="event.multiDayEvent" ng-click="enableEndDate()"> {{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.ENABLE_END_DATE' | translate }}</label>
+                </div>
+            </div>
+            <div class="row custom-input-group" ng-show="endDateEnabled">
+                <div class="col-md-2">
+                    <label class="control-label custom-control-label" for="event-end-date">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.END_DATE' | translate }}</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group input-group-date">
+                        <input type="text" name="event-end-date" id="event-end-date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="event.endDate" is-open="endDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="endDateChanged()" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openEndDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-input-group">
+                <label class="control-label event-description-label" for="event-description">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.DESCRIPTION' | translate }}</label>
+                <textarea name="description" id="event-description" class="form-control" rows="5" ng-model="event.description"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default text-center pull-left" ng-click="cancel()">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.CANCEL' | translate }}</button>
+        <button class="btn btn-primary text-center" ng-click="createEvent()">{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.CREATE' | translate }}</button>
+    </div>
+</div>

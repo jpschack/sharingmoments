@@ -1,0 +1,18 @@
+{
+    "UPDATEPASSWORD": {
+        "HEADLINE": "Passwort ändern",
+        "NEWPASSWORD": "Neues Passwort",
+        "CONFIRMPASSWORD": "Passwort wiederholen",
+        "SAVE": "Speichern",
+        "VALIDATION": {
+            "MISSING": "Bitte wählen Sie ein neues Passwort.",
+            "TOOSHORT": "Ihr gewähltes Passwort is leider zu kurz. Bitte wählen Sie eins mit wenigstens 6 Zeichen.",
+            "TOOLONG": "Ihr gewähltes Passwort is leider zu lang. Bitte wählen Sie eins mit höchstens 20 Zeichen.",
+            "CONFIRM": "Bitte wiederholen sie Ihr neues Passwort."
+        },
+        "REQUEST_ERROR": {
+            "SERVER_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal."
+        },
+        "SUCCESS": "Dein Passwort wurde erfolgreich geändert. Du bist nun eingeloggt."
+    }
+}

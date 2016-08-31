@@ -1,0 +1,15 @@
+<div class="account-privacy" ng-controller="PrivacyCtrl">
+    <h2>{{ 'ACCOUNT.NAVIGATION.SECURITY.HEADLINE' | translate }}</h2>
+    <hr>
+    <form class="privacy-form" name="privacyForm">
+        <div class="row custom-input-group">
+            <div class="col-md-2"><label for="privacySwitch" class="control-label custom-control-label">{{ 'ACCOUNT.NAVIGATION.SECURITY.PRIVACY' | translate }}</label></div>
+            <div class="col-md-10">
+                <input type="checkbox" id="privacySwitch" ng-model="user.privateAccount" bootstrap-switch />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><p>{{ 'ACCOUNT.NAVIGATION.SECURITY.EXPLANATION' | translate }}</p></div>
+        </div>
+    </form>
+</div>

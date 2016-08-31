@@ -1,0 +1,62 @@
+{
+    "ACCOUNT": {
+        "NAVIGATION": {
+            "ACCOUNT": {
+                "HEADLINE": "Account",
+                "PASSWORD": "Password",
+                "USERNAME": "Username",
+                "EMAIL": "Email",
+                "NAME": "Name",
+                "SAVE": "Save",
+                "DELETE": "Delete your account",
+                "UPDATE_SUCCESS": "Your account information were updated.",
+                "VALIDATION": {
+                    "EMAIL": {
+                        "MISSING": "Please enter a valid email address.",
+                        "INVALID": "Sorry, this email address is not valid.",
+                        "TAKEN": "This mail address is already registered. Please choose a different one."
+                    },
+                    "USERNAME": {
+                        "MISSING": "Please enter a username.",
+                        "TOOSHORT": "Sorry, this username is too short. Please choose one with at least 3 characters.",
+                        "TOOLONG": "Sorry, this username is too long. Please choose one with at most 20 characters.",
+                        "TAKEN": "This username is already taken. Please choose a different one."
+                    }
+                },
+                "DELETE_MODAL": {
+                    "HEADLINE": "Are you sure?",
+                    "BODYTEXT": "Please note if you delete your account, all your data and posts are gone indefinitly.",
+                    "CANCEL": "Cancel",
+                    "DELETE": "Delete Account"
+                }
+            },
+            "SECURITY": {
+                "HEADLINE": "Security and Privacy",
+                "PRIVACY": "Private Account",
+                "EXPLANATION": "If this option is Enabled, your account and posts are only visible and accessible for your friends."
+            },
+            "PASSWORD": {
+                "OLDPASSWORD": {
+                    "LABEL": "Current password",
+                    "MISSING": "Please enter your current password.",
+                    "NOTVALID": "Sorry, your entered password was not correct."
+                },
+                "PASSWORD": "New Password",
+                "HEADLINE": "Change your Password",
+                "PASSWORDCONFIRM": "Confirm your password",
+                "SAVE": "@:ACCOUNT.NAVIGATION.ACCOUNT.SAVE",
+                "UPDATE_SUCCESS": "Your password was changed.",
+                "VALIDATION": {
+                    "MISSING": "Please choose your new Password.",
+                    "TOOSHORT": "Sorry this password is too short. Please choose one with at least 6 characters.",
+                    "TOOLONG": "Sorry this password is too long. Please choose one with at most 20 characters.",
+                    "CONFIRM": "Please confirm your new password."
+                }
+            }
+        },
+        "REQUEST_ERROR": {
+            "CLIENT_ERROR": "Please correct the marked fields before trying again.",
+            "SERVER_ERROR": "Sorry, there seems to be something wrong! Please try again later."
+        }
+    }
+}

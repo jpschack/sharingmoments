@@ -1,0 +1,47 @@
+<div class="signup-page">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4 well">
+            <form name="signupForm">
+                <h2>{{ 'SIGNUP.HEADLINE' | translate }}</h2>
+                <div class="request-error" ng-show="alert">
+                    <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()">{{alert.msg}}</div>
+                </div>
+                <div class="signup-inputs">
+                    <div class="form-group" ng-class="{'has-error': signupForm.email.$invalid && signupForm.email.$dirty}">
+                        <input type="email" class="form-control" placeholder="{{ 'SIGNUP.EMAIL' | translate }}" id="email" name="email" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }" required />
+                        <div class="alert alert-danger" ng-messages="signupForm.email.$error" ng-if="signupForm.email.$invalid && signupForm.email.$dirty">
+                            <ul>
+                                <li ng-message="required">{{ 'SIGNUP.VALIDATION.EMAIL.MISSING' | translate }}</li>
+                                <li ng-message="email">{{ 'SIGNUP.VALIDATION.EMAIL.INVALID' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': signupForm.username.$invalid && signupForm.username.$dirty}">
+                        <input type="text" class="form-control" placeholder="{{ 'SIGNUP.USERNAME' | translate }}" id="username" name="username" ng-model="user.username" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required />
+                        <div class="alert alert-danger" ng-messages="signupForm.username.$error" ng-if="signupForm.username.$invalid && signupForm.username.$dirty">
+                            <ul>
+                                <li ng-message="required">{{ 'SIGNUP.VALIDATION.USERNAME.MISSING' | translate }}</li>
+                                <li ng-message="minlength">{{ 'SIGNUP.VALIDATION.USERNAME.TOOSHORT' | translate }}</li>
+                                <li ng-message="maxlength">{{ 'SIGNUP.VALIDATION.USERNAME.TOOLONG' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="{{ 'SIGNUP.NAME' | translate }}" id="name" name="name" ng-model="user.name"/>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': signupForm.password.$invalid && signupForm.password.$dirty}">
+                        <input type="password" class="form-control" placeholder="{{ 'SIGNUP.PASSWORD' | translate }}" id="password" name="password" ng-model="user.password" ng-model-options="{ updateOn: 'blur' }" ng-minlength="6" ng-maxlength="20" required />
+                        <div class="alert alert-danger" ng-messages="signupForm.password.$error" ng-if="signupForm.password.$invalid && signupForm.password.$dirty">
+                            <ul>
+                                <li ng-message="required">{{ 'SIGNUP.VALIDATION.PASSWORD.MISSING' | translate }}</li>
+                                <li ng-message="minlength">{{ 'SIGNUP.VALIDATION.PASSWORD.TOOSHORT' | translate }}</li>
+                                <li ng-message="maxlength">{{ 'SIGNUP.VALIDATION.PASSWORD.TOOLONG' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block send-button" ng-click="register()">{{ 'SIGNUP' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{
+    "RESETPASSWORD": {
+        "HEADLINE": "Passwort vergessen?",
+        "INTRO": "Gib einfach deine Email-Adresse ein und du bekommst eine Email zum Zurücksetzen deines Passworts.",
+        "EMAIL": "Email",
+        "SEND": "Senden",
+        "VALIDATION": {
+            "EMAIL": {
+                "MISSING": "Bitte geben Sie eine Email-Adresse ein.",
+                "INVALID": "Diese Email-Adresse ist nicht valide."
+            }
+        },
+        "REQUEST_ERROR": {
+            "SERVER_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal.",
+            "CLIENT_ERROR": "Zu dieser Email-Adresse ist kein Account vorhanden."
+        },
+        "SUCCESS": "Eine Email wurde an Sie versendet. Bitte checken Sie Ihr Postfach."
+    }
+}

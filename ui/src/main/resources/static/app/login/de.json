@@ -1,0 +1,13 @@
+{
+    "SIGNIN": {
+        "HEADLINE": "Einloggen",
+        "EMAIL": "Email oder Username",
+        "PASSWORD": "Passwort",
+        "FORGOTPASSWORD": "Passwort vergessen?",
+        "SIGNIN": "Login",
+        "REQUEST_ERROR": {
+            "CLIENT_ERROR": "Login fehlgeschlagen. Username oder Passwort sind nicht korrekt.",
+            "SERVER_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal."
+        }
+    }
+}

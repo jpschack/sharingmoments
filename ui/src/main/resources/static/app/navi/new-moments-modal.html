@@ -1,0 +1,72 @@
+<div class="new-moments-modal-body" ng-hide="newEventModalLoaded">
+    <div class="modal-header">
+        <h2>{{ 'INDEX.NAVIGATION.NEWMOMENTS.HEADLINE' | translate }}</h2>
+        <p class="intro-text">{{ 'INDEX.NAVIGATION.NEWMOMENTS.INTRO' | translate }}</p>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 text-search">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <div class="input-group-btn"><button type="button" class="btn btn-default" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button></div>
+                            <input type="text" class="form-control" placeholder="{{ 'INDEX.NAVIGATION.NEWMOMENTS.SEARCH_PLACEHOLDER' | translate }}" ng-model="searchInput" ng-change="search()" ng-click="showResultsIfExist(event)">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="getUsersEvents()"><i class="caret"></i></button>
+                                <button type="button" class="btn btn-default" ng-class="{ 'event-date-search' : eventDateSearchEnabled }" ng-click="clickedSelectDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <span class="date-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDateDropdown" on-toggle="toggledDateDropdown(open)">
+                            <ul class="uib-dropdown-menu dropdown-menu-left" uib-dropdown-menu>
+                                <li class="date-picker" role="menuitem">
+                                    <label class="control-label custom-control-label" for="startDate">{{ 'INDEX.NAVIGATION.NEWMOMENTS.START_DATE' | translate }}</label>
+                                    <div class="input-group input-group-date">
+                                        <input type="text" name="startDate" id="startDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startDate" is-open="startDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="startDateChanged()" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openStartDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li class="date-picker" role="menuitem">
+                                    <label class="control-label custom-control-label" for="endDate">{{ 'INDEX.NAVIGATION.NEWMOMENTS.END_DATE' | translate }}</label>
+                                    <div class="input-group input-group-date">
+                                        <input type="text" name="endDate" id="endDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="endDate" is-open="endDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="endDateChanged()" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openEndDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li class="disable-button" role="menuitem" ng-show="startDate && endDate">
+                                    <button type="button" class="btn btn-danger btn-sm btn-block" ng-click="disableEventDateSearch()">{{ 'INDEX.NAVIGATION.NEWMOMENTS.DISABLE_EVENT_DATE_SEARCH' | translate }}</button>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="event-search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDropdown" on-toggle="toggledSearchDropdown(open)">
+                            <ul class="uib-dropdown-menu" uib-dropdown-menu>
+                                <div ng-if="events.length">
+                                    <li class="single-event-result" role="menuitem" ng-repeat="event in events">
+                                        <a class="event-link btn btn-link" ui-sref="event({ id : event.id })">
+                                            <div class="row event-details"><div class="event-name">{{event.name}}</div><span class="event-date">{{event.date}}</span></div>
+                                            <div class="row event-location"><span class="glyphicon glyphicon-map-marker"> {{event.location}}</span></div>
+                                        </a>
+                                    </li>
+                                </div>
+                                <div ng-if="!(events.length)">
+                                    <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NORESULT' | translate }}</li>
+                                </div>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="cancel()">{{ 'INDEX.NAVIGATION.NEWMOMENTS.CANCEL' | translate }}</button>
+        <button class="btn btn-primary" ng-click="newEvent()">{{ 'INDEX.NAVIGATION.NEWMOMENTS.NEW' | translate }}</button>
+    </div>
+</div>

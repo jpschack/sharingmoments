@@ -1,0 +1,29 @@
+{
+    "SIGNUP": {
+        "HEADLINE": "Sign up now",
+        "EMAIL": "Email",
+        "USERNAME": "Username",
+        "NAME": "Name",
+        "PASSWORD": "Password",
+        "SIGNUP": "Sign up",
+        "VALIDATION": {
+            "EMAIL": {
+                "MISSING": "Please enter a valid email address.",
+                "INVALID": "Sorry, this email address is not valid."
+            },
+            "USERNAME": {
+                "MISSING": "Please enter a username.",
+                "TOOSHORT": "Sorry, this username is too short. Please choose one with at least 3 characters.",
+                "TOOLONG": "Sorry, this username is too long. Please choose one with at most 20 characters."
+            },
+            "PASSWORD": {
+                "MISSING": "Please choose your new Password.",
+                "TOOSHORT": "Sorry this password is too short. Please choose one with at least 6 characters.",
+                "TOOLONG": "Sorry this password is too long. Please choose one with at most 20 characters."
+            }
+        },
+        "REQUEST_ERROR": {
+            "SERVER_ERROR": "Sorry, there seems to be something wrong! Please try again later."
+        }
+    }
+}

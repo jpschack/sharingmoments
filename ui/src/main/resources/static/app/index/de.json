@@ -1,0 +1,46 @@
+{
+    "INDEX": {
+        "HEADLINE": "Share your Moments",
+        "NAVIGATION": {
+            "NEWEVENT": "Neue Momente",
+            "SEARCH": {
+                "PLACEHOLDER": "Suche nach Usern",
+                "SHOWMORE": "Mehr Ergebnisse",
+                "NORESULT": "Zu Ihrer Suche wurden leider keine User gefunden."
+            },
+            "PROFILE": "Profile",
+            "ACCOUNT": "Account",
+            "SETTINGS": "Einstellungen",
+            "SIGNIN": "Einloggen",
+            "SIGNUP": "Registrieren",
+            "LOGOUT": "Ausloggen",
+            "NEWMOMENTS": {
+                "HEADLINE": "Teile jetzt deine neusten Momente!",
+                "INTRO": "Teile deine neusten Momente und füge sie Events in deinem Leben hinzu. Füge Sie bestehenden Events hinzu oder erstelle ganz neue.",
+                "SEARCH_PLACEHOLDER": "Suche nach Events",
+                "START_DATE":"Start-Datum",
+                "END_DATE": "End-Datum",
+                "DISABLE_EVENT_DATE_SEARCH": "Filter löschen",
+                "CANCEL": "Abbrechen",
+                "NEW": "Neues Event"
+            },
+            "NEW_EVENT_MODAL": {
+                "HEADLINE": "Erstelle ein neues Event",
+                "NAME": {
+                    "NAME": "Name",
+                    "PLACEHOLDER": "Lege einen Namen fest"
+                },
+                "LOCATION": {
+                    "LOCATION": "Location",
+                    "PLACEHOLDER": "Suche nach der Location"
+                },
+                "ENABLE_END_DATE": "mehrtägiges Event?",
+                "START_DATE": "Datum",
+                "END_DATE": "End-Datum",
+                "DESCRIPTION": "Beschreibung",
+                "CANCEL": "Abbrechen",
+                "CREATE": "Event erstellen"
+            }
+        }
+    }
+}

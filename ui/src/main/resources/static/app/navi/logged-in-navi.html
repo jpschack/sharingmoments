@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav navbar-nav">
+                    <li ng-controller="NaviNewMomentsCtrl"><a href="" ng-click="openNewMomentsModal()">{{ 'INDEX.NAVIGATION.NEWEVENT' | translate }}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-9" ng-controller="NaviSearchCtrl">
+                <div class="navbar-form">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+                        <input type="text" class="form-control" placeholder="{{ 'INDEX.NAVIGATION.SEARCH.PLACEHOLDER' | translate }}" aria-describedby="basic-addon1" ng-model="searchInput" ng-change="search()" ng-click="showResultsIfExist(event)">
+                    </div>
+                </div>
+                <span class="search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDropdown" on-toggle="toggled(open)">
+                    <ul class="uib-dropdown-menu" uib-dropdown-menu>
+                        <div ng-if="users.length">
+                            <li class="single-user-result" role="menuitem" ng-repeat="user in users">
+                                <div class="row">
+                                    <div class="col-md-3"><a ui-sref="user({ id : user.id })"><img class="user-profile-img" src="http://placehold.it/50x50"></a></div>
+                                    <div class="col-md-9">
+                                        <div class="user-details">
+                                            <div class="row"><a ui-sref="user({ id : user.id })">{{user.username}}</a></div>
+                                            <div class="row"><div class="user-name">{{user.name}}</div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li role="menuitem"><a class="btn btn-primary show-more-result-button text-center" href="" ng-click="showMoreResults()">{{ 'INDEX.NAVIGATION.SEARCH.SHOWMORE' | translate }}</a></li>
+                        </div>
+                        <div ng-if="!(users.length)">
+                            <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NORESULT' | translate }}</li>
+                        </div>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" ng-controller="NaviActionsCtrl">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a ui-sref="profile">{{ 'INDEX.NAVIGATION.PROFILE' | translate }}</a></li>
+            <li uib-dropdown>
+                <a href="" id="simple-dropdown" uib-dropdown-toggle><span class="caret"></span></a>
+                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                    <li><a ui-sref="account">{{ 'INDEX.NAVIGATION.ACCOUNT' | translate }}</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="" ng-click="logout()">{{ 'INDEX.NAVIGATION.LOGOUT' | translate }}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

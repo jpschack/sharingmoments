@@ -1,0 +1,37 @@
+<div class="search-page">
+    <div class="row">
+        <div class="col-md-2 search-navigation">
+            <uib-tabset active="activePill" vertical="true" type="pills">
+                <uib-tab index="0" select="setTab(1)" heading="{{ 'SEARCH.NAVIGATION.USERS' | translate }}"></uib-tab>
+                <uib-tab index="1" select="setTab(2)" heading="{{ 'SEARCH.NAVIGATION.EVENTS' | translate }}"></uib-tab>
+            </uib-tabset>
+        </div>
+        <div class="col-md-10 search-content">
+            <div class="row search-input">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="{{ searchInputPlaceholder }}" ng-model="searchInput">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="search()">{{ 'SEARCH.INPUT.GO' | translate }}</button>
+                    </span>
+                </div>
+            </div>
+            <div class="row user-results" ng-show="isSet(1)">
+                <div class="row single-user-row" ng-repeat="user in userList">
+                    <div class="col-md-2 profile-image"><a href="" ng-class="user.userImage.id ? '' : 'inactive'" ng-click="openUserImage(user.userImage)"><img class="img-responsive user-profile-img" ng-src="{{user.userImage.url}}"></a></div>
+                    <div class="col-md-10 user-details">
+                        <div class="row username"><a ui-sref="user({ id : user.id })">@{{ user.username }}</a></div>
+                        <div class="row name" ng-bind="user.name"></div>
+                    </div>
+                </div>
+                <div ng-if="!userList.length">{{ 'SEARCH.RESULT.NOUSERS' | translate }}</div>
+            </div>
+            <div class="row event-results" ng-show="isSet(2)">
+                <div class="row single-event-row" ng-repeat="event in eventList">
+                    <div class="col-md-8 event-name" ng-bind="event.name"></div>
+                    <div class="col-md-4 event-date"></div>
+                </div>
+                <div ng-if="!eventList.length && searchInput">{{ 'SEARCH.RESULT.NOEVENTS' | translate }}</div>
+            </div>
+        </div>
+    </div>
+</div>

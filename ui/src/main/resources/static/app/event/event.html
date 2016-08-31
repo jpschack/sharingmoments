@@ -1,0 +1,57 @@
+<div class="event-page">
+    <div class="row well event-details-container">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="event-details">
+                    <div class="col-md-5">
+                        <div class="event-name" ng-bind="event.name"></div>
+                        <div class="event-description"><p ng-bind="event.description"></p></div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row event-date-container">
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>
+                            <div class="col-md-11 event-date">
+                                <div>{{ event.startDate|date:'longDate'}}</div>
+                                <div ng-show="event.multiDayEvent" ng-bind="' - ' + event.endDate"></div>
+                            </div>
+                        </div>
+                        <div class="row event-location" ng-show="googleLocation">
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                            </div>
+                            <div class="col-md-11">
+                                <div class="" ng-bind="googleLocation.name"></div>
+                                <a ng-href="{{googleLocation.url}}" target="_blank">
+                                    <div class="" ng-bind="googleLocation.address"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-default btn-block pull-right" ui-sref="event.details">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row event-actions">
+        <div class="col-md-6">
+            <button class="btn btn-primary pull-left">upload now!</button>
+        </div>
+        <div class="col-md-6" ng-show="event.photos">
+            <button class="btn btn-primary pull-right">Edit</button>
+        </div>
+    </div>
+    <div class="row event-photos" image-dropzone>
+        <div ng-hide="event.photos" class="jumbotron photos-placeholder">
+            <div class="h1">No uploaded Photos yet</div>
+            <p>Be the first to upload photos to this event. Just drop them here or click on upload now!</p>
+        </div>
+        <div ng-show="event.photos">
+            <img ng-src={{image}} />
+            <span class="file-name">{{imageFileName}}</span>
+        </div>
+    </div>
+</div>

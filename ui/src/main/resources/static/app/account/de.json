@@ -1,0 +1,62 @@
+{
+    "ACCOUNT": {
+        "NAVIGATION": {
+            "ACCOUNT": {
+                "HEADLINE": "Account",
+                "PASSWORD": "Passwort",
+                "USERNAME": "Username",
+                "EMAIL": "Email",
+                "NAME": "Name",
+                "SAVE": "Speichern",
+                "DELETE": "Account löschen",
+                "UPDATE_SUCCESS": "Ihre Account Informationen wurden gespeichert.",
+                "VALIDATION": {
+                    "EMAIL": {
+                        "MISSING": "Bitte geben Sie eine Email-Adresse ein.",
+                        "INVALID": "Diese Email-Adresse ist nicht valide.",
+                        "TAKEN": "Diese Email-Adresse ist bereits vergeben. Bitte wähle eine andere."
+                    },
+                    "USERNAME": {
+                        "MISSING": "Bitte geben Sie einen Usernamen für Ihren Account ein.",
+                        "TOOSHORT": "Ihr gewählter Username ist leider zu kurz. Bitte wählen Sie einen mit wenigstens 3 Zeichen.",
+                        "TOOLONG": "Ihr gewählter Username ist leider zu lang. Bitte wählen Sie einen mit höchstens 20 Zeichen.",
+                        "TAKEN": "Dieser Username ist bereits vergeben. Bitte wähle einen anderen."
+                    }
+                },
+                "DELETE_MODAL": {
+                    "HEADLINE": "Bist du dir sicher?",
+                    "BODYTEXT": "Bitte beachte, dass wenn du deinen Account löscht, all deine Daten und Posts mit gelöscht werden.",
+                    "CANCEL": "Abbrechen",
+                    "DELETE": "Account löschen"
+                }
+            },
+            "SECURITY": {
+                "HEADLINE": "Sicherheit und Privatsphäre",
+                "PRIVACY": "Privater Account",
+                "EXPLANATION": "Aktiviert ist Ihr Profil und Ihre Posts nur von Ihren Freunden einsehbar."
+            },
+            "PASSWORD": {
+                "OLDPASSWORD": {
+                    "LABEL": "Aktuelles Passwort",
+                    "MISSING": "Bitte geben Sie Ihr aktuelles Passwort ein.",
+                    "NOTVALID": "Ihr eingegebenes Passwort stimmt nicht mit Ihrem aktuellen überein."
+                },
+                "PASSWORD": "Neues Passwort",
+                "HEADLINE": "Passwort ändern",
+                "PASSWORDCONFIRM": "Passwort wiederholen",
+                "SAVE": "@:ACCOUNT.NAVIGATION.ACCOUNT.SAVE",
+                "UPDATE_SUCCESS": "Ihr Kennwort wurde geändert.",
+                "VALIDATION": {
+                    "MISSING": "Bitte wählen Sie ein neues Passwort.",
+                    "TOOSHORT": "Ihr gewähltes Passwort is leider zu kurz. Bitte wählen Sie eins mit wenigstens 6 Zeichen.",
+                    "TOOLONG": "Ihr gewähltes Passwort is leider zu lang. Bitte wählen Sie eins mit höchstens 20 Zeichen.",
+                    "CONFIRM": "Bitte wiederholen sie Ihr neues Passwort."
+                }
+            }
+        },
+        "REQUEST_ERROR": {
+            "CLIENT_ERROR": "Bitte vervollständigen und korregieren Sie Ihre Eingaben vor dem erneutem Absenden.",
+            "SERVER_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal."
+        }
+    }
+}

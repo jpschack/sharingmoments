@@ -1,0 +1,13 @@
+<div class="container-fluid modal-photo-view-carousel">
+    <div class="row">
+        <div class="col-md-12">
+            <uib-carousel active="index" interval="none" no-wrap="false">
+                <uib-slide ng-repeat="photo in photos track by $index" index="$index">
+                    <img class="carousel-img" ng-src="{{photo.url}}">
+                    <div class="photo-date"><span class="glyphicon glyphicon-time"></span> {{photo.createdAt}}</div>
+                    <div class="photo-description" ng-show="photo.description">{{photo.description}}</div>
+                </uib-slide>
+            </uib-carousel>
+        </div>
+    </div>
+</div>
