@@ -3,6 +3,7 @@ package com.sharingmoments.persistence.model;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,11 +39,11 @@ public class Photo {
     @JsonManagedReference
 	private User user;
     
-    @OneToMany(mappedBy = "photo")
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Like> likes;
     
-    @OneToMany(mappedBy = "photo")
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Comment> comments;
 

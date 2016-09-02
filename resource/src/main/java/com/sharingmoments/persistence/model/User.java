@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,7 +52,10 @@ public class User {
 
     private boolean tokenExpired;
     
-    @OneToOne(fetch=FetchType.LAZY, mappedBy="user")
+    @OneToOne(fetch=FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL)
+    private VerificationToken verificationToken;
+    
+    @OneToOne(fetch=FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private UserImage userImage;
 
@@ -60,19 +64,19 @@ public class User {
     @JsonBackReference
     private Collection<Role> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Photo> photos;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Event> events;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Like> likes;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Comment> comments;
 
