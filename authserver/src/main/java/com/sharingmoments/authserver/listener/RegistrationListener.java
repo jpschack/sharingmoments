@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import com.sharingmoments.authserver.util.EmailSender;
-import com.sharingmoments.persistence.model.User;
-import com.sharingmoments.persistence.service.UserService;
+import com.sharingmoments.resource.persistence.model.User;
+import com.sharingmoments.resource.persistence.service.UserService;
 
 @Component
 public class RegistrationListener implements ApplicationListener<RegistrationCompleteEvent> {

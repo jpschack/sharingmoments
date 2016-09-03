@@ -17,12 +17,13 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sharingmoments.persistence.model.User;
-import com.sharingmoments.security.MyUserDetailsService;
-import com.sharingmoments.security.TokenAuthenticationService;
-import com.sharingmoments.security.UserAuthentication;
-import com.sharingmoments.security.UserDetailsImpl;
-import com.sharingmoments.util.UserLoginMapper;
+import com.sharingmoments.resource.persistence.model.User;
+import com.sharingmoments.resource.security.MyUserDetailsService;
+import com.sharingmoments.resource.security.TokenAuthenticationService;
+import com.sharingmoments.resource.security.UserAuthentication;
+import com.sharingmoments.resource.security.UserDetailsImpl;
+import com.sharingmoments.resource.util.UserLoginMapper;
+
 
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 	

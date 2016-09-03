@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.sharingmoments.persistence.model.User;
+import com.sharingmoments.resource.persistence.model.User;
 
 public class RegistrationCompleteEvent extends ApplicationEvent {
 

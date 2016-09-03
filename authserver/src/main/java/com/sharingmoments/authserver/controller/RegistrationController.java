@@ -29,19 +29,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.sharingmoments.authserver.listener.RegistrationCompleteEvent;
 import com.sharingmoments.authserver.util.EmailSender;
-import com.sharingmoments.error.UserAlreadyExistException;
-import com.sharingmoments.error.UserNotFoundException;
-import com.sharingmoments.persistence.dto.UserDto;
-import com.sharingmoments.persistence.model.PasswordResetToken;
-import com.sharingmoments.persistence.model.User;
-import com.sharingmoments.persistence.model.VerificationToken;
-import com.sharingmoments.persistence.service.UserService;
-import com.sharingmoments.security.TokenAuthenticationService;
-import com.sharingmoments.security.UserAuthentication;
-import com.sharingmoments.util.JsonArg;
-import com.sharingmoments.util.JsonPathArgumentResolver;
-import com.sharingmoments.validation.EmailExistsException;
-import com.sharingmoments.validation.UsernameExistsException;
+import com.sharingmoments.resource.error.UserAlreadyExistException;
+import com.sharingmoments.resource.error.UserNotFoundException;
+import com.sharingmoments.resource.persistence.dto.UserDto;
+import com.sharingmoments.resource.persistence.model.PasswordResetToken;
+import com.sharingmoments.resource.persistence.model.User;
+import com.sharingmoments.resource.persistence.model.VerificationToken;
+import com.sharingmoments.resource.persistence.service.UserService;
+import com.sharingmoments.resource.security.TokenAuthenticationService;
+import com.sharingmoments.resource.security.UserAuthentication;
+import com.sharingmoments.resource.util.JsonArg;
+import com.sharingmoments.resource.util.JsonPathArgumentResolver;
+import com.sharingmoments.resource.validation.EmailExistsException;
+import com.sharingmoments.resource.validation.UsernameExistsException;
 
 @Controller
 @RequestMapping(value = "/account")

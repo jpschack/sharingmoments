@@ -1,4 +1,4 @@
-package com.sharingmoments.authserver.config;
+package com.sharingmoments.resource.config;
 
 import java.util.Properties;
 
@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -19,12 +18,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.sharingmoments.resource.persistence.service.AwsS3ServiceImpl;
-
 @Configuration
 @EnableTransactionManagement
 @PropertySource({ "classpath:persistence.properties" })
-@ComponentScan(basePackages = { "com.sharingmoments.resource.persistence.service", "com.sharingmoments.resource.security", "com.sharingmoments.authserver.error" }, excludeFilters = @ComponentScan.Filter(value = AwsS3ServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE))
+@ComponentScan({ "com.sharingmoments.resource.persistence.service", "com.sharingmoments.resource.persistence.setup", "com.sharingmoments.resource.security", "com.sharingmoments.resource.error" })
 @EnableJpaRepositories(basePackages = "com.sharingmoments.resource.persistence.doa")
 public class JPAPersistenceConfig {
 	@Autowired
