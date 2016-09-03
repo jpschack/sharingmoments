@@ -1,5 +1,12 @@
 angular.module('authService').service('$auth', function($rootScope, $http, $cookies) {
     return {
+        isLoggedIn: function () {
+            if ($cookies.get('X-AUTH-TOKEN')) {
+                return true;
+            } else {
+                return false;
+            }
+        },
         login: function (params) {
             var url = '/api/v1/uaa/login';
             return $http.post(url, params)

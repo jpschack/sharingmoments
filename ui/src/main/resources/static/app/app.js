@@ -158,9 +158,40 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
     $urlRouterProvider.otherwise("/");
 });
 
-angular.module("sharingMomentsApp").run(function ($rootScope, $translate, $translatePartialLoader) {
+angular.module("sharingMomentsApp").run(function ($rootScope, $translate, $translatePartialLoader, $auth, $state, $location) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.data.i18n) {
+        var anonymousStates = ['login', 'signup', 'resetPassword', 'updatePassword'];
+        var loggedInStates = ['profile', 'account', 'account.privacy', 'account.password', 'search', 'user', 'event'];
+        var redirect = false;
+
+        //Redirecting
+        if ($auth.isLoggedIn()) {
+            if (anonymousStates.indexOf(toState.name) > -1) {
+                event.preventDefault();
+                redirect = true;
+                $state.transitionTo('/');
+            }
+        } else {
+            if (loggedInStates.indexOf(toState.name) > -1) {
+                event.preventDefault();
+                redirect = true;
+                $state.transitionTo('login');
+            } else if (toState.name == '/' && $location.search().redirectUrl && $location.search().status == "succeeded") {
+                //Redirecting for Password Reset Page
+                if ($location.search().redirectUrl == "updatePassword" && $location.search().id && $location.search().token) {
+                    event.preventDefault();
+                    redirect = true;
+                    $state.transitionTo($location.search().redirectUrl, { 'id': $location.search().id, 'token': $location.search().token });
+                } else {
+                    event.preventDefault();
+                    redirect = true;
+                    $state.transitionTo($location.search().redirectUrl);
+                }
+            }
+        }
+        
+        //Pre-Loading of translation files
+        if (toState.data.i18n && !redirect) {
             angular.forEach(toState.data.i18n, function (value) {
                 $translatePartialLoader.addPart(value);
             });
@@ -194,6 +225,7 @@ angular.module("sharingMomentsApp").factory('authInterceptor', function ($rootSc
 
             if (response && response.status === 401 && !$state.is('login')) {
                 $rootScope.authenticated = false;
+                $cookies.remove('X-AUTH-TOKEN');
                 $state.go('login');
             }
 

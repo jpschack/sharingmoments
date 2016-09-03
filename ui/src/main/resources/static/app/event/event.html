@@ -39,14 +39,14 @@
     </div>
     <div class="row event-actions">
         <div class="col-md-6" ng-show="event.photos">
-            <button class="btn btn-primary pull-right" ng-bind="'EVENT.EVENT_PHOTOS.Edit'|translate"></button>
+            <button type="button" class="btn btn-primary pull-right" ng-bind="'EVENT.EVENT_PHOTOS.Edit'|translate"></button>
         </div>
     </div>
     <div class="row event-photos" image-dropzone>
         <div ng-hide="event.photos" class="jumbotron photos-placeholder">
             <div class="h1" ng-bind="'EVENT.EVENT_PHOTOS.PLACEHOLDER.HEADLINE'|translate"></div>
             <p ng-bind="'EVENT.EVENT_PHOTOS.PLACEHOLDER.TEXT'|translate"></p>
-            <button class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></button>
+            <button type="button" class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></button>
         </div>
         <div ng-show="event.photos">
             <img ng-src={{image}} />
