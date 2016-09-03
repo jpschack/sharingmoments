@@ -93,10 +93,9 @@ public class EventController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-    public GenericResponse searchForEvents(final Locale locale, @RequestParam("q") String searchString, Pageable pageable, PagedResourcesAssembler<Event> assembler) {
-		Page<Event> events = eventService.findByNameOrDescription(searchString, pageable);
+    public Page<Event> searchForEvents(final Locale locale, @RequestParam("q") String searchString, Pageable pageable, PagedResourcesAssembler<Event> assembler) {
 		
-        return new GenericResponse(messages.getMessage("message.resetPasswordSuc", null, locale), assembler.toResource(events));
+		return eventService.findByNameOrDescription(searchString, pageable);
     }
 	
 	private User getUserByAuth(Authentication authentication) {

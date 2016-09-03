@@ -1,15 +1,16 @@
 {
-    "PROFILE": {
-        "NAVIGATION": {
-            "EVENTS": "Events",
-            "PHOTOS": "Photos"
+    "EVENT": {
+        "EVENT_DETAILS": {
+            "EDIT": "Edit",
+            "BY": "by"
         },
-        "EDIT": "Edit Profile",
-        "UPDATE_USER_IMAGE_MODAL": {
-            "HEADLINE": "Change your profile picture",
-            "UPLOAD": "Upload photo",
-            "DELETE_CURRENT": "Remove current photo",
-            "CANCEL": "Cancel"
+        "EVENT_PHOTOS": {
+            "UPLOAD": "Upload now!",
+            "EDIT": "Edit",
+            "PLACEHOLDER": {
+                "HEADLINE": "No uploaded Photos yet",
+                "TEXT": "Be the first to upload photos to this event. Just drop them here or click on upload now!"
+            }
         }
     }
 }

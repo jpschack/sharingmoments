@@ -4,9 +4,11 @@
         "NAVIGATION": {
             "NEWEVENT": "Neue Momente",
             "SEARCH": {
-                "PLACEHOLDER": "Suche nach Usern",
-                "SHOWMORE": "Mehr Ergebnisse",
-                "NORESULT": "Zu Ihrer Suche wurden leider keine User gefunden."
+                "PLACEHOLDER": "Suche",
+                "EVENTS": "Events",
+                "USER": "User",
+                "NO_USER_FOUND": "Keine User gefunden.",
+                "NO_EVENT_FOUND": "Keine Events gefunden."
             },
             "PROFILE": "Profile",
             "ACCOUNT": "Account",

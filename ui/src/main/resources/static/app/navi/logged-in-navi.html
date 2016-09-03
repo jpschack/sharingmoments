@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-8">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <ul class="nav navbar-nav">
                     <li ng-controller="NaviNewMomentsCtrl"><a href="" ng-click="openNewMomentsModal()">{{ 'INDEX.NAVIGATION.NEWEVENT' | translate }}</a></li>
                 </ul>
             </div>
-            <div class="col-md-9" ng-controller="NaviSearchCtrl">
+            <div class="col-md-7" ng-controller="NaviSearchCtrl">
                 <div class="navbar-form">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
@@ -15,23 +15,52 @@
                 </div>
                 <span class="search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDropdown" on-toggle="toggled(open)">
                     <ul class="uib-dropdown-menu" uib-dropdown-menu>
-                        <div ng-if="users.length">
-                            <li class="single-user-result" role="menuitem" ng-repeat="user in users">
-                                <div class="row">
-                                    <div class="col-md-3"><a ui-sref="user({ id : user.id })"><img class="user-profile-img" src="http://placehold.it/50x50"></a></div>
-                                    <div class="col-md-9">
+                        <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'type' : 'user' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.USER' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        <div class="row user-results" ng-if="users.length">
+                            <div class="col-md-12">
+                                <li class="row single-user-result" role="menuitem" ng-repeat="user in users">
+                                    <div class="col-md-3"><a ui-sref="user({ id : user.id })" ng-click="toggled(false)"><img class="user-profile-img img-circle" ng-src="{{user.userImage.url}}"></a></div>
+                                    <div class="col-md-offset-1 col-md-8">
                                         <div class="user-details">
-                                            <div class="row"><a ui-sref="user({ id : user.id })">{{user.username}}</a></div>
-                                            <div class="row"><div class="user-name">{{user.name}}</div></div>
+                                            <div class="row"><a class="user-username" ui-sref="user({ id : user.id })" ng-click="toggled(false)" ng-bind="'@'+ user.username"></a></div>
+                                            <div class="row"><div class="user-name" ng-bind="user.name"></div></div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="menuitem"><a class="btn btn-primary show-more-result-button text-center" href="" ng-click="showMoreResults()">{{ 'INDEX.NAVIGATION.SEARCH.SHOWMORE' | translate }}</a></li>
+                                </li>
+                            </div>
                         </div>
                         <div ng-if="!(users.length)">
-                            <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NORESULT' | translate }}</li>
+                            <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NO_USER_FOUND' | translate }}</li>
+                        </div>
+                        <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'type' : 'event' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.EVENTS' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        <div class="row event-results" ng-if="events.length">
+                            <div class="col-md-12">
+                                <li class="row single-event-result" role="menuitem" ng-repeat="event in events">
+                                    <div class="col-md-12">
+                                        <div class="row event-name">
+                                            <a class="col-md-12" ui-sref="event({ id : event.id })" ng-click="toggled(false)" ng-bind="event.name"></a>
+                                        </div>
+                                        <div class="row event-date-container">
+                                            <div class="col-md-1">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                            <div class="col-md-11 event-date">
+                                                <div class="startDate">{{ event.startDate|date:'longDate'}}</div>
+                                                <div class="endDate" ng-show="event.multiDayEvent"> - {{ event.endDate|date:'longDate'}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row event-location-container" ng-show="event.googleLocation">
+                                            <div class="col-md-1">
+                                                <span class="glyphicon glyphicon-map-marker"></span>
+                                            </div>
+                                            <div class="col-md-11"><p ng-bind="event.googleLocation.name"></p></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+                        </div>
+                        <div ng-if="!(events.length)">
+                            <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NO_EVENT_FOUND' | translate }}</li>
                         </div>
                     </ul>
                 </span>

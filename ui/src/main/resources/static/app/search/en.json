@@ -4,12 +4,10 @@
             "USERS": "User",
             "EVENTS": "Events"
         },
-        "INPUT": {
-            "PLACEHOLDER_USERS": "Search for Users...",
-            "PLACEHOLDER_EVENTS": "Search for Events...",
-            "GO": "GO"
-        },
         "RESULT": {
+            "EVENTS": {
+                "BY": "by"
+            },
             "NOUSERS": "No User found for your search.",
             "NOEVENTS": "No Event found for your search."
         }

@@ -159,17 +159,56 @@ angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $ro
     };
 });
 
-angular.module('naviApp').controller('NaviSearchCtrl', function($scope, $search, $state) {
-    $scope.showDropdown = false;
+angular.module('naviApp').controller('NaviSearchCtrl', function($scope, $rootScope, $search, $state, $stateParams, $googleLocationService) {
+    var init = function () {
+        $scope.showDropdown = false;
+        $scope.state = $state;
+    }
+    init();
+
+    $scope.$watch('state.current.name', function(newValue, oldValue) {
+        if ($state.is('search') && $stateParams.q) {
+            $scope.searchInput = $stateParams.q
+        }
+    });
+
+    var searchForEvents = function (q) {
+        $search.searchForEvents(q, 0, 5).then(function (eventList) {
+            $scope.events = eventList;
+            angular.forEach(eventList, function(event, key) {
+                $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
+                    if (googleLocation) {
+                        $scope.events[key].googleLocation = { 'name': googleLocation.name };
+                    }
+                }).catch(function (error) {
+
+                });
+            });
+            $scope.showDropdown = true;
+        });
+    };
+
+    var searchForUsers = function (q) {
+        $search.searchForUsers(q, 0, 5).then(function (userList) {
+            angular.forEach(userList, function(user, key) {
+                userList[key].userImage = {url: (user.userImage ? user.userImage.url : 'http://placehold.it/50x50')};
+            });
+            $scope.users = userList;
+            $scope.showDropdown = true;
+        });
+    };
 
     $scope.search = function () {
         if ($scope.searchInput.length > 0) {
-            $search.searchForUsers($scope.searchInput, 0, 5).then(function (users) {
-                $scope.users = users;
-                $scope.showDropdown = true;
-            });
+            if ($state.is('search')) {
+                $rootScope.$emit('searchOnSearchList', $scope.searchInput);
+            } else {
+                searchForUsers($scope.searchInput);
+                searchForEvents($scope.searchInput);
+            }
         } else {
             $scope.users = null;
+            $scope.events = null;
             $scope.showDropdown = false;
         }
     };
@@ -179,13 +218,10 @@ angular.module('naviApp').controller('NaviSearchCtrl', function($scope, $search,
     };
 
     $scope.showResultsIfExist = function () {
-        if ($scope.users) {
-            $scope.showDropdown = true;
+        if ($scope.users || $scope.events) {
+            if (!$state.is('search')) {
+                $scope.showDropdown = true;
+            }
         }
-    };
-
-    $scope.showMoreResults = function () {
-        $scope.showDropdown = false;
-        $state.go('search', { q: $scope.searchInput});
     };
 });

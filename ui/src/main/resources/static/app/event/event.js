@@ -157,7 +157,7 @@ angular.module('eventApp').controller('EventCtrl', function($scope, $state, $sta
     var init = function () {
         $event.getEventById($stateParams.id).then(function (event) {
             $scope.event = event;
-
+            
             $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
                 if (googleLocation) {
                     $scope.googleLocation = { 'name': googleLocation.name, 'address': googleLocation.formatted_address, 'url': googleLocation.url };

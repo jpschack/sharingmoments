@@ -8,7 +8,7 @@
                 "EMAIL": "Email",
                 "NAME": "Name",
                 "SAVE": "Save",
-                "DELETE": "Delete your account",
+                "DELETE": "Delete my account",
                 "UPDATE_SUCCESS": "Your account information were updated.",
                 "VALIDATION": {
                     "EMAIL": {

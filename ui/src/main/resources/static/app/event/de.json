@@ -1,15 +1,16 @@
 {
-    "PROFILE": {
-        "NAVIGATION": {
-            "EVENTS": "Events",
-            "PHOTOS": "Fotos"
+    "EVENT": {
+        "EVENT_DETAILS": {
+            "EDIT": "Bearbeiten",
+            "BY": "von"
         },
-        "EDIT": "Profil bearbeiten",
-        "UPDATE_USER_IMAGE_MODAL": {
-            "HEADLINE": "Profilbild ändern",
-            "UPLOAD": "Foto hochladen",
-            "DELETE_CURRENT": "Aktuelles Foto löschen",
-            "CANCEL": "Abbrechen"
+        "EVENT_PHOTOS": {
+            "UPLOAD": "Jetzt hochladen",
+            "EDIT": "Bearbeiten",
+            "PLACEHOLDER": {
+                "HEADLINE": "Noch keine Fotos hochgeladen.",
+                "TEXT": "Sei der Erste, der Fotos zu diesem Event hochläd. Schiebe sie einfach hier rein!"
+            }
         }
     }
 }

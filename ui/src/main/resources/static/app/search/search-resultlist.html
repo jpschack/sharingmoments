@@ -6,31 +6,54 @@
                 <uib-tab index="1" select="setTab(2)" heading="{{ 'SEARCH.NAVIGATION.EVENTS' | translate }}"></uib-tab>
             </uib-tabset>
         </div>
-        <div class="col-md-10 search-content">
-            <div class="row search-input">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{{ searchInputPlaceholder }}" ng-model="searchInput">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" ng-click="search()">{{ 'SEARCH.INPUT.GO' | translate }}</button>
-                    </span>
-                </div>
-            </div>
-            <div class="row user-results" ng-show="isSet(1)">
+        <div class="col-md-offset-1 col-md-9 search-content">
+            <div class="user-results" ng-show="isSet(1)">
                 <div class="row single-user-row" ng-repeat="user in userList">
-                    <div class="col-md-2 profile-image"><a href="" ng-class="user.userImage.id ? '' : 'inactive'" ng-click="openUserImage(user.userImage)"><img class="img-responsive user-profile-img" ng-src="{{user.userImage.url}}"></a></div>
-                    <div class="col-md-10 user-details">
+                    <div class="col-md-4 profile-image"><a href="" ng-class="user.userImage.id ? '' : 'inactive'" ng-click="openUserImage(user.userImage)"><img class="img-circle user-profile-img" ng-src="{{user.userImage.url}}"></a></div>
+                    <div class="col-md-8 user-details">
                         <div class="row username"><a ui-sref="user({ id : user.id })">@{{ user.username }}</a></div>
                         <div class="row name" ng-bind="user.name"></div>
                     </div>
                 </div>
-                <div ng-if="!userList.length">{{ 'SEARCH.RESULT.NOUSERS' | translate }}</div>
+                <div class="no-results-message" ng-if="!userList.length && searchInput">{{ 'SEARCH.RESULT.NOUSERS' | translate }}</div>
             </div>
-            <div class="row event-results" ng-show="isSet(2)">
+            <div class="event-results" ng-show="isSet(2)">
                 <div class="row single-event-row" ng-repeat="event in eventList">
-                    <div class="col-md-8 event-name" ng-bind="event.name"></div>
-                    <div class="col-md-4 event-date"></div>
+                    <div class="col-md-6 event-name pull-left">
+                        <div class="row event-name-container">
+                            <a ui-sref="event({ id : event.id })" ng-bind="event.name"></a>
+                        </div>
+                        <div class="row username-container">
+                            <div ng-bind="'SEARCH.RESULT.EVENTS.BY'|translate"></div><a ui-sref="user({ id : event.user.id })" ng-bind="' @' + event.user.username"></a>
+                        </div>
+                        <div class="row event-description-container">
+                            <p class="event-description" ng-bind="event.description"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row event-date-container">
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>
+                            <div class="col-md-11 event-date">
+                                <div ng-bind="event.startDate|date:'longDate'"></div>
+                                <div ng-show="event.multiDayEvent" ng-bind="' - ' + (event.endDate|date:'longDate')"></div>
+                            </div>
+                        </div>
+                        <div class="row event-location-container" ng-show="event.googleLocation">
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                            </div>
+                            <div class="col-md-11">
+                                <div class="" ng-bind="event.googleLocation.name"></div>
+                                <a ng-href="{{event.googleLocation.url}}" target="_blank">
+                                    <div class="" ng-bind="event.googleLocation.address"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div ng-if="!eventList.length && searchInput">{{ 'SEARCH.RESULT.NOEVENTS' | translate }}</div>
+                <div class="no-results-message" ng-if="!eventList.length && searchInput">{{ 'SEARCH.RESULT.NOEVENTS' | translate }}</div>
             </div>
         </div>
     </div>

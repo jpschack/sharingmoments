@@ -1,5 +1,5 @@
-angular.module('indexApp', []);
-angular.module('naviApp', ['searchApp', 'userApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService']);
+angular.module('indexApp', ['ui.bootstrap', 'ngAnimate']);
+angular.module('naviApp', ['searchApp', 'userApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'googleLocationServices']);
 angular.module('loginApp', ['authService', 'pascalprecht.translate']);
 angular.module('signupApp', ['app.services', 'pascalprecht.translate']);
 angular.module('resetPassword', ['app.services', 'authService', 'pascalprecht.translate']);
@@ -8,7 +8,7 @@ angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.boots
 angular.module('accountApp', ['app.services', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'ngMessages', 'pascalprecht.translate', 'app.directives']);
 angular.module('photoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('modalPhotoViewApp', ['app.services']);
-angular.module('searchApp', ['pascalprecht.translate']);
+angular.module('searchApp', ['pascalprecht.translate', 'googleLocationServices']);
 angular.module('userApp', ['app.controllers']);
 angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services']);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);
@@ -108,7 +108,7 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             }
         })
         .state('search', {
-            url: '/search?q',
+            url: '/search?q&type',
             templateUrl: 'app/search/search-resultlist.html',
             controller: 'SearchListCtrl',
             data: {
