@@ -11,8 +11,8 @@ angular.module('signupApp').controller('SignupCtrl', function($scope, $state, $a
                     });
                 }
             }).catch(function (error) {
-                if (error.status === 409 && error.message) {
-                    alertService('danger', error.message);
+                if (error.status === 409 && error.data.message) {
+                    alertService('danger', error.data.message);
                 } else {
                     $translate('SIGNUP.REQUEST_ERROR.SERVER_ERROR')
                     .then(function (translatedValue) {
