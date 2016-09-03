@@ -38,7 +38,7 @@ public interface UserService {
 
     User getUserByID(UUID id);
     
-    Page<User> findUserByUsernameOrName(String searchString, Pageable pageable);
+    Page<User> findUserByUsernameOrName(String searchString, UUID currentUserId, Pageable pageable);
 
     void changeUserPassword(User user, String password);
 

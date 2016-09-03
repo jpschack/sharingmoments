@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public Page<User> findUserByUsernameOrName(String searchString, Pageable pageable) {
-		return repository.findByUsernameOrName(searchString, pageable);
+	public Page<User> findUserByUsernameOrName(String searchString, UUID currentUserId, Pageable pageable) {
+		return repository.findByUsernameOrName(searchString, currentUserId, pageable);
 	}
 }

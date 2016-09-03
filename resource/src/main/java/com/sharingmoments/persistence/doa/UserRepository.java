@@ -15,8 +15,8 @@ public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
     
     User findByUsername(String username);
     
-    @Query("SELECT u FROM User u where :searchString != '' AND ( u.username LIKE CONCAT('%',:searchString,'%') OR u.name LIKE CONCAT('%',:searchString,'%'))") 
-    Page<User> findByUsernameOrName(@Param("searchString") String searchString, Pageable pageable);
+    @Query("SELECT u FROM User u where :searchString != '' AND u.id != :currentUserId AND ( u.username LIKE CONCAT('%',:searchString,'%') OR u.name LIKE CONCAT('%',:searchString,'%'))") 
+    Page<User> findByUsernameOrName(@Param("searchString") String searchString, @Param("currentUserId") UUID currentUserId, Pageable pageable);
 
     @Override
     void delete(User user);

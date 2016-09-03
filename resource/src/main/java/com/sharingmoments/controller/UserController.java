@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import com.sharingmoments.persistence.model.User;
 import com.sharingmoments.persistence.service.EventService;
 import com.sharingmoments.persistence.service.PhotoService;
 import com.sharingmoments.persistence.service.UserService;
+import com.sharingmoments.security.CurrentUser;
 
 
 @RestController
@@ -70,8 +72,14 @@ public class UserController {
     }
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-    public Page<User> searchForUsers(final Locale locale, @RequestParam("q") String searchString, Pageable pageable, PagedResourcesAssembler<User> assembler) {
+    public Page<User> searchForUsers(final Locale locale, @RequestParam("q") String searchString, Pageable pageable, PagedResourcesAssembler<User> assembler, @CurrentUser Authentication authentication) {
+		final User user = getUserByAuth(authentication);
 		
-		return userService.findUserByUsernameOrName(searchString, pageable);
+		return userService.findUserByUsernameOrName(searchString, user.getId(), pageable);
     }
+	
+	private User getUserByAuth(Authentication authentication) {
+		final User principal = (User) authentication.getPrincipal();
+		return userService.getUserByID(principal.getId());
+	}
 }
