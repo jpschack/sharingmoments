@@ -41,7 +41,11 @@
                 "END_DATE": "End date",
                 "DESCRIPTION": "Description",
                 "CANCEL": "Cancel",
-                "CREATE": "Create the event"
+                "CREATE": "Create the event",
+                "VALIDATION": {
+                    "LOCATION": "Please select a listed location."
+                },
+                "REQUEST_ERROR": "Sorry, there seems to be something wrong! Please try again later."
             }
         },
         "FIRST_LOGIN_MODAL": {

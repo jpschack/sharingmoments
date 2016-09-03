@@ -1,4 +1,4 @@
-angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $rootScope, $state, $uibModalInstance, $googleLocationService, $geoLocationService, $event) {
+angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $rootScope, $state, $uibModalInstance, $googleLocationService, $geoLocationService, $event, $translate) {
     $uibModalInstance.opened.then(function() {
         $scope.showLocationDropdown = false;
         $rootScope.$emit("newEventModalLoaded", {});
@@ -74,14 +74,34 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
     };
 
     $scope.createEvent = function () {
-        var location = { 'googleLocationID': $scope.selectedLocation.place_id };
-        var event = { 'name': $scope.event.name, 'description': $scope.event.description, 'startDate': $scope.event.startDate, 'endDate': $scope.event.endDate, 'multiDayEvent': $scope.event.multiDayEvent, 'location': location };
-        $event.createEvent(event).then(function (event) {
-            $scope.cancel();
-            $state.go('event', { 'id': event.id });
-        }).catch(function (error) {
+        if ($scope.newEventForm.$valid) {
+            if ($scope.selectedLocation) {
+                var location = { 'googleLocationID': $scope.selectedLocation.place_id };
+                var event = { 'name': $scope.event.name, 'description': $scope.event.description, 'startDate': $scope.event.startDate, 'endDate': $scope.event.endDate, 'multiDayEvent': $scope.event.multiDayEvent, 'location': location };
+                $event.createEvent(event).then(function (event) {
+                    $scope.cancel();
+                    $state.go('event', { 'id': event.id });
+                }).catch(function (error) {
+                    $translate('INDEX.NAVIGATION.NEW_EVENT_MODAL.REQUEST_ERROR')
+                    .then(function (translatedValue) {
+                        alertService('danger', translatedValue);
+                    });
+                });
+            } else {
+                $translate('INDEX.NAVIGATION.NEW_EVENT_MODAL.VALIDATION.LOCATION')
+                .then(function (translatedValue) {
+                    alertService('danger', translatedValue);
+                });
+            }
+        }
+    };
 
-        });
+    var alertService = function (type, msg) {
+        $scope.alert = { 'type': type, 'msg': msg };
+    };
+    
+    $scope.closeAlert = function () {
+        $scope.alert = undefined;
     };
 
     $scope.searchForLocations = function () {

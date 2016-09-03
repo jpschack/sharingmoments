@@ -41,7 +41,11 @@
                 "END_DATE": "End-Datum",
                 "DESCRIPTION": "Beschreibung",
                 "CANCEL": "Abbrechen",
-                "CREATE": "Event erstellen"
+                "CREATE": "Event erstellen",
+                "VALIDATION": {
+                    "LOCATION": "Bitte wähl eine gelistete Locaiton aus."
+                },
+                "REQUEST_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal."
             }
         },
         "FIRST_LOGIN_MODAL": {
