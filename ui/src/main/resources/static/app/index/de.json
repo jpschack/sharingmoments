@@ -22,6 +22,7 @@
                 "SEARCH_PLACEHOLDER": "Suche nach Events",
                 "START_DATE":"Start-Datum",
                 "END_DATE": "End-Datum",
+                "SEARCH_NO_RESULT": "Kein Event gefunden",
                 "DISABLE_EVENT_DATE_SEARCH": "Filter löschen",
                 "CANCEL": "Abbrechen",
                 "NEW": "Neues Event"

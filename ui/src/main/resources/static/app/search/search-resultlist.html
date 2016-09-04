@@ -1,10 +1,36 @@
 <div class="search-page">
     <div class="row">
-        <div class="col-md-2 search-navigation">
-            <uib-tabset active="activePill" vertical="true" type="pills">
-                <uib-tab index="0" select="setTab(1)" heading="{{ 'SEARCH.NAVIGATION.USERS' | translate }}"></uib-tab>
-                <uib-tab index="1" select="setTab(2)" heading="{{ 'SEARCH.NAVIGATION.EVENTS' | translate }}"></uib-tab>
-            </uib-tabset>
+        <div class="col-md-2 ">
+            <div class="row search-navigation">
+                <uib-tabset active="activePill" vertical="true" type="pills">
+                    <uib-tab index="0" select="setTab(1)" heading="{{ 'SEARCH.NAVIGATION.USERS' | translate }}"></uib-tab>
+                    <uib-tab index="1" select="setTab(2)" heading="{{ 'SEARCH.NAVIGATION.EVENTS' | translate }}"></uib-tab>
+                </uib-tabset>
+            </div>
+            <div class="row search-filter">
+                <div class="event-filter" ng-show="isSet(2)">
+                    <div class="date-filter">
+                        <div class="filter-item">
+                            <label for="from" class="control-label" ng-bind="'SEARCH.FILTER.EVENTS.FROM'|translate"></label>
+                            <div class="input-group input-group-date" ng-class="{'has-error': fromDateIsNotValid}">
+                                <input type="text" name="from" id="from" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dateFilter.from" ng-model-options="{ updateOn: 'blur' }" required is-open="fromDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="fromDateChanged()" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openFromDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <label for="to" class="control-label" ng-bind="'SEARCH.FILTER.EVENTS.TO'|translate"></label>
+                            <div class="input-group input-group-date" ng-class="{'has-error': toDateIsNotValid}">
+                                <input type="text" name="to" id="to" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dateFilter.to" is-open="toDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="toDateChanged()" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openToDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-offset-1 col-md-9 search-content">
             <div class="user-results" ng-show="isSet(1)">

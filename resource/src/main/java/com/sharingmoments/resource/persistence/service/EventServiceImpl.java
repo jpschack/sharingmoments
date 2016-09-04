@@ -1,5 +1,6 @@
 package com.sharingmoments.resource.persistence.service;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,20 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public Page<Event> findByNameOrDescription(String searchString, Pageable pageable) {
 		return repository.findByNameOrDescription(searchString, pageable);
+	}
+
+	@Override
+	public Page<Event> findByNameOrDescriptionAndTimeframe(String searchString, Date from, Date to, Pageable pageable) {
+		return repository.findByNameOrDescriptionAndTimeframe(searchString, from, to, pageable);
+	}
+
+	@Override
+	public Page<Event> findByNameOrDescriptionAndFromDate(String searchString, Date from, Pageable pageable) {
+		return repository.findByNameOrDescriptionAndFromDate(searchString, from, pageable);
+	}
+
+	@Override
+	public Page<Event> findByNameOrDescriptionAndToDate(String searchString, Date to, Pageable pageable) {
+		return repository.findByNameOrDescriptionAndToDate(searchString, to, pageable);
 	}
 }

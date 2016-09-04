@@ -54,3 +54,11 @@ angular.module('app.services').service('$geoLocationService', function($q, $wind
         }
     };
 });
+
+angular.module('app.services').service('$dateEncoder', function() {
+    return {
+        formatDate: function (date) {
+            return date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        }
+    };
+});

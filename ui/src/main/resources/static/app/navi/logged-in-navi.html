@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <span class="search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDropdown" on-toggle="toggled(open)">
-                    <ul class="uib-dropdown-menu" uib-dropdown-menu>
+                    <ul class="uib-dropdown-menu scrollable-menu" uib-dropdown-menu>
                         <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'type' : 'user' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.USER' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
                         <div class="row user-results" ng-if="users.length">
                             <div class="col-md-12">

@@ -1,5 +1,6 @@
 package com.sharingmoments.resource.controller;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,11 +94,18 @@ public class EventController {
 			throw new ResourceNotFoundException();
 		}
 	}
-	
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
-    public Page<Event> searchForEvents(final Locale locale, @RequestParam("q") String searchString, Pageable pageable, PagedResourcesAssembler<Event> assembler) {
-		
-		return eventService.findByNameOrDescription(searchString, pageable);
+    public Page<Event> searchForEventsWithDateFilter(final Locale locale, @RequestParam("q") String searchString, @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date from, @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date to, Pageable pageable, PagedResourcesAssembler<Event> assembler) {
+		if (from != null && to == null) {
+			return eventService.findByNameOrDescriptionAndFromDate(searchString, from, pageable);
+		} else if (from == null && to != null) {
+			return eventService.findByNameOrDescriptionAndToDate(searchString, to, pageable);
+		} else if (from != null && to != null) {
+			return eventService.findByNameOrDescriptionAndTimeframe(searchString, from, to, pageable);
+		} else {
+			return eventService.findByNameOrDescription(searchString, pageable);
+		}
     }
 	
 	private User getUserByAuth(Authentication authentication) {

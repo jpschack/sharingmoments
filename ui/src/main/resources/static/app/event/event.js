@@ -1,4 +1,4 @@
-angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $rootScope, $state, $uibModalInstance, $googleLocationService, $geoLocationService, $event, $translate) {
+angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $rootScope, $state, $uibModalInstance, $googleLocationService, $geoLocationService, $event, $translate, $dateEncoder) {
     $uibModalInstance.opened.then(function() {
         $scope.showLocationDropdown = false;
         $rootScope.$emit("newEventModalLoaded", {});
@@ -77,7 +77,7 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
         if ($scope.newEventForm.$valid) {
             if ($scope.selectedLocation) {
                 var location = { 'googleLocationID': $scope.selectedLocation.place_id };
-                var event = { 'name': $scope.event.name, 'description': $scope.event.description, 'startDate': $scope.event.startDate, 'endDate': $scope.event.endDate, 'multiDayEvent': $scope.event.multiDayEvent, 'location': location };
+                var event = { 'name': $scope.event.name, 'description': $scope.event.description, 'startDate': $dateEncoder.formatDate($scope.event.startDate), 'endDate': $dateEncoder.formatDate($scope.event.endDate), 'multiDayEvent': $scope.event.multiDayEvent, 'location': location };
                 $event.createEvent(event).then(function (event) {
                     $scope.cancel();
                     $state.go('event', { 'id': event.id });

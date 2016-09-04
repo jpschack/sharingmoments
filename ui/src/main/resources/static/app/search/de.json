@@ -4,6 +4,12 @@
             "USERS": "User",
             "EVENTS": "Events"
         },
+        "FILTER": {
+            "EVENTS": {
+                "FROM": "von",
+                "TO": "bis"
+            }
+        },
         "RESULT": {
             "EVENTS": {
                 "BY": "von"

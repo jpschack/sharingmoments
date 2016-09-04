@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -29,8 +31,10 @@ public class Event {
 	
 	private String description;
 	
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
 	
+	@Temporal(TemporalType.DATE)
 	private Date endDate;
 	
 	private Boolean multiDayEvent;

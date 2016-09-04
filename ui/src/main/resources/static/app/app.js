@@ -8,7 +8,7 @@ angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.boots
 angular.module('accountApp', ['app.services', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'ngMessages', 'pascalprecht.translate', 'app.directives']);
 angular.module('photoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('modalPhotoViewApp', ['app.services']);
-angular.module('searchApp', ['pascalprecht.translate', 'googleLocationServices']);
+angular.module('searchApp', ['pascalprecht.translate', 'googleLocationServices', 'app.services']);
 angular.module('userApp', ['app.controllers']);
 angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services']);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);

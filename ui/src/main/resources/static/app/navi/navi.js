@@ -12,7 +12,7 @@ angular.module('naviApp').controller('NaviNewMomentsCtrl', function($scope, $uib
     };
 });
 
-angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $rootScope, $uibModal, $uibModalInstance, $search, $user) {
+angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $rootScope, $uibModal, $uibModalInstance, $search, $googleLocationService, $user) {
     $uibModalInstance.opened.then(function() {
         $scope.showDropdown = false;
         $scope.showDateDropdown = false;
@@ -35,31 +35,35 @@ angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $ro
         var newEventModal = $uibModal.open({ scope: $scope, templateUrl: modURL, controller: 'NewEventModalCtrl' });
     };
 
-
     $scope.search = function () {
         if ($scope.searchInput !== undefined && $scope.searchInput.length > 0) {
-            $search.searchForEvents($scope.searchInput, 0, 5).then(function (events) {
+            var from, to;
+            if ($scope.eventDateSearchEnabled) {
+                if (angular.isDate($scope.fromDate)) {
+                    from = $scope.fromDate;
+                }
+                if (angular.isDate($scope.toDate)) {
+                    to = $scope.toDate;
+                }
+            }
+            $search.searchForEvents($scope.searchInput, 0, 5, from, to).then(function (events) {
                 $scope.events = events;
+                angular.forEach($scope.events, function(event, key) {
+                    $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
+                        if (googleLocation) {
+                            event.googleLocation = { 'name': googleLocation.name };
+                        }
+                    }).catch(function (error) {
+
+                    });
+                });
                 $scope.showDropdown = true;
             });
-            //$scope.events = [{'id': '123123', 'name': 'Event1', 'location': 'Sydney, Pavillon', 'date': '18.09.1978'}, {'id': '345435', 'name': 'Event2', 'location': 'Düsseldorf, Sub', 'date': '20.02.2016'}]
-            $scope.showDropdown = true;
         } else {
             $scope.events = null;
             $scope.showDropdown = false;
         }
     };
-
-    $scope.getUsersEvents = function () {
-        if ($scope.searchInput === undefined || $scope.searchInput.length == 0) {
-            /*
-            $user.getEvents('', 0, 5).then(function (events) {
-                $scope.events = events;
-                $scope.showDropdown = true;
-            });
-            */
-        }
-    }
 
     $scope.clickedSelectDatePicker = function () {
         $scope.showDateDropdown = !$scope.showDateDropdown;
@@ -71,6 +75,10 @@ angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $ro
 
     $scope.toggledDateDropdown = function (open) {
         $scope.showDateDropdown = open;
+
+        if (!open && $scope.eventDateSearchEnabled) {
+            $scope.search();
+        }
     };
 
     $scope.showResultsIfExist = function () {
@@ -80,24 +88,27 @@ angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $ro
     };
 
     $scope.disableEventDateSearch = function () {
-        $scope.startDate = null;
-        $scope.endDate = null;
+        $scope.fromDate = null;
+        $scope.fromDateIsNotValid = false;
+        $scope.toDate = null;
+        $scope.toDateIsNotValid = false;
         $scope.eventDateSearchEnabled = false;
     }
 
     var init = function () {
-        $scope.startDate = null;
-        $scope.endDate = null;
+        $scope.fromDate = null;
+        $scope.toDate = null;
+        $scope.eventDateSearchEnabled = false;
         $scope.format = 'dd.MM.yyyy';
         $scope.altInputFormats = ['M!/d!/yyyy'];
     };
     init();
 
-    $scope.startDatePopup = {
+    $scope.fromDatePopup = {
         opened: false
     };
 
-    $scope.endDatePopup = {
+    $scope.toDatePopup = {
         opened: false
     };
 
@@ -119,43 +130,42 @@ angular.module('naviApp').controller('NewMomentsModalCtrl', function($scope, $ro
     };
     $scope.toggleMin();
 
-    $scope.openStartDatePopup = function () {
-        $scope.startDatePopup.opened = true;
+    $scope.openFromDatePopup = function () {
+        $scope.fromDatePopup.opened = true;
     };
 
-    $scope.openEndDatePopup = function () {
-        $scope.endDatePopup.opened = true;
+    $scope.openToDatePopup = function () {
+        $scope.toDatePopup.opened = true;
     };
 
-    $scope.startDateChanged = function () {
-        if (angular.isDate($scope.startDate)) {
-            if ($scope.startDate > $scope.endDate) {
-                $scope.endDate = $scope.startDate;
+    $scope.fromDateChanged = function () {
+        if (angular.isDate($scope.fromDate)) {
+            if (angular.isDate($scope.toDate) && $scope.fromDate > $scope.toDate) {
+                $scope.toDate = $scope.fromDate;
             }
+            $scope.toDateIsNotValid = false;
             $scope.eventDateSearchEnabled = true;
+        } else {
+            if (!angular.isDate($scope.toDate)) {
+                $scope.eventDateSearchEnabled = false;
+            }
+            $scope.toDateIsNotValid = true;
         }
     };
 
-    $scope.endDateChanged = function () {
-        if (angular.isDate($scope.endDate)) {
-            if ($scope.startDate > $scope.endDate) {
-                $scope.startDate = $scope.endDate;
+    $scope.toDateChanged = function () {
+        if (angular.isDate($scope.toDate)) {
+            if (angular.isDate($scope.fromDate) && $scope.fromDate > $scope.toDate) {
+                $scope.fromDate = $scope.toDate;
             }
+            $scope.fromDateIsNotValid = false;
             $scope.eventDateSearchEnabled = true;
+        } else {
+            if (!angular.isDate($scope.fromDate)) {
+                $scope.eventDateSearchEnabled = false;
+            }
+            $scope.fromDateIsNotValid = true;
         }
-    };
-
-    var isDateValid = function (date) {
-        var dateTime = date;
-
-        if (dateTime === null) return false;
-
-        var day = dateTime.getDate();
-        var month = dateTime.getMonth();
-        var year = dateTime.getFullYear();
-        var composedDate = new Date(year, month, day);
-
-        return composedDate.getDate() === day && composedDate.getMonth() === month && composedDate.getFullYear() === year;
     };
 });
 
@@ -173,12 +183,12 @@ angular.module('naviApp').controller('NaviSearchCtrl', function($scope, $rootSco
     });
 
     var searchForEvents = function (q) {
-        $search.searchForEvents(q, 0, 5).then(function (eventList) {
+        $search.searchForEvents(q, 0, 5, null, null).then(function (eventList) {
             $scope.events = eventList;
             angular.forEach(eventList, function(event, key) {
                 $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
                     if (googleLocation) {
-                        $scope.events[key].googleLocation = { 'name': googleLocation.name };
+                        event.googleLocation = { 'name': googleLocation.name };
                     }
                 }).catch(function (error) {
 
@@ -191,7 +201,7 @@ angular.module('naviApp').controller('NaviSearchCtrl', function($scope, $rootSco
     var searchForUsers = function (q) {
         $search.searchForUsers(q, 0, 5).then(function (userList) {
             angular.forEach(userList, function(user, key) {
-                userList[key].userImage = {url: (user.userImage ? user.userImage.url : 'http://placehold.it/50x50')};
+                user.userImage = {url: (user.userImage ? user.userImage.url : 'http://placehold.it/50x50')};
             });
             $scope.users = userList;
             $scope.showDropdown = true;
