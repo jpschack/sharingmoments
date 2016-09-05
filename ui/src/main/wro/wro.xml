@@ -3,12 +3,12 @@
     <css>webjar:bootstrap/3.3.6/less/bootstrap.less</css>
     <css>file:@project.basedir@/src/main/wro/main.less</css>
     <css>webjar:bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css</css>
-    <js>webjar:jquery/2.0.0/jquery.min.js</js>
-    <js>webjar:angularjs/1.4.9/angular.min.js</js>
-    <js>webjar:angularjs/1.4.9/angular-cookies.min.js</js>
-    <js>webjar:angularjs/1.4.9/angular-messages.min.js</js>
-    <js>webjar:angularjs/1.4.9/angular-animate.min.js</js>
-    <js>webjar:angularjs/1.4.9/angular-sanitize.min.js</js>
+    <js>webjar:jquery/3.1.0/jquery.min.js</js>
+    <js>webjar:angularjs/1.5.8/angular.min.js</js>
+    <js>webjar:angularjs/1.5.8/angular-cookies.min.js</js>
+    <js>webjar:angularjs/1.5.8/angular-messages.min.js</js>
+    <js>webjar:angularjs/1.5.8/angular-animate.min.js</js>
+    <js>webjar:angularjs/1.5.8/angular-sanitize.min.js</js>
     <js>webjar:angular-ui-router/0.2.18/angular-ui-router.min.js</js>
     <js>webjar:angular-translate/2.11.0/angular-translate.min.js</js>
     <js>webjar:angular-translate-loader-partial/2.11.0/angular-translate-loader-partial.min.js</js>
