@@ -37,11 +37,11 @@
                 <div class="row single-user-row" ng-repeat="user in userList">
                     <div class="col-md-4 profile-image"><a href="" ng-class="user.userImage.id ? '' : 'inactive'" ng-click="openUserImage(user.userImage)"><img class="img-circle user-profile-img" ng-src="{{user.userImage.url}}"></a></div>
                     <div class="col-md-8 user-details">
-                        <div class="row username"><a ui-sref="user({ id : user.id })">@{{ user.username }}</a></div>
+                        <div class="row username"><a ui-sref="user({ id : user.id })" ng-bind="'@' + user.username"></a></div>
                         <div class="row name" ng-bind="user.name"></div>
                     </div>
                 </div>
-                <div class="no-results-message" ng-if="!userList.length && searchInput">{{ 'SEARCH.RESULT.NOUSERS' | translate }}</div>
+                <div class="no-results-message" ng-if="!userList.length && searchInput" ng-bind="'SEARCH.RESULT.NOUSERS' | translate"></div>
             </div>
             <div class="event-results" ng-show="isSet(2)">
                 <div class="row single-event-row" ng-repeat="event in eventList">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="no-results-message" ng-if="!eventList.length && searchInput">{{ 'SEARCH.RESULT.NOEVENTS' | translate }}</div>
+                <div class="no-results-message" ng-if="!eventList.length && searchInput" ng-bind="'SEARCH.RESULT.NOEVENTS' | translate"></div>
             </div>
         </div>
     </div>

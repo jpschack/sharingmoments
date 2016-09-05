@@ -2,9 +2,9 @@
     <div class="account-page">
         <div class="col-md-3 navigation-container">
             <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" ui-sref-active-eq="active"><a ui-sref="account">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.HEADLINE' | translate }}</a></li>
-                <li role="presentation" ui-sref-active-eq="active"><a ui-sref=".privacy">{{ 'ACCOUNT.NAVIGATION.SECURITY.HEADLINE' | translate }}</a></li>
-                <li role="presentation" ui-sref-active-eq="active"><a ui-sref=".password">{{ 'ACCOUNT.NAVIGATION.PASSWORD.HEADLINE' | translate }}</a></li>
+                <li role="presentation" ui-sref-active-eq="active"><a ui-sref="account" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.HEADLINE' | translate"></a></li>
+                <li role="presentation" ui-sref-active-eq="active"><a ui-sref=".privacy" ng-bind="'ACCOUNT.NAVIGATION.SECURITY.HEADLINE' | translate"></a></li>
+                <li role="presentation" ui-sref-active-eq="active"><a ui-sref=".password" ng-bind="'ACCOUNT.NAVIGATION.PASSWORD.HEADLINE' | translate"></a></li>
             </ul>
         </div>
         <div class="col-md-9 account-container">
@@ -12,47 +12,47 @@
                 <div class="edit-account-details-container" ng-controller="EditAccountCtrl">
                     <form class="account-form form-horizontal" name="accountForm">
                         <div class="request-error" ng-show="alert">
-                            <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()">{{alert.msg}}</div>
+                            <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg"></div>
                         </div>
                         <div class="form-group" ng-class="{'has-error': accountForm.email.$invalid && accountForm.email.$dirty}">
-                            <label for="email" class="col-md-3 control-label">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.EMAIL' | translate }}</label>
+                            <label for="email" class="col-md-3 control-label" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.EMAIL' | translate"></label>
                             <div class="col-md-6">
                                 <input type="email" name="email" class="form-control" placeholder="{{ 'ACCOUNT.NAVIGATION.ACCOUNT.EMAIL' | translate }}" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }" required>
                                 <div class="alert alert-danger" ng-messages="accountForm.email.$error" ng-if="accountForm.email.$invalid && accountForm.email.$dirty">
                                     <ul>
-                                        <li ng-message="required">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.MISSING' | translate }}</li>
-                                        <li ng-message="email">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.INVALID' | translate }}</li>
-                                        <li ng-message="taken">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.TAKEN' | translate }}</li>
+                                        <li ng-message="required" ng-bind="ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.MISSING' | translate"></li>
+                                        <li ng-message="email" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.INVALID' | translate"></li>
+                                        <li ng-message="taken" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.EMAIL.TAKEN' | translate"></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" ng-class="{'has-error': accountForm.username.$invalid && accountForm.username.$dirty}">
-                            <label for="username" class="col-md-3 control-label">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.USERNAME' | translate }}</label>
+                            <label for="username" class="col-md-3 control-label" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.USERNAME' | translate"></label>
                             <div class="col-md-6">
                                 <input type="text" name="username" class="form-control" placeholder="{{ 'ACCOUNT.NAVIGATION.ACCOUNT.USERNAME' | translate }}" ng-model="user.username" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" ng-maxlength="20" required>
                                 <div class="alert alert-danger" ng-messages="accountForm.username.$error" ng-if="accountForm.username.$invalid && accountForm.username.$dirty">
                                     <ul>
-                                        <li ng-message="required">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.MISSING' | translate }}</li>
-                                        <li ng-message="minlength">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TOOSHORT' | translate }}</li>
-                                        <li ng-message="maxlength">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TOOLONG' | translate }}</li>
-                                        <li ng-message="taken">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TAKEN' | translate }}</li>
+                                        <li ng-message="required" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.MISSING' | translate"></li>
+                                        <li ng-message="minlength" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TOOSHORT' | translate"></li>
+                                        <li ng-message="maxlength" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TOOLONG' | translate"></li>
+                                        <li ng-message="taken" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.VALIDATION.USERNAME.TAKEN' | translate"></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-md-3 control-label">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.NAME' | translate }}</label>
+                            <label for="name" class="col-md-3 control-label" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.NAME' | translate"></label>
                             <div class="col-md-6">
                                 <input type="text" name="name" class="form-control" placeholder="{{ 'ACCOUNT.NAVIGATION.ACCOUNT.NAME' | translate }}" ng-model="user.name">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-2">
-                                <button type="button" class="btn btn-primary" ng-click="saveAccount()">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.SAVE' | translate }}</button>
+                                <button type="button" class="btn btn-primary" ng-click="saveAccount()" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.SAVE' | translate"></button>
                             </div>
                             <div class="col-md-4">
-                                <button type="button" class="btn btn-link pull-right" ng-click="deleteAccount()">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.DELETE' | translate }}</button>
+                                <button type="button" class="btn btn-link pull-right" ng-click="deleteAccount()" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE' | translate"></button>
                             </div>
                         </div>
                     </form>

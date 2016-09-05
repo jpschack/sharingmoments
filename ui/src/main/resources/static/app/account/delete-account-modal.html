@@ -1,12 +1,12 @@
 <div class="delete-account-modal">
     <div class="modal-header">
-        <h2>{{ 'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.HEADLINE' | translate }}</h2>
+        <h2 ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.HEADLINE' | translate"></h2>
     </div>
     <div class="modal-body">
-        <p>{{ 'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.BODYTEXT' | translate }}</p>
+        <p ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.BODYTEXT' | translate"></p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="cancel()">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.CANCEL' | translate }}</button>
-        <button type="button" class="btn btn-danger" ng-click="delete()">{{ 'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.DELETE' | translate }}</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.CANCEL' | translate"></button>
+        <button type="button" class="btn btn-danger" ng-click="delete()" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.DELETE' | translate"></button>
     </div>
 </div>

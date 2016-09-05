@@ -1,7 +1,7 @@
 <div class="new-moments-modal-body" ng-hide="newEventModalLoaded">
     <div class="modal-header">
-        <h2>{{ 'INDEX.NAVIGATION.NEWMOMENTS.HEADLINE' | translate }}</h2>
-        <p class="intro-text">{{ 'INDEX.NAVIGATION.NEWMOMENTS.INTRO' | translate }}</p>
+        <h2 ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.HEADLINE' | translate"></h2>
+        <p class="intro-text" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.INTRO' | translate"></p>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -18,7 +18,7 @@
                         <span class="date-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDateDropdown" on-toggle="toggledDateDropdown(open)">
                             <ul class="uib-dropdown-menu dropdown-menu-left" uib-dropdown-menu>
                                 <li class="date-picker" role="menuitem">
-                                    <label class="control-label custom-control-label" for="fromDate">{{ 'INDEX.NAVIGATION.NEWMOMENTS.START_DATE' | translate }}</label>
+                                    <label class="control-label custom-control-label" for="fromDate" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.START_DATE' | translate"></label>
                                     <div class="input-group input-group-date" ng-class="{'has-error': toDateIsNotValid}">
                                         <input type="text" name="fromDate" id="fromDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="fromDate" is-open="fromDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="fromDateChanged()" />
                                         <span class="input-group-btn">
@@ -27,7 +27,7 @@
                                     </div>
                                 </li>
                                 <li class="date-picker" role="menuitem">
-                                    <label class="control-label custom-control-label" for="toDate">{{ 'INDEX.NAVIGATION.NEWMOMENTS.END_DATE' | translate }}</label>
+                                    <label class="control-label custom-control-label" for="toDate" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.END_DATE' | translate"></label>
                                     <div class="input-group input-group-date" ng-class="{'has-error': fromDateIsNotValid}">
                                         <input type="text" name="toDate" id="toDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="toDate" is-open="toDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="toDateChanged()" />
                                         <span class="input-group-btn">
@@ -36,7 +36,7 @@
                                     </div>
                                 </li>
                                 <li class="clear-button" role="menuitem" ng-show="fromDate || toDate">
-                                    <button type="button" class="btn btn-danger btn-sm btn-block" ng-click="disableEventDateSearch()">{{ 'INDEX.NAVIGATION.NEWMOMENTS.DISABLE_EVENT_DATE_SEARCH' | translate }}</button>
+                                    <button type="button" class="btn btn-danger btn-sm btn-block" ng-click="disableEventDateSearch()" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.DISABLE_EVENT_DATE_SEARCH' | translate"></button>
                                 </li>
                             </ul>
                         </span>
@@ -69,7 +69,7 @@
                                     </li>
                                 </div>
                                 <div ng-if="!(events.length)">
-                                    <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.NEWMOMENTS.SEARCH_NO_RESULT' | translate }}</li>
+                                    <li class="no-result" role="menuitem" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.SEARCH_NO_RESULT' | translate"></li>
                                 </div>
                             </ul>
                         </span>
@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="cancel()">{{ 'INDEX.NAVIGATION.NEWMOMENTS.CANCEL' | translate }}</button>
-        <button type="button" class="btn btn-primary" ng-click="newEvent()">{{ 'INDEX.NAVIGATION.NEWMOMENTS.NEW' | translate }}</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.CANCEL' | translate"></button>
+        <button type="button" class="btn btn-primary" ng-click="newEvent()" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.NEW' | translate"></button>
     </div>
 </div>

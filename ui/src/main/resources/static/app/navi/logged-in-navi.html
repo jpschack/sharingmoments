@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-5">
                 <ul class="nav navbar-nav">
-                    <li ng-controller="NaviNewMomentsCtrl"><a href="" ng-click="openNewMomentsModal()">{{ 'INDEX.NAVIGATION.NEWEVENT' | translate }}</a></li>
+                    <li ng-controller="NaviNewMomentsCtrl"><a href="" ng-click="openNewMomentsModal()" ng-bind="'INDEX.NAVIGATION.NEWEVENT' | translate"></a></li>
                 </ul>
             </div>
             <div class="col-md-7" ng-controller="NaviSearchCtrl">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div ng-if="!(users.length)">
-                            <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NO_USER_FOUND' | translate }}</li>
+                            <li class="no-result" role="menuitem" ng-bind="'INDEX.NAVIGATION.SEARCH.NO_USER_FOUND' | translate"></li>
                         </div>
                         <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'type' : 'event' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.EVENTS' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
                         <div class="row event-results" ng-if="events.length">
@@ -45,8 +45,8 @@
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
                                             <div class="col-md-11 event-date">
-                                                <div class="startDate">{{ event.startDate|date:'longDate'}}</div>
-                                                <div class="endDate" ng-show="event.multiDayEvent"> - {{ event.endDate|date:'longDate'}}</div>
+                                                <div class="startDate" ng-bind="event.startDate|date:'longDate'"></div>
+                                                <div class="endDate" ng-show="event.multiDayEvent" ng-bind="' - ' + event.endDate|date:'longDate'"></div>
                                             </div>
                                         </div>
                                         <div class="row event-location-container" ng-show="event.googleLocation">
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div ng-if="!(events.length)">
-                            <li class="no-result" role="menuitem">{{ 'INDEX.NAVIGATION.SEARCH.NO_EVENT_FOUND' | translate }}</li>
+                            <li class="no-result" role="menuitem" ng-bind="'INDEX.NAVIGATION.SEARCH.NO_EVENT_FOUND' | translate"></li>
                         </div>
                     </ul>
                 </span>
@@ -69,13 +69,13 @@
     </div>
     <div class="col-md-4" ng-controller="NaviActionsCtrl">
         <ul class="nav navbar-nav navbar-right">
-            <li><a ui-sref="profile">{{ 'INDEX.NAVIGATION.PROFILE' | translate }}</a></li>
+            <li><a ui-sref="profile" ng-bind="'INDEX.NAVIGATION.PROFILE' | translate"></a></li>
             <li uib-dropdown>
                 <a href="" id="simple-dropdown" uib-dropdown-toggle><span class="caret"></span></a>
                 <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                    <li><a ui-sref="account">{{ 'INDEX.NAVIGATION.ACCOUNT' | translate }}</a></li>
+                    <li><a ui-sref="account" ng-bind="'INDEX.NAVIGATION.ACCOUNT' | translate"></a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="" ng-click="logout()">{{ 'INDEX.NAVIGATION.LOGOUT' | translate }}</a></li>
+                    <li><a href="" ng-click="logout()" ng-bind="'INDEX.NAVIGATION.LOGOUT' | translate"></a></li>
                 </ul>
             </li>
         </ul>
