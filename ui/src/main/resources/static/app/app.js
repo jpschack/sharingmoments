@@ -108,7 +108,7 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             }
         })
         .state('search', {
-            url: '/search?q&type',
+            url: '/search?q&tab',
             templateUrl: 'app/search/search-resultlist.html',
             controller: 'SearchListCtrl',
             data: {

@@ -15,7 +15,7 @@
                 </div>
                 <span class="search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showDropdown" on-toggle="toggled(open)">
                     <ul class="uib-dropdown-menu scrollable-menu" uib-dropdown-menu>
-                        <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'type' : 'user' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.USER' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'tab' : 'user' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.USER' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
                         <div class="row user-results" ng-if="users.length">
                             <div class="col-md-12">
                                 <li class="row single-user-result" role="menuitem" ng-repeat="user in users">
@@ -32,7 +32,7 @@
                         <div ng-if="!(users.length)">
                             <li class="no-result" role="menuitem" ng-bind="'INDEX.NAVIGATION.SEARCH.NO_USER_FOUND' | translate"></li>
                         </div>
-                        <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'type' : 'event' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.EVENTS' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                        <li class="row navigation-link"><a ui-sref="search({ 'q' : searchInput, 'tab' : 'event' })" ng-click="toggled(false)">{{ 'INDEX.NAVIGATION.SEARCH.EVENTS' | translate }}<span class="glyphicon glyphicon-chevron-right"></span></a></li>
                         <div class="row event-results" ng-if="events.length">
                             <div class="col-md-12">
                                 <li class="row single-event-result" role="menuitem" ng-repeat="event in events">

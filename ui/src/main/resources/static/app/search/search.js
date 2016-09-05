@@ -57,10 +57,10 @@ angular.module('searchApp').controller('SearchListCtrl', function ($scope, $root
         if ($stateParams.q) {
             $scope.searchInput = $stateParams.q;
         }
-        if ($stateParams.type) {
-            if ($stateParams.type == 'user') {
+        if ($stateParams.tab) {
+            if ($stateParams.tab == 'user') {
                 $scope.activePill = 0;
-            } else if ($stateParams.type == 'event') {
+            } else if ($stateParams.tab == 'event') {
                 $scope.activePill = 1;
             }
         }
