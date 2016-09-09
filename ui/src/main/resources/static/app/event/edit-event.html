@@ -1,0 +1,70 @@
+<div class="edit-event-page">
+    <h2 class="col-md-offset-2 headline" ng-bind="'EVENT.EDIT.HEADLINE' | translate"></h2>
+    <form name="editEventForm" class="edit-event-form form-horizontal">
+        <div class="row form-alert" ng-show="alert">
+            <div class="col-md-offset-2 col-md-8">
+                <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg"></div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': editEventForm.eventName.$invalid && editEventForm.eventName.$dirty}">
+            <label class="col-md-2 control-label" for="event-name" ng-bind="'EVENT.EDIT.NAME' | translate"></label>
+            <div class="col-md-8">
+                <input type="text" name="eventName" id="event-name" class="form-control" placeholder="{{ 'EVENT.EDIT.NAME.PLACEHOLDER' | translate }}" ng-model="event.name" ng-model-options="{ updateOn: 'blur' }" required>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': editEventForm.eventLocation.$invalid && editEventForm.eventLocation.$dirty}">
+            <label class="col-md-2 control-label" for="event-location" ng-bind="'EVENT.EDIT.LOCATION' | translate"></label>
+            <div class="col-md-8">
+                <input type="text" name="eventLocation" id="event-location" class="form-control" placeholder="{{ 'EVENT.EDIT.LOCATION.PLACEHOLDER' | translate }}" ng-model="event.location.name" required ng-change="searchForLocations()" ng-click="clickedLocationSearchInput()" autocomplete="off">
+                <span class="location-search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showLocationDropdown" on-toggle="toggled(open)">
+                    <ul class="uib-dropdown-menu scrollable-menu" uib-dropdown-menu>
+                        <div ng-if="locationSuggestions.length">
+                            <li class="single-location-result" role="menuitem" ng-repeat="location in locationSuggestions">
+                                <a class="location-link btn btn-link" ng-click="selectLocation(location)">
+                                    <div class="row location-name" ng-bind="location.name"></div>
+                                    <div class="row location-address" ng-if="location.formatted_address"><span class="glyphicon glyphicon-map-marker" ng-bind="' ' + (location.formatted_address)"></span></div>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': editEventForm.eventStartDate.$invalid && editEventForm.eventStartDate.$dirty}">
+            <label class="col-md-2 control-label" for="event-start-date" ng-bind="'EVENT.EDIT.START_DATE' | translate"></label>
+            <div class="col-md-3">
+                <div class="input-group input-group-date">
+                    <input type="text" name="eventStartDate" id="event-start-date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="event.startDate" ng-model-options="{ updateOn: 'blur' }" required is-open="startDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="startDateChanged()" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openStartDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+            <label class="col-md-offset-3 col-md-2 control-label" for="enable-end-date"><input type="checkbox" name="enable-end-date" id="enable-end-date" ng-model="event.multiDayEvent"> {{ 'EVENT.EDIT.ENABLE_END_DATE' | translate }}</label>
+        </div>
+        <div class="form-group" ng-show="event.multiDayEvent" ng-class="{'has-error': editEventForm.eventEndDate.$invalid && editEventForm.eventEndDate.$dirty}">
+            <label class="col-md-2 control-label" for="event-end-date" ng-bind="'EVENT.EDIT.END_DATE' | translate"></label>
+            <div class="col-md-3">
+                <div class="input-group input-group-date">
+                    <input type="text" name="eventEndDate" id="event-end-date" class="form-control" uib-datepicker-popup="{{format}}" ng-model="event.endDate" is-open="endDatePopup.opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" ng-change="endDateChanged()" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openEndDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label event-description-label" for="event-description" ng-bind="'EVENT.EDIT.DESCRIPTION' | translate"></label>
+            <div class="col-md-8 event-description-textarea">
+                <textarea name="eventDescription" id="event-description" class="form-control" rows="5" ng-model="event.description"></textarea>
+            </div>
+        </div>
+        <div class="col-md-offset-2 col-md-2">
+            <a class="btn btn-default pull-left" ui-sref="event({ id : event.id })" ng-bind="'EVENT.EDIT.BACK' | translate"></a>
+        </div>
+        <div class="col-md-offset-3 col-md-3">
+            <button type="button" class="btn btn-link pull-left" ng-click="delete()" ng-bind="'EVENT.EDIT.DELETE' | translate"></button>
+            <button type="submit" class="btn btn-primary pull-right" ng-click="save()" ng-bind="'EVENT.EDIT.SAVE' | translate"></button>
+        </div>
+    </form>
+</div>

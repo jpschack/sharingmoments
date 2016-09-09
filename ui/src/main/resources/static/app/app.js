@@ -10,12 +10,13 @@ angular.module('photoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('modalPhotoViewApp', ['app.services']);
 angular.module('searchApp', ['pascalprecht.translate', 'googleLocationServices', 'app.services']);
 angular.module('userApp', ['app.controllers']);
-angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services']);
+angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll']);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);
 angular.module('googleLocationServices', []);
 angular.module('authService', ['ngCookies']);
 angular.module('app.controllers', []);
 angular.module('app.directives', []);
+angular.module('fileHandler', []);
 
 
 angular.module('sharingMomentsApp',
@@ -131,6 +132,14 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
                 i18n: ['index', 'event']
             }
         })
+        .state('editEvent', {
+            url: '/event/:id/edit',
+            templateUrl: 'app/event/edit-event.html',
+            controller: 'EditEventCtrl',
+            data: {
+                i18n: ['index', 'event']
+            }
+        })
         .state('account', {
             url: '/account',
             templateUrl: 'app/account/account.html',
@@ -161,7 +170,7 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
 angular.module("sharingMomentsApp").run(function ($rootScope, $translate, $translatePartialLoader, $auth, $state, $location) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         var anonymousStates = ['login', 'signup', 'resetPassword', 'updatePassword'];
-        var loggedInStates = ['profile', 'account', 'account.privacy', 'account.password', 'search', 'user', 'event'];
+        var loggedInStates = ['profile', 'account', 'account.privacy', 'account.password', 'search', 'user', 'event', 'event.edit'];
         var redirect = false;
 
         //Redirecting

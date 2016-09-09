@@ -170,14 +170,38 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
     };
 });
 
-angular.module('eventApp').controller('EventCtrl', function($scope, $state, $stateParams, $event, $googleLocationService) {
-    $scope.image = null
-    $scope.imageFileName = ''
+angular.module('eventApp').controller('EventCtrl', function($scope, $state, $stateParams, $event, $googleLocationService, $fileHandler) {
+    $scope.getPhotos = function () {
+        if(!$scope.photoPagination.last && !$scope.isLoadingNewPhotos) {
+            $scope.isLoadingNewPhotos = true;
+            $event.getPhotos($scope.event.id, $scope.photoPagination.nextPage, $scope.photoPagination.size).then(function (data) {
+                if (data.content && data.content.length > 0) {
+                    if (!$scope.event.photos) {
+                        $scope.event.photos = [];
+                    }
+                    Array.prototype.unshift.apply($scope.event.photos, data.content);
+                    $scope.photoPagination = { 'nextPage': (data.number + 1), 'size': data.size, 'last': data.last, 'totalElements': data.totalElements };
+                    $scope.isLoadingNewPhotos = false;
+                } else {
+                    $scope.showPhotoPlaceholder = true;
+                    $scope.isLoadingNewPhotos = false;
+                }
+            }).catch(function (error) {
+                $scope.isLoadingNewPhotos = false;
+            });
+        }
+    };
 
     var init = function () {
+        $scope.photosToUpload = null;
+        $scope.invalidPhotos = null;
+        $scope.photoPagination = { 'nextPage': 0, 'size': 10, 'lastPage': false };
+        $scope.isLoadingNewPhotos = false;
+        $scope.showPhotosDeleteButton = false;
+
         $event.getEventById($stateParams.id).then(function (event) {
             $scope.event = event;
-            
+
             $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
                 if (googleLocation) {
                     $scope.googleLocation = { 'name': googleLocation.name, 'address': googleLocation.formatted_address, 'url': googleLocation.url };
@@ -185,11 +209,324 @@ angular.module('eventApp').controller('EventCtrl', function($scope, $state, $sta
             }).catch(function (error) {
 
             });
+
+            $scope.getPhotos();
         }).catch(function (error) {
 
         });
-    }
+    };
     init();
+
+    var handlePhotosToUpload = function () {
+        if ($scope.photosToUpload && $scope.photosToUpload.length > 0) {
+            if (!$scope.event.photos) {
+                $scope.event.photos = [];
+            }
+            angular.forEach($scope.photosToUpload, function(photoToUpload, key) {
+                $scope.event.photos.unshift(photoToUpload);
+                var photoInScope = $scope.event.photos[0];
+                photoInScope.pending = true;
+
+                $event.uploadPhoto($scope.event.id, photoInScope.file).then(function (photo) {
+                    photoInScope.pending = false;
+                    if (photo) {
+                        angular.extend(photoInScope, photo);
+                    }
+                }).catch(function (error) {
+                    photoInScope.pending = false;
+                });
+            });
+            $scope.photosToUpload = null;
+        }
+    };
+    
+    $scope.closeAlert = function () {
+        $scope.invalidPhotos = null;
+    };
+
+    $scope.filesSelected = function (event) {
+        var reader, file, _files = [], files = [], invalidFiles;
+
+        reader = new FileReader();
+        reader.onloadend = function(evt) {
+            var image = {};
+            image.file = file;
+            image.name = file.name;
+            image.img = evt.target.result;
+            image.valid = true;
+
+            files.push(image);
+            loadFile();
+        };
+
+        var loadFile = function() {
+            if (_files.length > 0) {
+                file = _files[_files.length - 1];
+                var sizeValid = $fileHandler.checkSize(file.size);
+                var typeValid = $fileHandler.isTypeValid(file.type);
+
+                if (sizeValid && typeValid) {
+                    reader.readAsDataURL(file);
+                    _files.pop();
+                } else {
+                    var image = {};
+                    image.name = file.name;
+                    image.valid = false;
+                    image.sizeValid = sizeValid;
+                    image.typeValid = typeValid;
+
+                    if (!invalidFiles) {
+                        invalidFiles = [];
+                    }
+                    invalidFiles.push(image);
+
+                    _files.pop();
+                    loadFile();
+                }
+            } else {
+                if (!$scope.photosToUpload) {
+                    $scope.photosToUpload = [];
+                }
+                $scope.photosToUpload = files;
+                $scope.invalidPhotos = invalidFiles;
+                $scope.$digest()
+            }
+        };
+
+        if (event.target.files.length > 0) {
+            angular.forEach(event.target.files, function(file, key) {
+                _files.push(file);
+            });
+            loadFile();
+        }
+    };
+
+    $scope.$watch('photosToUpload', function (newValue, oldValue) {
+        if (newValue && newValue.length > 0) {
+            handlePhotosToUpload();
+        }
+    });
+
+    $scope.enableEdit = function () {
+        $scope.showPhotosDeleteButton = !$scope.showPhotosDeleteButton;
+    };
+
+    $scope.deletePhotos = function () {
+        angular.forEach($scope.event.photos, function(photo, key) {
+            if (photo.isSelected) {
+                photo.pending = true;
+                $event.deletePhoto($scope.event.id, photo.id).then(function (response) {
+                    if (response) {
+                        var currentIndex = $scope.event.photos.indexOf(photo);
+                        $scope.event.photos.splice(currentIndex, 1);
+                    }
+                }).catch(function (error) {
+                    photo.pending = false;
+                });
+            }
+        });
+    };
+
+    $scope.photoAction = function (photo) {
+        if ($scope.showPhotosDeleteButton && photo.id) {
+            if (!photo.isSelected) {
+                photo.isSelected = true;
+            } else {
+                photo.isSelected = false;
+            }
+        } else if (!$scope.showPhotosDeleteButton) {
+            //open photo in full screen modal
+        }
+    };
+});
+
+angular.module('eventApp').controller('EditEventCtrl', function($scope, $stateParams, $event, $googleLocationService, $geoLocationService, $translate, $dateEncoder, $uibModal) {
+    var init = function () {
+        $event.getEventById($stateParams.id).then(function (event) {
+            $scope.event = event;
+
+            $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
+                if (googleLocation) {
+                    $scope.event.location.name = googleLocation.name;
+                    $scope.selectedLocation = { 'place_id': event.location.googleLocationID };
+                }
+            }).catch(function (error) {
+
+            });
+        });
+        $geoLocationService.getCurrentPosition().then(function (position) {
+            $scope.geoPosition = { 'latitude': position.coords.latitude, 'longitude': position.coords.longitude };
+            $scope.geoLocationSearch = true;
+        });
+    };
+    init();
+
+    var initDateInput = function () {
+        $scope.event = {};
+        $scope.event.startDate = new Date();
+        $scope.event.endDate = new Date();
+        $scope.event.multiDayEvent = false;
+        $scope.format = 'dd.MM.yyyy';
+        $scope.altInputFormats = ['M!/d!/yyyy'];
+    };
+    initDateInput();
+
+    $scope.startDatePopup = {
+        opened: false
+    };
+
+    $scope.endDatePopup = {
+        opened: false
+    };
+
+    $scope.inlineOptions = {
+        minDate: new Date(),
+        showWeeks: true
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(2025, 12, 31),
+        minDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.toggleMin = function () {
+        $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+        $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+    };
+    $scope.toggleMin();
+
+    $scope.openStartDatePopup = function () {
+        $scope.startDatePopup.opened = true;
+    };
+
+    $scope.openEndDatePopup = function () {
+        $scope.endDatePopup.opened = true;
+    };
+
+    $scope.startDateChanged = function () {
+        if ($scope.event.startDate > $scope.event.endDate) {
+            $scope.event.endDate = $scope.event.startDate;
+        }
+    };
+
+    $scope.endDateChanged = function () {
+        if ($scope.event.startDate > $scope.event.endDate) {
+            $scope.event.startDate = $scope.event.endDate;
+        }
+    };
+
+    $scope.delete = function () {
+        var modURL = 'app/event/delete-event-modal.html';
+        var deleteEventModal = $uibModal.open({ scope: $scope, templateUrl: modURL, controller: 'DeleteEventCtrl', size: 'sm' });
+    };
+
+    $scope.save = function () {
+        if ($scope.editEventForm.$valid) {
+            if ($scope.selectedLocation) {
+                var location = { 'googleLocationID': $scope.selectedLocation.place_id };
+                var event = { 'id': $scope.event.id, 'name': $scope.event.name, 'description': $scope.event.description, 'startDate': $dateEncoder.formatDate($scope.event.startDate), 'endDate': $dateEncoder.formatDate($scope.event.endDate), 'multiDayEvent': $scope.event.multiDayEvent, 'location': location };
+                $event.updateEvent(event).then(function (event) {
+                    $translate('EVENT.EDIT.REQUEST_SUCCESS')
+                    .then(function (translatedValue) {
+                        alertService('success', translatedValue);
+                    });
+                }).catch(function (error) {
+                    $translate('EVENT.EDIT.REQUEST_ERROR')
+                    .then(function (translatedValue) {
+                        alertService('danger', translatedValue);
+                    });
+                });
+            }
+        }
+    };
+
+    var alertService = function (type, msg) {
+        $scope.alert = { 'type': type, 'msg': msg };
+    };
+    
+    $scope.closeAlert = function () {
+        $scope.alert = undefined;
+    };
+
+    $scope.searchForLocations = function () {
+        if ($scope.event.location.name && $scope.event.location.name.length > 0) {
+            if ($scope.geoLocationSearch) {
+                getLocationsByGeoLocation();
+            } else {
+                getLocationsByTextSearch();
+            }
+        } else {
+            getLocationsByGeoLocation();
+        }
+    };
+
+    var getLocationsByGeoLocation = function () {
+        var searchInput = null;
+
+        if ($scope.event && $scope.event.location && $scope.event.location.name && $scope.event.location.name.length > 0) {
+            searchInput = $scope.event.location.name;
+        }
+
+        $googleLocationService.getLocationsByGeoLocation($scope.geoPosition, searchInput).then(function (locations) {
+            if (locations.length) {
+                $scope.locationSuggestions = locations;
+                $scope.showLocationDropdown = true;
+            } else {
+                $scope.geoLocationSearch = false;
+                $scope.showLocationDropdown = false;
+
+                if ($scope.event && $scope.event.location.length > 0) {
+                    getLocationsByTextSearch();
+                }
+            }
+        });
+    };
+
+    var getLocationsByTextSearch = function () {
+        $googleLocationService.getLocationsByTextSearch($scope.event.location.name).then(function (locations) {
+            if (locations.length) {
+                $scope.locationSuggestions = locations;
+                $scope.showLocationDropdown = true;
+            } else {
+                $scope.showLocationDropdown = false;
+            }
+        });
+    };
+    
+    $scope.toggled = function (open) {
+        $scope.showLocationDropdown = open;
+    };
+
+    $scope.clickedLocationSearchInput = function () {
+        if ($scope.locationSuggestions) {
+            $scope.showLocationDropdown = true;
+        } else {
+            if ($scope.geoPosition) {
+                getLocationsByGeoLocation();
+            }
+        }
+    };
+
+    $scope.selectLocation = function (location) {
+        $scope.event.location.name = location.name;
+        $scope.selectedLocation = location;
+        $scope.showLocationDropdown = false;
+    };
+});
+
+angular.module('eventApp').controller('DeleteEventCtrl', function($scope, $state, $event, $uibModalInstance) {
+    $scope.delete = function() {
+        $event.deleteEvent($scope.event.id).then(function () {
+            $scope.cancel();
+            $state.go('/');
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });
 
 angular.module('eventApp').service('$event', function ($http) {
@@ -225,6 +562,36 @@ angular.module('eventApp').service('$event', function ($http) {
                     throw { 'status': httpError.status , 'data': httpError.data };
                 });
         },
+        updateEvent : function(event) {
+            var url = '/api/v1/resource/event/' + event.id;
+            return $http.put(url, JSON.stringify(event))
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            return response.data;
+                        } else {
+                            return null;
+                        }
+                },
+                function (httpError) {
+                    throw { 'status': httpError.status , 'data': httpError.data };
+                });
+        },
+        deleteEvent : function(id) {
+            var url = '/api/v1/resource/event/' + id;
+            return $http.delete(url)
+                .then(
+                    function (response) {
+                        if (response.status === 200) {
+                            return true
+                        } else {
+                            return false;
+                        }
+                },
+                function (httpError) {
+                    throw { 'status': httpError.status , 'data': httpError.data };
+                });
+        },
         getEventById : function(id) {
             var url = '/api/v1/resource/event/' + id;
             return $http.get(url)
@@ -242,14 +609,51 @@ angular.module('eventApp').service('$event', function ($http) {
                 });
         },
         getPhotos : function(id, page, size) {
-            var url = '/api/v1/resource/event/' + id + "/photos" + '?page=' + page + '&size=' + size;;
+            var url = '/api/v1/resource/event/' + id + "/photo" + '?page=' + page + '&size=' + size;
             return $http.get(url)
                 .then(
                     function (response) {
                         if (response.data.content) {
-                            return response.data.content;
+                            return response.data;
                         } else {
                             return [];
+                        }
+                },
+                function (httpError) {
+                    throw { 'status': httpError.status , 'data': httpError.data };
+                });
+        },
+        uploadPhoto : function(id, file) {
+            var url = '/api/v1/resource/event/' + id + "/photo";
+            var fileData = new FormData();
+            fileData.append('file', file);
+
+            return $http.post(url, fileData, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                })
+                .then(
+                    function (response) {
+                        if (response.status === 200 && response.data) {
+                            return response.data;
+                        } else {
+                            return null;
+                        }
+                },
+                function (httpError) {
+                    throw { 'status': httpError.status , 'data': httpError.data };
+                });
+        },
+        deletePhoto : function(eventId, photoId) {
+            var url = '/api/v1/resource/event/' + eventId + "/photo/" + photoId;
+
+            return $http.delete(url)
+                .then(
+                    function (response) {
+                        if (response.status === 200) {
+                            return true;
+                        } else {
+                            return false;
                         }
                 },
                 function (httpError) {
@@ -259,63 +663,82 @@ angular.module('eventApp').service('$event', function ($http) {
     };
 });
 
-angular.module('eventApp').directive('imageDropzone', function() {
+angular.module('eventApp').directive('imageDropzone', function($fileHandler) {
     return {
       restrict: 'A',
-      scope: {},
+      scope: {
+        files: '=',
+        invalidFiles: '='
+      },
       link: function(scope, element, attrs) {
         var processDragOverOrEnter = function(event) {
-          if (event != null) {
-            event.preventDefault();
-          }
-          event.originalEvent.effectAllowed = 'copy';
-          return false;
-        };
-        var validMimeTypes = ['image/png', 'image/jpeg'];
-        var maxFileSize = 5;
-        var checkSize = function(size) {
-          var _ref;
-          if (((_ref = maxFileSize) === (void 0) || _ref === '') || (size / 1024) / 1024 < maxFileSize) {
-            return true;
-          } else {
-            alert("File must be smaller than " + maxFileSize + " MB");
+            if (event != null) {
+                event.preventDefault();
+            }
+            event.originalEvent.effectAllowed = 'copy';
             return false;
-          }
-        };
-        var isTypeValid = function(type) {
-          if ((validMimeTypes === (void 0) || validMimeTypes === '') || validMimeTypes.indexOf(type) > -1) {
-            return true;
-          } else {
-            alert("Invalid file type. File must be one of following types " + validMimeTypes);
-            return false;
-          }
         };
 
         element.bind('dragover', processDragOverOrEnter);
         element.bind('dragenter', processDragOverOrEnter);
 
         return element.bind('drop', function(event) {
-          var file, name, reader, size, type;
-          if (event != null) {
-            event.preventDefault();
-          }
-          reader = new FileReader();
-          reader.onload = function(evt) {
-            if (checkSize(size) && isTypeValid(type)) {
-              return scope.$apply(function() {
-                scope.file = evt.target.result;
-                if (angular.isString(scope.fileName)) {
-                  return scope.fileName = name;
+            var reader, file, _files = [], files = [], invalidFiles;
+
+            reader = new FileReader();
+            reader.onloadend = function(evt) {
+                var image = {};
+                image.file = file;
+                image.name = file.name;
+                image.img = evt.target.result;
+                image.valid = true;
+
+                files.push(image);
+                loadFile();
+            };
+
+            var loadFile = function() {
+                if (_files.length > 0) {
+                    file = _files[_files.length - 1];
+                    var sizeValid = $fileHandler.checkSize(file.size);
+                    var typeValid = $fileHandler.isTypeValid(file.type);
+
+                    if (sizeValid && typeValid) {
+                        reader.readAsDataURL(file);
+                        _files.pop();
+                    } else {
+                        var image = {};
+                        image.name = file.name;
+                        image.valid = false;
+                        image.sizeValid = sizeValid;
+                        image.typeValid = typeValid;
+
+                        if (!invalidFiles) {
+                            invalidFiles = [];
+                        }
+                        invalidFiles.push(image);
+
+                        _files.pop();
+                        loadFile();
+                    }
+                } else {
+                    scope.$apply(function() {
+                        scope.files = files;
+                        scope.invalidFiles = invalidFiles;
+                    });
                 }
-              });
+            };
+
+            if (event != null) {
+                event.preventDefault();
+                if (event.originalEvent.dataTransfer.files.length > 0) {
+                    angular.forEach(event.originalEvent.dataTransfer.files, function(file, key) {
+                        _files.push(file);
+                    });
+                    loadFile();
+                }
             }
-          };
-          file = event.originalEvent.files[0];
-          name = file.name;
-          type = file.type;
-          size = file.size;
-          reader.readAsDataURL(file);
-          return false;
+            return false;
         });
       }
     };

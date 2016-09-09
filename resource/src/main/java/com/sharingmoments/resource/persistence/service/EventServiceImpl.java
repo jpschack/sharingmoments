@@ -39,7 +39,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Page<Event> getEventsByUser(User user, Pageable pageable) {
-		return repository.findByUser(user, pageable);
+		return repository.findByUserOrderByCreatedAtDesc(user, pageable);
 	}
 	
 	@Override

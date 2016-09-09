@@ -7,9 +7,44 @@
         "EVENT_PHOTOS": {
             "UPLOAD": "Jetzt hochladen",
             "EDIT": "Bearbeiten",
+            "DELETE": "löschen",
             "PLACEHOLDER": {
                 "HEADLINE": "Noch keine Fotos hochgeladen.",
                 "TEXT": "Sei der Erste, der Fotos zu diesem Event hochläd. Schiebe sie einfach hier rein!"
+            }
+        },
+        "FILE_ALERT": {
+            "HEADLINE": "Beim hochladen der Dateien sind Fehler aufgetreten:",
+            "SIZE": "Die Datei ist zu groß.",
+            "TYPE": "Dies ist kein Bild."
+        },
+        "EDIT": {
+            "HEADLINE": "Event bearbeiten",
+            "NAME": {
+                "NAME": "Name",
+                "PLACEHOLDER": "Lege einen Namen fest"
+            },
+            "LOCATION": {
+                "LOCATION": "Location",
+                "PLACEHOLDER": "Suche nach der Location"
+            },
+            "ENABLE_END_DATE": "mehrtägiges Event?",
+            "START_DATE": "Datum",
+            "END_DATE": "End-Datum",
+            "DESCRIPTION": "Beschreibung",
+            "BACK": "Zurück",
+            "DELETE": "Event löschen",
+            "SAVE": "Speichern",
+            "VALIDATION": {
+                "LOCATION": "Bitte wähl eine gelistete Locaiton aus."
+            },
+            "REQUEST_ERROR": "Server Fehler - Bitte probieren Sie es später nochmal.",
+            "REQUEST_SUCCESS": "Event wurde gespeichert.",
+            "DELETE_MODAL": {
+                "HEADLINE": "Bist du dir sicher?",
+                "BODYTEXT": "Bitte beachte, dass wenn du dieses Event löscht, alle zugehörigen Fotos mitgelöscht werden.",
+                "CANCEL": "Abbrechen",
+                "DELETE": "Event löschen"
             }
         }
     }

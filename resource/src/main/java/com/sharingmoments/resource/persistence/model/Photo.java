@@ -2,16 +2,19 @@ package com.sharingmoments.resource.persistence.model;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -21,8 +24,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class Photo {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
 	private String objectKey;
 
@@ -39,6 +44,11 @@ public class Photo {
     @JsonManagedReference
 	private User user;
     
+    @ManyToOne
+	@JoinColumn(name="event_id")
+    @JsonManagedReference
+	private Event event;
+    
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     @JsonBackReference
     private Collection<Like> likes;
@@ -53,11 +63,11 @@ public class Photo {
     	this.updatedAt = new Date();
     }
 
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -115,6 +125,22 @@ public class Photo {
 
 	public void setLikes(Collection<Like> likes) {
 		this.likes = likes;
+	}
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public Collection<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Collection<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

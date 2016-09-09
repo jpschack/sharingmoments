@@ -16,7 +16,7 @@
             <div class="form-group" ng-class="{'has-error': newEventForm.eventLocation.$invalid && newEventForm.eventLocation.$dirty}">
                 <label class="col-md-2 control-label" for="event-location" ng-bind="'INDEX.NAVIGATION.NEW_EVENT_MODAL.LOCATION' | translate"></label>
                 <div class="col-md-10">
-                    <input type="text" name="eventLocation" id="event-location" class="form-control" placeholder="{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.LOCATION.PLACEHOLDER' | translate }}" ng-model="event.location" ng-model-options="{ updateOn: 'blur' }" required ng-change="searchForLocations()" ng-click="clickedLocationSearchInput()">
+                    <input type="text" name="eventLocation" id="event-location" class="form-control" placeholder="{{ 'INDEX.NAVIGATION.NEW_EVENT_MODAL.LOCATION.PLACEHOLDER' | translate }}" ng-model="event.location" required ng-change="searchForLocations()" ng-click="clickedLocationSearchInput()" autocomplete="off">
                     <span class="location-search-result-dropdown" uib-dropdown auto-close="outsideClick" is-open="showLocationDropdown" on-toggle="toggled(open)">
                         <ul class="uib-dropdown-menu scrollable-menu" uib-dropdown-menu>
                             <div ng-if="locationSuggestions.length">

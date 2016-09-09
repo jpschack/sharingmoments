@@ -19,7 +19,7 @@ public interface EventRepository extends PagingAndSortingRepository<Event, UUID>
 	@Override
     void delete(Event event);
 	
-	Page<Event> findByUser(User user, Pageable pageable);
+	Page<Event> findByUserOrderByCreatedAtDesc(User user, Pageable pageable);
 	
     @Query("SELECT e FROM Event e where :searchString != '' AND ( e.name LIKE CONCAT('%',:searchString,'%') OR e.description LIKE CONCAT('%',:searchString,'%'))") 
     Page<Event> findByNameOrDescription(@Param("searchString") String searchString, Pageable pageable);

@@ -1,4 +1,4 @@
-<div class="event-page">
+<div class="event-page" infinite-scroll="getPhotos()" infinite-scroll-distance="0" infinite-scroll-disabled="!event.photos">
     <div class="row event-details-container">
         <div class="col-md-12">
             <div class="row">
@@ -31,26 +31,55 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-default btn-block pull-right" ui-sref="event.details" ng-bind="'EVENT.EVENT_DETAILS.EDIT'|translate"></a>
+                        <a class="btn btn-default btn-block pull-right" ui-sref="editEvent({ id : event.id })" ng-bind="'EVENT.EVENT_DETAILS.EDIT'|translate"></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row event-actions">
-        <div class="col-md-6" ng-show="event.photos">
-            <button type="button" class="btn btn-primary pull-right" ng-bind="'EVENT.EVENT_PHOTOS.Edit'|translate"></button>
+    <div class="row file-errors" ng-show="invalidPhotos">
+        <div uib-alert template-url="app/event/photo-file-upload-alert.html" ng-class="'alert-danger'" close="closeAlert()">
+            <div uib-accordion>
+                <div uib-accordion-group heading="{{ 'EVENT.FILE_ALERT.HEADLINE'|translate }}" is-open="false" is-disabled="false">
+                    <ul class="file-errors">
+                        <li class="file-error" ng-repeat="file in invalidPhotos">
+                            <div class="error-message" ng-show="!file.sizeValid && file.typeValid" ng-bind="file.name + ' - ' + ('EVENT.FILE_ALERT.SIZE'|translate)"></div>
+                            <div class="error-message" ng-show="!file.typeValid" ng-bind="file.name + ' - ' + ('EVENT.FILE_ALERT.TYPE'|translate)"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row event-photos" image-dropzone>
-        <div ng-hide="event.photos" class="jumbotron photos-placeholder">
+    <div class="row event-actions" ng-show="event.photos">
+        <div class="col-md-12">
+            <div class="container-upload-input pull-left">
+                <label for="file-upload" class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></label>
+                <input id="file-upload" type="file" accept="image/*" multiple="true" custom-on-change="filesSelected" />
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-danger" ng-show="showPhotosDeleteButton" ng-click="deletePhotos()" ng-bind="'EVENT.EVENT_PHOTOS.DELETE'|translate"></button>
+                <button type="button" class="btn btn-primary" ng-class="{'active' : showPhotosDeleteButton}" ng-click="enableEdit()" ng-bind="'EVENT.EVENT_PHOTOS.EDIT'|translate"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row event-photos" image-dropzone files="photosToUpload" invalid-files="invalidPhotos">
+        <div ng-show="showPhotoPlaceholder && !event.photos" class="jumbotron photos-placeholder">
             <div class="h1" ng-bind="'EVENT.EVENT_PHOTOS.PLACEHOLDER.HEADLINE'|translate"></div>
             <p ng-bind="'EVENT.EVENT_PHOTOS.PLACEHOLDER.TEXT'|translate"></p>
-            <button type="button" class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></button>
+            <div class="container-upload-input">
+                <label for="file-upload" class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></label>
+                <input id="file-upload" type="file" accept="image/*" multiple="true" custom-on-change="filesSelected" />
+            </div>
         </div>
-        <div ng-show="event.photos">
-            <img ng-src={{image}} />
-            <span class="file-name">{{imageFileName}}</span>
+        <div ng-show="event.photos || photosToUpload">
+            <div class="col-md-4" ng-repeat="photo in event.photos">
+                <a href="" ng-disabled="!showPhotosDeleteButton" ng-click="photoAction(photo)">
+                    <span class="spinner-container" ng-show="photo.pending"><img class="spinner-img" src="/pix/spinner.gif" /></span>
+                    <img ng-if="photo.img" ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.img}} />
+                    <img ng-if="!photo.img" ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.url}} />
+                </a>
+            </div>
         </div>
     </div>
 </div>

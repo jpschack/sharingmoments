@@ -7,9 +7,44 @@
         "EVENT_PHOTOS": {
             "UPLOAD": "Upload now!",
             "EDIT": "Edit",
+            "DELETE": "delete",
             "PLACEHOLDER": {
                 "HEADLINE": "No uploaded Photos yet",
                 "TEXT": "Be the first to upload photos to this event. Just drop them here or click on upload now!"
+            }
+        },
+        "FILE_ALERT": {
+            "HEADLINE": "Some errors occurred, while uploading those selected files.",
+            "SIZE": "The file is too big.",
+            "TYPE": "This file is not an image."
+        },
+        "EDIT": {
+            "HEADLINE": "Edit Event",
+            "NAME": {
+                "NAME": "Name",
+                "PLACEHOLDER": "Define a name for your event"
+            },
+            "LOCATION": {
+                "LOCATION": "Location",
+                "PLACEHOLDER": "Search for a location"
+            },
+            "ENABLE_END_DATE": "multi-day event?",
+            "START_DATE": "Date",
+            "END_DATE": "End date",
+            "DESCRIPTION": "Description",
+            "BACK": "Back",
+            "DELETE": "Delete Event",
+            "SAVE": "Save",
+            "VALIDATION": {
+                "LOCATION": "Please select a listed location."
+            },
+            "REQUEST_ERROR": "Sorry, there seems to be something wrong! Please try again later.",
+            "REQUEST_SUCCESS": "Event saved.",
+            "DELETE_MODAL": {
+                "HEADLINE": "Are you sure?",
+                "BODYTEXT": "Please note if you delete this event, all included photos will be deleted, too.",
+                "CANCEL": "Cancel",
+                "DELETE": "Delete Event"
             }
         }
     }
