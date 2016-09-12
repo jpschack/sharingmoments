@@ -1,15 +1,12 @@
-angular.module('profileApp').controller('ProfileCtrl', function($scope, $rootScope, $account, $uibModal) {
+angular.module('profileApp').controller('ProfileCtrl', function($scope, $rootScope, userData, $account, $uibModal) {
     $scope.userImageUpdating = false;
-
-    var getUserData = function () {
-        $account.getUserData().then(function (user) {
-            if (!user.userImage) {
-                user.userImage = { url: 'http://placehold.it/200x200' };
-            }
-            $scope.user = user;
-        });
-    };
-    getUserData();
+    
+    if (userData) {
+        if (!userData.userImage) {
+            userData.userImage = { url: 'http://placehold.it/200x200' };
+        }
+        $scope.user = userData;
+    }
 
     $scope.userImageAction = function () {
         var modURL = 'app/profile/update-user-image-modal.html';

@@ -1,0 +1,9 @@
+{
+    "ERROR": {
+        "MESSAGE": {
+            "403": "Oh, you are not permitted to do so.",
+            "404": "Sorry, this page is not available anymore.",
+            "500": "Sorry, an error occurred. Please try again later."
+        }
+    }
+}

@@ -170,7 +170,7 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
     };
 });
 
-angular.module('eventApp').controller('EventCtrl', function($scope, $state, $stateParams, $event, $googleLocationService, $fileHandler) {
+angular.module('eventApp').controller('EventCtrl', function($scope, eventData, googleLocationData, eventPhotoData, $event, $fileHandler) {
     $scope.getPhotos = function () {
         if(!$scope.photoPagination.last && !$scope.isLoadingNewPhotos) {
             $scope.isLoadingNewPhotos = true;
@@ -195,25 +195,20 @@ angular.module('eventApp').controller('EventCtrl', function($scope, $state, $sta
     var init = function () {
         $scope.photosToUpload = null;
         $scope.invalidPhotos = null;
-        $scope.photoPagination = { 'nextPage': 0, 'size': 10, 'lastPage': false };
+        $scope.photoPagination = { 'nextPage': 1, 'size': 10, 'lastPage': true };
         $scope.isLoadingNewPhotos = false;
         $scope.showPhotosDeleteButton = false;
-
-        $event.getEventById($stateParams.id).then(function (event) {
-            $scope.event = event;
-
-            $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
-                if (googleLocation) {
-                    $scope.googleLocation = { 'name': googleLocation.name, 'address': googleLocation.formatted_address, 'url': googleLocation.url };
-                }
-            }).catch(function (error) {
-
-            });
-
-            $scope.getPhotos();
-        }).catch(function (error) {
-
-        });
+        $scope.event = eventData;
+        $scope.googleLocationData = { 'name': googleLocationData.name, 'address': googleLocationData.formatted_address, 'url': googleLocationData.url };
+        
+        if (eventPhotoData) {
+            if (eventPhotoData.content.length > 0) {
+                $scope.event.photos = eventPhotoData.content;
+            } else {
+                $scope.showPhotoPlaceholder = true;
+            }
+            $scope.photoPagination = { 'nextPage': (eventPhotoData.number + 1), 'size': eventPhotoData.size, 'last': eventPhotoData.last, 'totalElements': eventPhotoData.totalElements };
+        }
     };
     init();
 
@@ -340,32 +335,20 @@ angular.module('eventApp').controller('EventCtrl', function($scope, $state, $sta
     };
 });
 
-angular.module('eventApp').controller('EditEventCtrl', function($scope, $stateParams, $event, $googleLocationService, $geoLocationService, $translate, $dateEncoder, $uibModal) {
+angular.module('eventApp').controller('EditEventCtrl', function($scope, eventData, googleLocationData, geoLocationData, $event, $googleLocationService, $geoLocationService, $translate, $dateEncoder, $uibModal) {
     var init = function () {
-        $event.getEventById($stateParams.id).then(function (event) {
-            $scope.event = event;
+        $scope.event = eventData;
+        $scope.event.location.name = googleLocationData.name;
+        $scope.selectedLocation = { 'place_id': eventData.location.googleLocationID };
 
-            $googleLocationService.getLocationByID(event.location.googleLocationID).then(function (googleLocation) {
-                if (googleLocation) {
-                    $scope.event.location.name = googleLocation.name;
-                    $scope.selectedLocation = { 'place_id': event.location.googleLocationID };
-                }
-            }).catch(function (error) {
-
-            });
-        });
-        $geoLocationService.getCurrentPosition().then(function (position) {
-            $scope.geoPosition = { 'latitude': position.coords.latitude, 'longitude': position.coords.longitude };
+        if (geoLocationData) {
+            $scope.geoPosition = { 'latitude': geoLocationData.coords.latitude, 'longitude': geoLocationData.coords.longitude };
             $scope.geoLocationSearch = true;
-        });
+        }
     };
     init();
 
     var initDateInput = function () {
-        $scope.event = {};
-        $scope.event.startDate = new Date();
-        $scope.event.endDate = new Date();
-        $scope.event.multiDayEvent = false;
         $scope.format = 'dd.MM.yyyy';
         $scope.altInputFormats = ['M!/d!/yyyy'];
     };

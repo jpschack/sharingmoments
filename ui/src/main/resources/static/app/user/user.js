@@ -1,4 +1,4 @@
-angular.module('userApp').controller('UserProfileCtrl', function ($scope, $stateParams, $state, $user) {
+angular.module('userApp').controller('UserProfileCtrl', function ($scope, $stateParams, $state, userData, $user) {
     var getPhotos = function () {
         $user.getPhotos($stateParams.id, 0, 10).then(function (photos) {
             $scope.photos = photos;
@@ -12,13 +12,9 @@ angular.module('userApp').controller('UserProfileCtrl', function ($scope, $state
     };
 
     var init = function () {
-        if (!$stateParams.id) {
-            $state.go('/');
-        } else {
-            $user.getById($stateParams.id).then(function (user) {
-                user.userImage = {url: (user.userImage ? user.userImage.url : 'http://placehold.it/150x150')};
-                $scope.user = user;
-            });
+        if (userData) {
+            userData.userImage = {url: (userData.userImage ? userData.userImage.url : 'http://placehold.it/150x150')};
+            $scope.user = userData;
         }
     };
     init();
@@ -60,7 +56,7 @@ angular.module('userApp').service('$user', function ($http) {
                         }
                 },
                 function (httpError) {
-                    throw httpError.status + " : " + httpError.data;
+                    throw { 'status': httpError.status , 'data': httpError.data };
                 });
         },
         getPhotos : function(id, page, size) {
@@ -75,7 +71,7 @@ angular.module('userApp').service('$user', function ($http) {
                         }
                 },
                 function (httpError) {
-                    throw httpError.status + " : " + httpError.data;
+                    throw { 'status': httpError.status , 'data': httpError.data };
                 });
         },
         getEvents : function(id, page, size) {
@@ -90,7 +86,7 @@ angular.module('userApp').service('$user', function ($http) {
                         }
                 },
                 function (httpError) {
-                    throw httpError.status + " : " + httpError.data;
+                    throw { 'status': httpError.status , 'data': httpError.data };
                 });
         }
     };

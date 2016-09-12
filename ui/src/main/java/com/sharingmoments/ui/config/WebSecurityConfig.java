@@ -13,7 +13,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//@formatter:off
 		http
 			.antMatcher("/**").authorizeRequests()
-			.antMatchers(HttpMethod.GET, "/", "/login", "/update-password", "/reset-password", "/signup", "/account/**", "/profile", "/search*", "/user/**", "/event/**", "/app/**", "/fonts/**", "/pix/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/", "/login", "/update-password", "/reset-password", "/signup", "/account/**", "/profile", "/search*", "/user/**", "/event/**", "/app/**", "/fonts/**", "/pix/**", "/error").permitAll()
 			.antMatchers("/api/**").permitAll()
 			.anyRequest().authenticated()
 			.and()

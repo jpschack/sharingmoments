@@ -1,0 +1,9 @@
+{
+    "ERROR": {
+        "MESSAGE": {
+            "403": "Oh, dafür sind sie nicht berechtigt.",
+            "404": "Diese Seite ist nicht mehr vorhanden oder konnte nicht gefunden werden",
+            "500": "Entschuldigen Sie, ein Fehler ist aufgetreten."
+        }
+    }
+}

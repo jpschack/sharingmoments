@@ -1,10 +1,7 @@
-angular.module('accountApp').controller('AccountCtrl', function($scope, $state, $account) {
-    $scope.fetchContent = function() {
-        $account.getUserData().then(function (user) {
-            $scope.user = user;
-        });
+angular.module('accountApp').controller('AccountCtrl', function($scope, userData) {
+    if (userData) {
+        $scope.user = userData;
     }
-    $scope.fetchContent();
 });
 
 angular.module('accountApp').controller('EditAccountCtrl', function($scope, $account, $uibModal, $translate) {
@@ -71,18 +68,7 @@ angular.module('accountApp').controller('DeleteAccountCtrl', function($scope, $r
     };
 });
 
-angular.module('accountApp').controller('PrivacyCtrl', function($scope, $http, $account) {
-    var init = function () {
-        $scope.user = $account.getUser();
-
-        if ($scope.user === undefined || $scope.user == null) {
-            $account.getUserData().then(function (user) {
-                $scope.user = user;
-            });
-        }
-    }
-    init();
-});
+angular.module('accountApp').controller('PrivacyCtrl', function() {});
 
 angular.module('accountApp').directive('bootstrapSwitch', function($account) {
     return {

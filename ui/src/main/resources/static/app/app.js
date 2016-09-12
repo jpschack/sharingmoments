@@ -11,6 +11,7 @@ angular.module('modalPhotoViewApp', ['app.services']);
 angular.module('searchApp', ['pascalprecht.translate', 'googleLocationServices', 'app.services']);
 angular.module('userApp', ['app.controllers']);
 angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll']);
+angular.module('errorApp', []);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);
 angular.module('googleLocationServices', []);
 angular.module('authService', ['ngCookies']);
@@ -37,6 +38,7 @@ angular.module('sharingMomentsApp',
         'searchApp',
         'userApp',
         'eventApp',
+        'errorApp',
         'app.services',
         'googleLocationServices',
         'app.controllers',
@@ -104,6 +106,11 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             url: '/profile',
             templateUrl: 'app/profile/profile.html',
             controller: 'ProfileCtrl',
+            resolve: {
+                userData: function ($account) {
+                    return $account.getUserData();
+                }
+            },
             data: {
                 i18n: ['index', 'profile']
             }
@@ -120,6 +127,11 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             url: '/user/:id',
             templateUrl: 'app/user/user.html',
             controller: 'UserProfileCtrl',
+            resolve: {
+                userData: function ($user, $stateParams) {
+                    return $user.getById($stateParams.id);
+                }
+            },
             data: {
                 i18n: ['index', 'user']
             }
@@ -128,6 +140,17 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             url: '/event/:id',
             templateUrl: 'app/event/event.html',
             controller: 'EventCtrl',
+            resolve: {
+                eventData: function ($event, $stateParams) {
+                    return $event.getEventById($stateParams.id);
+                },
+                googleLocationData: function ($googleLocationService, eventData) {
+                    return $googleLocationService.getLocationByID(eventData.location.googleLocationID);
+                },
+                eventPhotoData: function ($event, $stateParams) {
+                    return $event.getPhotos($stateParams.id, 0, 10);
+                }
+            },
             data: {
                 i18n: ['index', 'event']
             }
@@ -136,6 +159,17 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             url: '/event/:id/edit',
             templateUrl: 'app/event/edit-event.html',
             controller: 'EditEventCtrl',
+            resolve: {
+                eventData: function ($event, $stateParams) {
+                    return $event.getEventById($stateParams.id);
+                },
+                googleLocationData: function ($googleLocationService, eventData) {
+                    return $googleLocationService.getLocationByID(eventData.location.googleLocationID);
+                },
+                geoLocationData: function ($geoLocationService) {
+                    return $geoLocationService.getCurrentPosition();
+                }
+            },
             data: {
                 i18n: ['index', 'event']
             }
@@ -144,6 +178,11 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             url: '/account',
             templateUrl: 'app/account/account.html',
             controller: 'AccountCtrl',
+            resolve: {
+                userData: function ($account) {
+                    return $account.getUserData();
+                }
+            },
             data: {
                 i18n: ['index', 'account']
             }
@@ -162,6 +201,14 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             controller: 'PasswordCtrl',
             data: {
                 i18n: ['index', 'account']
+            }
+        })
+        .state('error', {
+            url: '/error?status',
+            templateUrl: 'app/error/error.html',
+            controller: 'ErrorCtrl',
+            data: {
+                i18n: ['index', 'error']
             }
         });
     $urlRouterProvider.otherwise("/");
@@ -204,6 +251,15 @@ angular.module("sharingMomentsApp").run(function ($rootScope, $translate, $trans
             angular.forEach(toState.data.i18n, function (value) {
                 $translatePartialLoader.addPart(value);
             });
+        }
+    });
+
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) { 
+        event.preventDefault();
+        if (error.status) {
+            $state.transitionTo('error', { 'status': error.status });
+        } else {
+            $state.transitionTo('error', { 'status': 500 });
         }
     });
 

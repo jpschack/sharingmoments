@@ -1,10 +1,11 @@
 package com.sharingmoments.ui.config;
 
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class RoutesController {
+public class RoutesController implements ErrorController {
 	@RequestMapping({
 	    "/profile",
 	    "/account/**",
@@ -14,9 +15,15 @@ public class RoutesController {
 	    "/reset-password",
 	    "/update-password",
 	    "/user/**",
-	    "/event/**"
+	    "/event/**",
+	    "/error"
 	})
 	public String index() {
 	    return "forward:/";
+	}
+
+	@Override
+	public String getErrorPath() {
+		return "/error";
 	}
 }
