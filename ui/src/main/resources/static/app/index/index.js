@@ -21,5 +21,3 @@ angular.module('indexApp').controller('FirstLoginAlertModalCtrl', function($scop
         $uibModalInstance.dismiss('cancel');
     };
 });
-
-angular.module('indexApp').controller('IndexCtrl', function() {});

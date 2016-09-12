@@ -35,7 +35,7 @@ angular.module('searchApp').controller('SearchListCtrl', function ($scope, $root
         .then(function (translatedValue) {
             $scope.searchInputPlaceholder = translatedValue;
         });
-    }
+    };
 
     $scope.setTab = function (tabId) {
         $scope.tab = tabId;
@@ -54,6 +54,8 @@ angular.module('searchApp').controller('SearchListCtrl', function ($scope, $root
     };
 
     var init = function () {
+        $scope.isDateFilterCollapsed = true;
+
         if ($stateParams.q) {
             $scope.searchInput = $stateParams.q;
         }
@@ -76,14 +78,17 @@ angular.module('searchApp').controller('SearchListCtrl', function ($scope, $root
     };
     initDateInput();
 
-    $rootScope.$on("searchOnSearchList", function(event, data) {
-        $scope.searchInput = data;
-
+    $scope.search = function () {
         if ($scope.tab == 1) {
             searchForUsers($scope.searchInput);
         } else if ($scope.tab == 2) {
             searchForEvents($scope.searchInput);
         }
+    };
+
+    $rootScope.$on("searchOnSearchList", function(event, data) {
+        $scope.searchInput = data;
+        $scope.search();
     });
 
     $scope.fromDatePopup = {

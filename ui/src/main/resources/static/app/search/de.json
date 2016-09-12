@@ -6,8 +6,11 @@
         },
         "FILTER": {
             "EVENTS": {
-                "FROM": "von",
-                "TO": "bis"
+                "DATE_FILTER": {
+                    "DATE_FILTER": "Datum",
+                    "FROM": "von",
+                    "TO": "bis"
+                }
             }
         },
         "RESULT": {

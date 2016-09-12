@@ -3,7 +3,8 @@
     <css>webjar:bootstrap/3.3.6/less/bootstrap.less</css>
     <css>file:@project.basedir@/src/main/wro/main.less</css>
     <css>webjar:bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css</css>
-    <js>webjar:jquery/3.1.0/jquery.min.js</js>
+    <js>webjar:jquery/2.2.4/jquery.min.js</js>
+    <js>webjar:bootstrap/3.3.6/js/bootstrap.min.js</js>
     <js>webjar:angularjs/1.5.8/angular.min.js</js>
     <js>webjar:angularjs/1.5.8/angular-cookies.min.js</js>
     <js>webjar:angularjs/1.5.8/angular-messages.min.js</js>

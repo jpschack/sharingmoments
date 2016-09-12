@@ -1,14 +1,12 @@
 <div class="profile-page">
-    <div class="row user-details">
-        <div class="col-md-4">
-            <div class="user-profile-img-container">
-                <a href="">
-                    <div class="spinner-container" ng-show="userImageUpdating"><img class="spinner-img" src="/pix/spinner.gif" /></div>
-                    <img class="media-object img-circle user-profile-img" ng-src="{{user.userImage.url}}" ng-click="userImageAction()">
-                </a>
-            </div>
+    <div class="row user-details-container">
+        <div class="col-xs-4 col-sm-4 col-md-4 user-profile-img-container">
+            <a href="">
+                <div class="spinner-container" ng-show="userImageUpdating"><img class="spinner-img" src="/pix/spinner.gif" /></div>
+                <img class="media-object img-circle user-profile-img img-responsive" ng-src="{{user.userImage.url}}" ng-click="userImageAction()">
+            </a>
         </div>
-        <div class="col-md-8">
+        <div class="col-xs-8 col-sm-8 col-md-8 user-details">
             <div class="row">
                 <div class="col-md-12 account-details">
                     <div class="user-username" ng-bind="'@' + user.username"></div>
@@ -17,13 +15,13 @@
             </div>
             <div class="row"><div class="col-md-12 user-name" ng-bind="user.name"></div></div>
             <div class="row user-contents">
-                <div class="col-md-2"><a href=""><strong>0</strong> Photos</a></div>
-                <div class="col-md-2"><a href=""><strong>0</strong> Events</a></div>
+                <div class="col-xs-6 col-sm-4 col-md-2"><a href=""><strong>0</strong> Photos</a></div>
+                <div class="col-xs-6 col-sm-4 col-md-2"><a href=""><strong>0</strong> Events</a></div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 user-photos">
+    <div class="row user-photos-container">
+        <div class="col-xs-12 col-sm-12 col-md-12 user-photos">
             
         </div>
     </div>

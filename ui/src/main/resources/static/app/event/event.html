@@ -1,36 +1,36 @@
 <div class="event-page" infinite-scroll="getPhotos()" infinite-scroll-distance="0" infinite-scroll-disabled="!event.photos">
     <div class="row event-details-container">
-        <div class="col-md-12">
+        <div class="col-xs-12 ol-sm-12 col-md-12">
             <div class="row">
                 <div class="event-details">
-                    <div class="col-md-5">
+                    <div class="col-xs-12 col-sm-5 col-md-5">
                         <div class="event-name" ng-bind="event.name"></div>
                         <div class="username"><div ng-bind="'EVENT.EVENT_DETAILS.BY'|translate"></div><a ui-sref="user({ id : event.user.id })" ng-bind="' @' + event.user.username"></a></div>
                         <div class="event-description"><p ng-bind="event.description"></p></div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-xs-12 col-sm-5 col-md-5">
                         <div class="row event-date-container">
-                            <div class="col-md-1">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </div>
-                            <div class="col-md-11 event-date">
-                                <div ng-bind="event.startDate|date:'longDate'"></div>
-                                <div ng-show="event.multiDayEvent" ng-bind="' - ' + (event.endDate|date:'longDate')"></div>
+                            <div class="col-md-12">
+                                <div class="event-date">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <div ng-bind="event.startDate|date:'longDate'"></div>
+                                    <div ng-show="event.multiDayEvent" ng-bind="' - ' + (event.endDate|date:'longDate')"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row event-location" ng-show="googleLocation">
-                            <div class="col-md-1">
+                        <div class="row event-location-container" ng-show="googleLocation">
+                            <div class="col-md-12">
                                 <span class="glyphicon glyphicon-map-marker"></span>
-                            </div>
-                            <div class="col-md-11">
-                                <div class="" ng-bind="googleLocation.name"></div>
-                                <a ng-href="{{googleLocation.url}}" target="_blank">
-                                    <div class="" ng-bind="googleLocation.address"></div>
-                                </a>
+                                <div class="row event-location">
+                                    <div class="" ng-bind="googleLocation.name"></div>
+                                    <a ng-href="{{googleLocation.url}}" target="_blank">
+                                        <div class="" ng-bind="googleLocation.address"></div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-xs-12 col-sm-2 col-md-2">
                         <a class="btn btn-default btn-block pull-right" ui-sref="editEvent({ id : event.id })" ng-bind="'EVENT.EVENT_DETAILS.EDIT'|translate"></a>
                     </div>
                 </div>

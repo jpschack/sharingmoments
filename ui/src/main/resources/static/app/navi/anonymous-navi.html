@@ -1,4 +1,15 @@
-<ul class="nav navbar-nav navbar-right">
-    <li><a ui-sref="login" ng-bind="'INDEX.NAVIGATION.SIGNIN' | translate"></a></li>
-    <li><a ui-sref="signup" ng-bind="'INDEX.NAVIGATION.SIGNUP' | translate"></a></li>
-</ul>
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" ng-click="isCollapsed = !isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" ui-sref="/" ng-click="isCollapsed = true">SM</a>
+</div>
+<div class="navbar-collapse" ng-class="isCollapsed ? 'collapse' : 'in'">
+    <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref="login" ng-click="isCollapsed = true" ng-bind="'INDEX.NAVIGATION.SIGNIN' | translate"></a></li>
+        <li><a ui-sref="signup" ng-click="isCollapsed = true" ng-bind="'INDEX.NAVIGATION.SIGNUP' | translate"></a></li>
+    </ul>
+</div>

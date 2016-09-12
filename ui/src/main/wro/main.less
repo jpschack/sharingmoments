@@ -1,36 +1,24 @@
 // adjusted container width
 @container-large-desktop: (950px + @grid-gutter-width);
 
-// adjusted inner nav container width
-@media (min-width: 1200px) {
-    .nav-inner-container {
-        width: 980px;
-        .center-block();
-    }
-}
-
-.well-form {
-    max-width: 400px;
-    padding: 15px;
-    margin: 0 auto;
-
-    h2 {
-        margin-top: 0;
-    }
-
-    .input-field {
-        margin-bottom: 20px;
-    }
-}
-
 .navbar {
-    margin-bottom: 30px;
+    .navbar-collapse {
+        text-align: center;
 
-    .navbar-form {
-        padding-left: 0;
+        .navbar-center {
+            float: none;
+            display: inline-block;
+
+            .navbar-form {
+                margin-bottom: 0;
+            }
+        }
     }
 }
 
+.page-content {
+    margin-top: 80px;
+}
 
 .signup-page {
     h2 {
@@ -139,18 +127,26 @@
 }
 
 .profile-page {
-    margin-top: 30px;
-
-    .user-details {
+    .user-details-container {
+        display: table;
+        width: 100%;
         margin-bottom: 30px;
         font-size: 16px;
 
         .user-profile-img-container {
+            display: table-cell;
+            height: 100%;
+            padding: 0 0 0 5px;
+            vertical-align: middle;
+            float: none;
             margin-left: 30px;
 
+            @media (min-width: @screen-sm) {
+                padding-left: 30px;
+            }
+
             .spinner-container {
-                width: 200px;
-                height: 200px;
+                width: 100%;
                 z-index: 10;
                 position: absolute;
 
@@ -166,41 +162,51 @@
             }
 
             .user-profile-img {
-                height: 200px;
-                width: 200px;
+                width: 100%;
                 z-index: 1;
                 position: relative;
             }
         }
 
-        .account-details {
-            margin-top: 20px;
-            margin-bottom: 15px;
+        .user-details {
+            display: table-cell;
+            height: 100%;
+            vertical-align: middle;
+            float: none;
 
-            .user-username {
-                display: inline-block;
-                font-size: 30px;
+            @media (min-width: @screen-sm) {
+                padding-left: 60px;
             }
 
-            .edit-profile-link {
-                display: inline-block;
-                margin-left: 20px;
+            .account-details {
+                margin-top: 20px;
+                margin-bottom: 15px;
 
-                a {
-                    margin-bottom: 10px;
+                .user-username {
+                    display: inline-block;
+                    font-size: 30px;
+                }
+
+                .edit-profile-link {
+                    display: inline-block;
+                    margin-left: 10px;
+
+                    a {
+                        margin-bottom: 10px;
+                    }
                 }
             }
-        }
 
-        .user-contents {
-            a {
-                text-decoration: none;
-                color: #333;
+            .user-contents {
+                a {
+                    text-decoration: none;
+                    color: #333;
+                }
             }
-        }
 
-        .user-name {
-            margin-bottom: 15px;
+            .user-name {
+                margin-bottom: 15px;
+            }
         }
     }
 }
@@ -236,6 +242,16 @@
         margin-top: 40px;
 
         .event-filter {
+            padding: 0;
+
+            .date-filter-collapse-button {
+                padding: 0;
+                margin-bottom: 20px;
+                font-size: 15px;
+                color: black;
+                font-weight: 700;
+            }
+
             .date-filter {
                 .input-group-date {
                     margin-bottom: 10px;
@@ -243,20 +259,18 @@
             }
         }
     }
-    
-    .search-content {
-        .search-input {
-            width: 40%;
-            min-width: 100px;
-            margin-bottom: 30px;
-        }
-    }
 
     .user-results {
         .single-user-row {
+            display: table;
+            width: 100%;
             margin-bottom: 40px;
 
             .profile-image {
+                display: table-cell;
+                width: 100%;
+                height: 100%;
+
                 .inactive {
                     pointer-events: none;
                     cursor: default;
@@ -269,7 +283,9 @@
             }
 
             .user-details {
-                margin-top: 40px;
+                display: table-cell;
+                float: none;
+                vertical-align: middle;
 
                 .username {
                     font-size: 18px;
@@ -293,32 +309,40 @@
         .single-event-row {
             margin-bottom: 40px;
 
-            .event-name-container {
-                margin-bottom: 5px;
+            .event-details-container {
+                margin-bottom: 10px;
 
-                a {
-                    font-size: 20px;
-                    color: black;
+                .event-name-container {
+                    margin: 0 0 5px 0;
+
+                    a {
+                        font-size: 20px;
+                        color: black;
+                    }
                 }
-                
-            }
 
-            .username-container {
-                margin-bottom: 5px;
+                .username-container {
+                    margin: 0 0 5px 0;
 
-                div {
-                    display: inline;
+                    div {
+                        display: inline;
+                    }
                 }
-            }
 
-            .event-description-container > p {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                .event-description-container > p {
+                    margin: 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
 
             .event-date-container {
-                margin-bottom: 20px;
+                margin-bottom: 10px;
+
+                span {
+                    margin-right: 10px;
+                }
 
                 .event-date > div {
                     display: inline-block;
@@ -326,9 +350,18 @@
             }
             
             .event-location-container {
+                margin-bottom: 10px;
+
                 span {
+                    margin-right: 10px;
                     height: 40px;
                     line-height: 40px;
+                    vertical-align: top;
+                }
+
+                .event-location {
+                    margin: 0;
+                    display: inline-block;
                 }
             }
         }
@@ -342,59 +375,46 @@
 }
 
 .user-page {
-    margin-top: 30px;
-
-    .user-details {
-        margin-bottom: 30px;
+    .user-details-container {
+        display: table;
+        width: 100%;
+        margin: 0 0 30px 0;
         font-size: 16px;
 
         .user-profile-img-container {
-            margin-left: 30px;
+            display: table-cell;
+            height: 100%;
+            padding: 0;
+            vertical-align: middle;
+            float: none;
+        }
 
-            .spinner-container {
-                width: 200px;
-                height: 200px;
-                z-index: 10;
-                position: absolute;
+        .user-details {
+            display: table-cell;
+            height: 100%;
+            padding-left: 30px;
+            vertical-align: middle;
+            float: none;
 
-                .spinner-img {
-                    width: 30px;
-                    height: 30px;
-                    top: 50%;
-                    left: 50%;
-                    position: relative;
-                    margin-left: -15px;
-                    margin-top: -25px;
+            .username-container {
+                margin-bottom: 15px;
+
+                .user-username {
+                    display: inline-block;
+                    font-size: 30px;
                 }
             }
 
-            .user-profile-img {
-                height: 200px;
-                width: 200px;
-                z-index: 1;
-                position: relative;
+            .user-name {
+                margin-bottom: 15px;
             }
-        }
 
-        .account-details {
-            margin-top: 20px;
-            margin-bottom: 15px;
-
-            .user-username {
-                display: inline-block;
-                font-size: 30px;
+            .user-contents {
+                a {
+                    text-decoration: none;
+                    color: #333;
+                }
             }
-        }
-
-        .user-contents {
-            a {
-                text-decoration: none;
-                color: #333;
-            }
-        }
-
-        .user-name {
-            margin-bottom: 15px;
         }
     }
 }
@@ -404,18 +424,30 @@
         margin: 0 0 60px 0;
 
         .event-details {
-            display: table;
-            width: 100%;
+            @media (min-width: @screen-sm) {
+                display: table;
+                width: 100%;
 
-            .col-md-5 {
-                display: table-cell;
-                float: none;
+                .col-md-5 {
+                    display: table-cell;
+                    float: none;
+                }
+
+                .col-md-2 {
+                    display: table-cell;
+                    float: none;
+                    vertical-align: middle;
+                }
             }
 
-            .col-md-2 {
-                display: table-cell;
-                float: none;
-                vertical-align: middle;
+            @media (max-width: @screen-xs) {
+                .event-date-container {
+                    margin-bottom: 10px !important;
+                }
+
+                .event-location-container {
+                    margin-bottom: 20px !important;
+                }
             }
 
             .event-name {
@@ -443,12 +475,23 @@
                 .event-date > div {
                     display: inline-block;
                 }
+
+                span {
+                    margin-right: 10px;
+                }
             }
             
-            .event-location {
+            .event-location-container {
                 span {
+                    margin-right: 10px;
                     height: 40px;
                     line-height: 40px;
+                    vertical-align: top;
+                }
+
+                .event-location {
+                    margin: 0;
+                    display: inline-block;
                 }
             }
         }
@@ -592,9 +635,12 @@
 }
 
 .search-result-dropdown {
+    position: relative !important;
+
     .dropdown-menu {
         min-width: 300px;
         margin: 0;
+        left: -105px;
     }
 
     .scrollable-menu {
@@ -632,6 +678,7 @@
             margin-bottom: 10px;
 
             .user-profile-img {
+                width: 100%;
             }
 
             .user-details {
@@ -675,10 +722,13 @@
                     padding: 0;
 
                     span {
-                        padding: 0;
+                        line-height: 20px;
+                        vertical-align: top;
                     }
 
                     p {
+                        display: inline-block;
+                        margin: 0;
                         padding: 0;
                         white-space: nowrap;
                         overflow: hidden;

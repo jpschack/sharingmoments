@@ -6,8 +6,11 @@
         },
         "FILTER": {
             "EVENTS": {
-                "FROM": "from",
-                "TO": "to"
+                "DATE_FILTER": {
+                    "DATE_FILTER": "Date filter",
+                    "FROM": "from",
+                    "TO": "to"
+                }
             }
         },
         "RESULT": {

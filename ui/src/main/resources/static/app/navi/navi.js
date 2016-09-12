@@ -1,11 +1,11 @@
-angular.module('naviApp').controller('NaviActionsCtrl', function($scope, $rootScope, $state, $auth) {
+angular.module('naviApp').controller('NaviCtrl', function($scope, $state, $auth, $uibModal) {
+    $scope.isCollapsed = true;
+
     $scope.logout = function () {
         $auth.logout();
         $state.go('/');
     };
-});
 
-angular.module('naviApp').controller('NaviNewMomentsCtrl', function($scope, $uibModal) {
     $scope.openNewMomentsModal = function () {
         var modURL = 'app/navi/new-moments-modal.html';
         var newMomentsModal = $uibModal.open({ scope: $scope, templateUrl: modURL, controller: 'NewMomentsModalCtrl', windowClass: 'new-moments-modal' });
