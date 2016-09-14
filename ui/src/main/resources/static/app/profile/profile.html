@@ -1,9 +1,9 @@
-<div class="profile-page">
+<div class="profile-page" infinite-scroll="getPhotos()" infinite-scroll-distance="0" infinite-scroll-disabled="!userPhotos">
     <div class="row user-details-container">
         <div class="col-xs-4 col-sm-4 col-md-4 user-profile-img-container">
-            <a href="">
+            <a href="" ng-click="userImageAction()">
                 <div class="spinner-container" ng-show="userImageUpdating"><img class="spinner-img" src="/pix/spinner.gif" /></div>
-                <img class="media-object img-circle user-profile-img img-responsive" ng-src="{{user.userImage.url}}" ng-click="userImageAction()">
+                <img class="media-object img-circle user-profile-img img-responsive" ng-src="{{user.userImage.url}}">
             </a>
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8 user-details">
@@ -15,14 +15,19 @@
             </div>
             <div class="row"><div class="col-md-12 user-name" ng-bind="user.name"></div></div>
             <div class="row user-contents">
-                <div class="col-xs-6 col-sm-4 col-md-2"><a href=""><strong>0</strong> Photos</a></div>
-                <div class="col-xs-6 col-sm-4 col-md-2"><a href=""><strong>0</strong> Events</a></div>
+                <div class="col-xs-6 col-sm-4 col-md-3"><strong ng-bind="userPhotoPagination.totalElements"></strong> <span ng-bind="'PROFILE.NAVIGATION.PHOTOS' | translate"></span></div>
+                <div class="col-xs-6 col-sm-4 col-md-3"><a href="" ng-click="(userEventPagination.totalElements == 0) || showUserEvents()"><strong ng-bind="userEventPagination.totalElements"></strong> <span ng-bind="'PROFILE.NAVIGATION.EVENTS' | translate"></span></a></div>
             </div>
         </div>
     </div>
     <div class="row user-photos-container">
-        <div class="col-xs-12 col-sm-12 col-md-12 user-photos">
-            
+        <div ng-show="userPhotos">
+            <div class="col-xs-4 col-sm-4 col-md-4" ng-repeat="photo in userPhotos track by $index">
+                <a href="" ng-click="photoAction($index)">
+                    <span class="spinner-container" ng-show="photo.pending"><img class="spinner-img" src="/pix/spinner.gif" /></span>
+                    <img ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.url}} />
+                </a>
+            </div>
         </div>
     </div>
 </div>

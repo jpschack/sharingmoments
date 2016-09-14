@@ -73,8 +73,8 @@
             </div>
         </div>
         <div ng-show="event.photos || photosToUpload">
-            <div class="col-md-4" ng-repeat="photo in event.photos">
-                <a href="" ng-disabled="!showPhotosDeleteButton" ng-click="photoAction(photo)">
+            <div class="col-xs-4 col-sm-4 col-md-4" ng-repeat="photo in event.photos track by $index">
+                <a href="" ng-click="photoAction($index)">
                     <span class="spinner-container" ng-show="photo.pending"><img class="spinner-img" src="/pix/spinner.gif" /></span>
                     <img ng-if="photo.img" ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.img}} />
                     <img ng-if="!photo.img" ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.url}} />

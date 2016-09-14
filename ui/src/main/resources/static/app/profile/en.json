@@ -10,6 +10,10 @@
             "UPLOAD": "Upload photo",
             "DELETE_CURRENT": "Remove current photo",
             "CANCEL": "Cancel"
+        },
+        "EVENT_LIST_MODAL": {
+            "HEADLINE": "Events by",
+            "CLOSE": "Close"
         }
     }
 }

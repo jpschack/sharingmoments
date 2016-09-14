@@ -1,0 +1,38 @@
+<div class="event-list-modal" infinite-scroll="getEvents()" infinite-scroll-distance="0" infinite-scroll-disabled="!userEvents">
+    <div class="modal-header">
+        <h2 ng-bind="('PROFILE.EVENT_LIST_MODAL.HEADLINE' | translate) + ' ' + user.username"></h2>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="event in userEvents">
+                        <a ui-sref="event({ id : event.id })">
+                            <div class="row event-name-container">
+                                <div class="col-sm-12 col-md-12 event-name">
+                                    <p ng-bind="event.name"></p>
+                                </div>
+                            </div>
+                            <div class="row event-date-container">
+                                <div class="col-sm-12 col-md-12 event-date">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <div class="startDate" ng-bind="event.startDate|date:'longDate'"></div>
+                                    <div class="endDate" ng-show="event.multiDayEvent" ng-bind="' - ' + event.endDate|date:'longDate'"></div>
+                                </div>
+                            </div>
+                            <div class="row event-location-container" ng-show="event.googleLocation">
+                                <div class="col-sm-12 col-md-12">
+                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                    <p ng-bind="event.googleLocation.name"></p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" ng-click="close()" ng-bind="'PROFILE.EVENT_LIST_MODAL.CLOSE' | translate"></button>
+    </div>
+</div>

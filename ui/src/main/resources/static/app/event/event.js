@@ -170,7 +170,7 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
     };
 });
 
-angular.module('eventApp').controller('EventCtrl', function($scope, eventData, googleLocationData, eventPhotoData, $event, $fileHandler) {
+angular.module('eventApp').controller('EventCtrl', function($scope, eventData, googleLocationData, eventPhotoData, $event, $fileHandler, $modalPhotoViewSlider) {
     $scope.getPhotos = function () {
         if(!$scope.photoPagination.last && !$scope.isLoadingNewPhotos) {
             $scope.isLoadingNewPhotos = true;
@@ -181,11 +181,10 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
                     }
                     Array.prototype.unshift.apply($scope.event.photos, data.content);
                     $scope.photoPagination = { 'nextPage': (data.number + 1), 'size': data.size, 'last': data.last, 'totalElements': data.totalElements };
-                    $scope.isLoadingNewPhotos = false;
                 } else {
                     $scope.showPhotoPlaceholder = true;
-                    $scope.isLoadingNewPhotos = false;
                 }
+                $scope.isLoadingNewPhotos = false;
             }).catch(function (error) {
                 $scope.isLoadingNewPhotos = false;
             });
@@ -199,8 +198,8 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
         $scope.isLoadingNewPhotos = false;
         $scope.showPhotosDeleteButton = false;
         $scope.event = eventData;
-        $scope.googleLocationData = { 'name': googleLocationData.name, 'address': googleLocationData.formatted_address, 'url': googleLocationData.url };
-        
+        $scope.googleLocation = { 'name': googleLocationData.name, 'address': googleLocationData.formatted_address, 'url': googleLocationData.url };
+
         if (eventPhotoData) {
             if (eventPhotoData.content.length > 0) {
                 $scope.event.photos = eventPhotoData.content;
@@ -322,15 +321,21 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
         });
     };
 
-    $scope.photoAction = function (photo) {
-        if ($scope.showPhotosDeleteButton && photo.id) {
-            if (!photo.isSelected) {
-                photo.isSelected = true;
+    $scope.photoAction = function (index) {
+        if ($scope.showPhotosDeleteButton && $scope.event.photos[index].id) {
+            if (!$scope.event.photos[index].isSelected) {
+                $scope.event.photos[index].isSelected = true;
             } else {
-                photo.isSelected = false;
+                $scope.event.photos[index].isSelected = false;
             }
         } else if (!$scope.showPhotosDeleteButton) {
-            //open photo in full screen modal
+            $modalPhotoViewSlider.open({
+                index: index,
+                photos: $scope.event.photos,
+                pagination: $scope.photoPagination,
+                view: 'event',
+                parentModelId: $scope.event.id
+            });
         }
     };
 });
@@ -596,10 +601,10 @@ angular.module('eventApp').service('$event', function ($http) {
             return $http.get(url)
                 .then(
                     function (response) {
-                        if (response.data.content) {
+                        if (response.data) {
                             return response.data;
                         } else {
-                            return [];
+                            return null;
                         }
                 },
                 function (httpError) {

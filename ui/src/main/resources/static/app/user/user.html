@@ -1,26 +1,30 @@
-<div class="user-page">
+<div class="user-page" infinite-scroll="getPhotos()" infinite-scroll-distance="0" infinite-scroll-disabled="!userPhotos">
     <div class="row user-details-container">
         <div class="col-xs-4 col-sm-4 col-md-4 user-profile-img-container">
-            <a href="">
-                <img class="media-object img-circle img-responsive" ng-src="{{user.userImage.url}}">
+            <a href="" ng-click="!user.userImage.id || openUserImage()">
+                <img class="media-object img-circle user-profile-img img-responsive" ng-src="{{user.userImage.url}}">
             </a>
         </div>
-        <div class="col-xs-8 col-sm-6 col-md-8 user-details">
+        <div class="col-xs-8 col-sm-8 col-md-8 user-details">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 username-container">
+                <div class="col-md-12 account-details">
                     <div class="user-username" ng-bind="'@' + user.username"></div>
                 </div>
             </div>
-            <div class="row"><div class="col-xs-12 col-sm-12 col-md-12 user-name" ng-bind="user.name"></div></div>
+            <div class="row"><div class="col-md-12 user-name" ng-bind="user.name"></div></div>
             <div class="row user-contents">
-                <div class="col-xs-6 col-sm-4 col-md-2"><a href=""><strong>0</strong> Photos</a></div>
-                <div class="col-xs-6 col-sm-4 col-md-2"><a href=""><strong>0</strong> Events</a></div>
+                <div class="col-xs-6 col-sm-4 col-md-3"><strong ng-bind="userPhotoPagination.totalElements"></strong> <span ng-bind="'USER.NAVIGATION.PHOTOS' | translate"></span></div>
+                <div class="col-xs-6 col-sm-4 col-md-3"><a href="" ng-click="(userEventPagination.totalElements == 0) || showUserEvents()"><strong ng-bind="userEventPagination.totalElements"></strong> <span ng-bind="'USER.NAVIGATION.EVENTS' | translate"></span></a></div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 user-photos">
-            
+    <div class="row user-photos-container">
+        <div ng-show="userPhotos">
+            <div class="col-xs-4 col-sm-4 col-md-4" ng-repeat="photo in userPhotos track by $index">
+                <a href="" ng-click="openPhotoSlider($index)">
+                    <img class="img-responsive" ng-src={{photo.url}} />
+                </a>
+            </div>
         </div>
     </div>
 </div>

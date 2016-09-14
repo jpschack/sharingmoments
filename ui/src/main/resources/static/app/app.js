@@ -4,13 +4,13 @@ angular.module('loginApp', ['authService', 'pascalprecht.translate']);
 angular.module('signupApp', ['app.services', 'pascalprecht.translate']);
 angular.module('resetPassword', ['app.services', 'authService', 'pascalprecht.translate']);
 angular.module('updatePassword', ['app.services', 'authService', 'pascalprecht.translate', 'app.directives']);
-angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'app.directives']);
+angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'app.directives', 'infinite-scroll', 'modalPhotoViewSilderApp']);
 angular.module('accountApp', ['app.services', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'ngMessages', 'pascalprecht.translate', 'app.directives']);
 angular.module('photoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('modalPhotoViewApp', ['app.services']);
 angular.module('searchApp', ['pascalprecht.translate', 'googleLocationServices', 'app.services']);
-angular.module('userApp', ['app.controllers']);
-angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll']);
+angular.module('userApp', ['app.controllers', 'app.services', 'infinite-scroll', 'modalPhotoViewSilderApp']);
+angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll', 'modalPhotoViewSilderApp']);
 angular.module('errorApp', []);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);
 angular.module('googleLocationServices', []);
@@ -18,6 +18,7 @@ angular.module('authService', ['ngCookies']);
 angular.module('app.controllers', []);
 angular.module('app.directives', []);
 angular.module('fileHandler', []);
+angular.module('modalPhotoViewSilderApp', ['ui.bootstrap']);
 
 
 angular.module('sharingMomentsApp',
@@ -44,7 +45,8 @@ angular.module('sharingMomentsApp',
         'app.controllers',
         'app.directives',
         'ngCookies',
-        'authService'
+        'authService',
+        'modalPhotoViewSilderApp'
     ]
 );
 
@@ -109,6 +111,12 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             resolve: {
                 userData: function ($account) {
                     return $account.getUserData();
+                },
+                userPhotoData: function ($user, userData) {
+                    return $user.getPhotos(userData.id, 0, 9);
+                },
+                userEventData: function ($user, userData) {
+                    return $user.getEvents(userData.id, 0, 5);
                 }
             },
             data: {
@@ -130,10 +138,16 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
             resolve: {
                 userData: function ($user, $stateParams) {
                     return $user.getById($stateParams.id);
+                },
+                userPhotoData: function ($user, userData) {
+                    return $user.getPhotos(userData.id, 0, 9);
+                },
+                userEventData: function ($user, userData) {
+                    return $user.getEvents(userData.id, 0, 5);
                 }
             },
             data: {
-                i18n: ['index', 'user']
+                i18n: ['index', 'user', 'profile']
             }
         })
         .state('event', {
