@@ -18,7 +18,7 @@ public class MailConfig {
 	@Autowired
     private Environment env;
 	
-	@Bean
+	@Bean(name="MailSender")
     public JavaMailSenderImpl javaMailSenderImpl() {
         final JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
         mailSenderImpl.setHost(env.getProperty("mail.host"));

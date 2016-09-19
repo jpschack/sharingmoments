@@ -7,9 +7,8 @@ import com.sharingmoments.resource.persistence.model.UserImage;
 
 
 public interface UserImageRepository extends JpaRepository<UserImage, Long> {
-	
-    @Override
-    void delete(UserImage userImage);
+	@Override
+	void delete(UserImage userImage);
     
     UserImage findByUser(User user);
 }

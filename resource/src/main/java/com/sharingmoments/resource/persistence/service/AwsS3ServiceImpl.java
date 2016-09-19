@@ -14,7 +14,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 
-@PropertySource({ "classpath:amazonS3.properties" })
+@PropertySource({ "classpath:application.properties" })
 @Service
 public class AwsS3ServiceImpl implements AwsS3Service {
 	
@@ -27,10 +27,10 @@ public class AwsS3ServiceImpl implements AwsS3Service {
 	public void uploadFile(InputStream is, String objectKey) {
 		ObjectMetadata metaData = new ObjectMetadata();
 		
-		s3client.putObject(new PutObjectRequest(env.getProperty("aws.bucket.name"), objectKey, is, metaData).withCannedAcl(CannedAccessControlList.PublicRead));
+		s3client.putObject(new PutObjectRequest(env.getProperty("cloud.aws.s3.bucket.name"), objectKey, is, metaData).withCannedAcl(CannedAccessControlList.PublicRead));
 	}
 	
 	public void deleteFile(String objectKey) {
-		s3client.deleteObject(new DeleteObjectRequest(env.getProperty("aws.bucket.name"), objectKey));
+		s3client.deleteObject(new DeleteObjectRequest(env.getProperty("cloud.aws.s3.bucket.name"), objectKey));
 	}
 }

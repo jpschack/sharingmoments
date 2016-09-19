@@ -12,7 +12,7 @@ Backend:
 * JJWT
 * Zuul
 * wro4j
-* AWS S3
+* AWS S3 and RDS
 
 Frontend:
 * Bootstrap 3
@@ -25,36 +25,32 @@ Frontend:
 The project is still in development.
 
 Next features / tasks to fulfill:
-* Drag & Drop Upload for Photos
-* Finish Templates: User, Profile, Event, Index
-* Integrating GruntJS / Bower
 * FB Login
-* Logger / Log4j2
-* Seperate Development / Production Configs
 
 ## Setup / Pre-Configuration
 
-### Database
+### Database - AWS RDS
 
-Run a local mysql server on port 3306 with a database 'sharingmoments'.
-Fill out the database configs for the server:
-* jdbc.user
-* jdbc.pass
+Create an AWS RDS Instance and fill out the missing server configs:
+* cloud.aws.credentials.accessKey
+* cloud.aws.credentials.secretKey
+* cloud.aws.rds.database.name
+* cloud.aws.rds.database.password
+* cloud.aws.rds.database.instance.id
+* cloud.aws.region.static
 
 You find these config files at:
-* /sharing-moments/authserver/src/main/resources/persistence.properties
-* /sharing-moments/resource/src/main/resources/persistence.properties
+* /sharing-moments/authserver/src/main/resources/application.properties
+* /sharing-moments/resource/src/main/resources/application.properties
 
 ### AWS S3
 
 Create an AWS S3 Instance and fill out the missing server configs:
-* aws.access.key.id
-* aws.secret.access.key
-* aws.bucket.name
-* aws.region.url
+* cloud.aws.s3.bucket.name
+* cloud.aws.s3.region.url
 
 You find the config file at:
-/sharing-moments/resource/src/main/resources/amazonS3.properties
+/sharing-moments/resource/src/main/resources/application.properties
 
 ### SMTP / Mail
 

@@ -55,7 +55,7 @@ public class User {
     @OneToOne(fetch=FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL)
     private VerificationToken verificationToken;
     
-    @OneToOne(fetch=FetchType.LAZY, mappedBy="user", cascade = CascadeType.ALL)
+    @OneToOne(fetch=FetchType.LAZY, mappedBy="user", cascade=CascadeType.ALL)
     @JsonManagedReference
     private UserImage userImage;
 

@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,8 @@ import com.sharingmoments.resource.persistence.model.User;
 import com.sharingmoments.resource.persistence.model.UserImage;
 import com.sharingmoments.resource.persistence.service.AwsS3Service;
 import com.sharingmoments.resource.persistence.service.UserImageService;
+import com.sharingmoments.resource.persistence.service.UserService;
 import com.sharingmoments.resource.security.CurrentUser;
-import com.sharingmoments.resource.security.UserDetailsImpl;
-
 
 
 @RestController
@@ -39,11 +37,12 @@ public class UserImageController {
 	@Autowired
     private UserImageService userImageService;
 	
-	static Logger logger = Logger.getLogger(UserImageController.class.getName());
+	@Autowired
+    private UserService userService;
 	
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
 	public UserImage uploadUserImage(final Locale locale, @RequestParam("file") MultipartFile file, @CurrentUser Authentication authentication) {
-		User user = (User) authentication.getPrincipal();
+		final User user = getUserByAuth(authentication);
 		
 		try {
 			UserImage userImage = userImageService.getUserImageByUser(user);
@@ -64,12 +63,16 @@ public class UserImageController {
 	
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteUserImage(final Locale locale, @CurrentUser Authentication authentication) {
-		UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+		final User user = getUserByAuth(authentication);
 		UserImage userImage = userImageService.getUserImageByUser(user);
 		
 		if (userImage != null) {
 			awsS3Service.deleteFile(userImage.getObjectKey());
+			
+			user.setUserImage(null);
+			userService.saveRegisteredUser(user);
 			userImageService.deleteUserImage(userImage);
+			
 			return ResponseEntity.ok(null);
 		} else {
 			throw new ResourceNotFoundException();
@@ -84,11 +87,16 @@ public class UserImageController {
 		
 		awsS3Service.uploadFile(is, objectKey);
 		
-		String url = env.getProperty("aws.region.url") + env.getProperty("aws.bucket.name") + "/" + objectKey;
+		String url = env.getProperty("cloud.aws.s3.region.url") + env.getProperty("cloud.aws.s3.bucket.name") + "/" + objectKey;
 		
 		userImage.setObjectKey(objectKey);
 		userImage.setUrl(url);
 		
 		return userImageService.saveUserImage(userImage);
+	}
+	
+	private User getUserByAuth(Authentication authentication) {
+		final User principal = (User) authentication.getPrincipal();
+		return userService.getUserByID(principal.getId());
 	}
 }

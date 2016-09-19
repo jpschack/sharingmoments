@@ -159,7 +159,7 @@ public class EventController {
 				
 				awsS3Service.uploadFile(is, objectKey);
 				
-				final String url = env.getProperty("aws.region.url") + env.getProperty("aws.bucket.name") + "/" + objectKey;
+				final String url = env.getProperty("cloud.aws.s3.region.url") + env.getProperty("cloud.aws.s3.bucket.name") + "/" + objectKey;
 				
 				Photo photo = new Photo();
 				photo.setObjectKey(objectKey);
