@@ -5,7 +5,6 @@
 	<groupId>com.sharingmoments</groupId>
 	<artifactId>sm-resource</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>SM Resource</name>
 	<description>Sharing Moments Resource Server</description>
@@ -246,4 +245,5 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	<packaging>war</packaging>
 </project>
