@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sharingmoments.resource.error.ForbiddenException;
-import com.sharingmoments.resource.persistence.dto.UserUpdateDto;
-import com.sharingmoments.resource.persistence.model.User;
-import com.sharingmoments.resource.persistence.service.UserService;
-import com.sharingmoments.resource.security.CurrentUser;
-import com.sharingmoments.resource.util.GenericResponse;
-import com.sharingmoments.resource.util.JsonArg;
+import com.sharingmoments.core.error.ForbiddenException;
+import com.sharingmoments.core.persistence.dto.UserUpdateDto;
+import com.sharingmoments.core.persistence.model.User;
+import com.sharingmoments.core.persistence.service.UserService;
+import com.sharingmoments.core.security.CurrentUser;
+import com.sharingmoments.core.util.GenericResponse;
+import com.sharingmoments.core.util.JsonArg;
 
 
 

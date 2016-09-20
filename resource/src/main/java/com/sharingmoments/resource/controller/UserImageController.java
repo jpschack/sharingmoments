@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sharingmoments.resource.error.ResourceNotFoundException;
-import com.sharingmoments.resource.persistence.model.User;
-import com.sharingmoments.resource.persistence.model.UserImage;
-import com.sharingmoments.resource.persistence.service.AwsS3Service;
-import com.sharingmoments.resource.persistence.service.UserImageService;
-import com.sharingmoments.resource.persistence.service.UserService;
-import com.sharingmoments.resource.security.CurrentUser;
+import com.sharingmoments.core.error.ResourceNotFoundException;
+import com.sharingmoments.core.persistence.model.User;
+import com.sharingmoments.core.persistence.model.UserImage;
+import com.sharingmoments.core.persistence.service.AwsS3Service;
+import com.sharingmoments.core.persistence.service.UserImageService;
+import com.sharingmoments.core.persistence.service.UserService;
+import com.sharingmoments.core.security.CurrentUser;
 
 
 @RestController

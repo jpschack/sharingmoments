@@ -16,9 +16,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.sharingmoments.resource.security.MyUserDetailsService;
-import com.sharingmoments.resource.security.StatelessAuthenticationFilter;
-import com.sharingmoments.resource.security.TokenAuthenticationService;
+import com.sharingmoments.core.security.MyUserDetailsService;
+import com.sharingmoments.core.security.StatelessAuthenticationFilter;
+import com.sharingmoments.core.security.StatelessLoginFilter;
+import com.sharingmoments.core.security.TokenAuthenticationService;
 
 
 @Configuration

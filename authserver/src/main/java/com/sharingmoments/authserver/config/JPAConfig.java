@@ -19,11 +19,11 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.sharingmoments.resource.persistence.service.AwsS3ServiceImpl;
+import com.sharingmoments.core.persistence.service.AwsS3ServiceImpl;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.sharingmoments.resource.persistence.doa")
-@ComponentScan(basePackages = { "com.sharingmoments.resource.persistence.service", "com.sharingmoments.resource.security" }, excludeFilters = { @ComponentScan.Filter(value = AwsS3ServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE) })
+@EnableJpaRepositories(basePackages = "com.sharingmoments.core.persistence.doa")
+@ComponentScan(basePackages = { "com.sharingmoments.core.persistence.service", "com.sharingmoments.core.security" }, excludeFilters = { @ComponentScan.Filter(value = AwsS3ServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE) })
 @EnableTransactionManagement
 public class JPAConfig {
 	@Autowired
@@ -33,7 +33,7 @@ public class JPAConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource);
-		em.setPackagesToScan(new String[] { "com.sharingmoments.resource.persistence.model" });
+		em.setPackagesToScan(new String[] { "com.sharingmoments.core.persistence.model" });
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		em.setJpaProperties(additionalProperties());

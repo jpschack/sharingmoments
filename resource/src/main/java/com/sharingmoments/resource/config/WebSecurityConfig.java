@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.sharingmoments.resource.security.StatelessAuthenticationFilter;
-import com.sharingmoments.resource.security.TokenAuthenticationService;
+import com.sharingmoments.core.security.StatelessAuthenticationFilter;
+import com.sharingmoments.core.security.TokenAuthenticationService;
 
 
 @Configuration

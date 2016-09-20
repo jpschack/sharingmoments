@@ -7,8 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.sharingmoments.resource.util.JsonPathArgumentResolver;
-
+import com.sharingmoments.core.util.JsonPathArgumentResolver;
 
 @Configuration
 @EnableWebMvc

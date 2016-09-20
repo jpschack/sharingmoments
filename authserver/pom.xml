@@ -37,7 +37,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.sharingmoments</groupId>
-			<artifactId>sm-resource</artifactId>
+			<artifactId>sm-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
@@ -117,16 +117,6 @@
 		<dependency>
 		    <groupId>com.sun.mail</groupId>
 		    <artifactId>javax.mail</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.6.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>1.3.2</version>
 		</dependency>
 		<dependency>
 		   <groupId>org.slf4j</groupId>

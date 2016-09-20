@@ -24,19 +24,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sharingmoments.resource.error.ForbiddenException;
-import com.sharingmoments.resource.error.ResourceNotFoundException;
-import com.sharingmoments.resource.persistence.dto.EventDto;
-import com.sharingmoments.resource.persistence.model.Event;
-import com.sharingmoments.resource.persistence.model.Location;
-import com.sharingmoments.resource.persistence.model.Photo;
-import com.sharingmoments.resource.persistence.model.User;
-import com.sharingmoments.resource.persistence.service.AwsS3Service;
-import com.sharingmoments.resource.persistence.service.EventService;
-import com.sharingmoments.resource.persistence.service.LocationService;
-import com.sharingmoments.resource.persistence.service.PhotoService;
-import com.sharingmoments.resource.persistence.service.UserService;
-import com.sharingmoments.resource.security.CurrentUser;
+import com.sharingmoments.core.error.ForbiddenException;
+import com.sharingmoments.core.error.ResourceNotFoundException;
+import com.sharingmoments.core.persistence.dto.EventDto;
+import com.sharingmoments.core.persistence.model.Event;
+import com.sharingmoments.core.persistence.model.Location;
+import com.sharingmoments.core.persistence.model.Photo;
+import com.sharingmoments.core.persistence.model.User;
+import com.sharingmoments.core.persistence.service.AwsS3Service;
+import com.sharingmoments.core.persistence.service.EventService;
+import com.sharingmoments.core.persistence.service.LocationService;
+import com.sharingmoments.core.persistence.service.PhotoService;
+import com.sharingmoments.core.persistence.service.UserService;
+import com.sharingmoments.core.security.CurrentUser;
 
 
 @RestController
