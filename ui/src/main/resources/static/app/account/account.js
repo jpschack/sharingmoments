@@ -4,22 +4,16 @@ angular.module('accountApp').controller('AccountCtrl', function($scope, userData
     }
 });
 
-angular.module('accountApp').controller('EditAccountCtrl', function($scope, $account, $uibModal, $translate) {
+angular.module('accountApp').controller('EditAccountCtrl', function($scope, $account, $uibModal) {
     $scope.saveAccount = function() {
         if ($scope.accountForm.$valid) {
             $account.updateUserData(JSON.stringify($scope.user)).then(function (user) {
                 $scope.user = user;
 
-                $translate('ACCOUNT.NAVIGATION.ACCOUNT.UPDATE_SUCCESS')
-                .then(function (translatedValue) {
-                    alertService('success', translatedValue);
-                });
+                alertService('success', 'ACCOUNT.NAVIGATION.ACCOUNT.UPDATE_SUCCESS');
             }).catch(function (error) {
                 if (error.status === 403) {
-                    $translate('ACCOUNT.REQUEST_ERROR.CLIENT_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'ACCOUNT.REQUEST_ERROR.CLIENT_ERROR');
                     
                     if (error.data.errorList != null && error.data.errorList.length > 0) {
                         for (var i = 0; i < error.data.errorList.length; i++) {
@@ -31,10 +25,7 @@ angular.module('accountApp').controller('EditAccountCtrl', function($scope, $acc
                         }
                     }
                 } else {
-                    $translate('ACCOUNT.REQUEST_ERROR.SERVER_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'ACCOUNT.REQUEST_ERROR.SERVER_ERROR');
                 }
             });
         }
@@ -97,27 +88,18 @@ angular.module('accountApp').directive('bootstrapSwitch', function($account) {
     };
 });
 
-angular.module('accountApp').controller('PasswordCtrl', function($scope, $account, $translate) {
+angular.module('accountApp').controller('PasswordCtrl', function($scope, $account) {
     $scope.changePassword = function() {
         if ($scope.passwordForm.$valid) {
             var passwordParams = { 'oldPassword': $scope.oldPassword, 'password': $scope.password };
             $account.updateUserPassword(JSON.stringify(passwordParams)).then(function () {
-                $translate('ACCOUNT.NAVIGATION.PASSWORD.UPDATE_SUCCESS')
-                .then(function (translatedValue) {
-                    alertService('success', translatedValue);
-                });
+                alertService('success', 'ACCOUNT.NAVIGATION.PASSWORD.UPDATE_SUCCESS');
             }).catch(function (error) {
                 if (error.status === 403) {
-                    $translate('ACCOUNT.REQUEST_ERROR.CLIENT_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'ACCOUNT.REQUEST_ERROR.CLIENT_ERROR');
                     $scope.passwordForm.oldPassword.$setValidity("incorrect", false);
                 } else {
-                    $translate('ACCOUNT.REQUEST_ERROR.SERVER_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'ACCOUNT.REQUEST_ERROR.SERVER_ERROR');
                 }
             });
         }

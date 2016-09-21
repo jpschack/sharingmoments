@@ -1,4 +1,4 @@
-angular.module('searchApp').controller('SearchListCtrl', function ($scope, $rootScope, $stateParams, $search, $translate, $modalSinglePhotoView, $googleLocationService) {
+angular.module('searchApp').controller('SearchListCtrl', function ($scope, $rootScope, $stateParams, $search, $modalSinglePhotoView, $googleLocationService) {
     var searchForUsers = function (q) {
         $search.searchForUsers(q, 0, 20).then(function (userList) {
             $scope.userList = userList;
@@ -30,21 +30,12 @@ angular.module('searchApp').controller('SearchListCtrl', function ($scope, $root
         });
     };
 
-    var setSearchInputPlaceholder = function (key) {
-        $translate(key)
-        .then(function (translatedValue) {
-            $scope.searchInputPlaceholder = translatedValue;
-        });
-    };
-
     $scope.setTab = function (tabId) {
         $scope.tab = tabId;
         if (tabId == 1) {
-            setSearchInputPlaceholder('SEARCH.INPUT.PLACEHOLDER_USERS');
             searchForUsers($scope.searchInput);
             
         } else if (tabId == 2) {
-            setSearchInputPlaceholder('SEARCH.INPUT.PLACEHOLDER_EVENTS');
             searchForEvents($scope.searchInput);
         }
     };

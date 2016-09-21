@@ -1,30 +1,18 @@
-angular.module('resetPassword').controller('ResetPasswordCtrl', function($scope, $auth, $translate) {
+angular.module('resetPassword').controller('ResetPasswordCtrl', function($scope, $auth) {
     $scope.resetPassword = function() {
         if ($scope.resetPasswordForm.$valid) {
             var params = { 'email': $scope.email };
             $auth.resetPassword(params).then(function (status) {
                 if (status) {
-                    $translate('RESETPASSWORD.SUCCESS')
-                    .then(function (translatedValue) {
-                        alertService('success', translatedValue);
-                    });
+                    alertService('success', 'RESETPASSWORD.SUCCESS');
                 } else {
-                    $translate('RESETPASSWORD.REQUEST_ERROR.SERVER_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'RESETPASSWORD.REQUEST_ERROR.SERVER_ERROR');
                 }
             }).catch(function (error) {
                 if (error.status === 404) {
-                    $translate('RESETPASSWORD.REQUEST_ERROR.SERVER_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'RESETPASSWORD.REQUEST_ERROR.SERVER_ERROR');
                 } else {
-                    $translate('RESETPASSWORD.REQUEST_ERROR.SERVER_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'RESETPASSWORD.REQUEST_ERROR.SERVER_ERROR');
                 }
             });
         }

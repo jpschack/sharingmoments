@@ -1,4 +1,4 @@
-angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $rootScope, $state, $uibModalInstance, $googleLocationService, $geoLocationService, $event, $translate, $dateEncoder) {
+angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $rootScope, $state, $uibModalInstance, $googleLocationService, $geoLocationService, $event, $dateEncoder) {
     $uibModalInstance.opened.then(function() {
         $scope.showLocationDropdown = false;
         $rootScope.$emit("newEventModalLoaded", {});
@@ -82,16 +82,10 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
                     $scope.cancel();
                     $state.go('event', { 'id': event.id });
                 }).catch(function (error) {
-                    $translate('INDEX.NAVIGATION.NEW_EVENT_MODAL.REQUEST_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'INDEX.NAVIGATION.NEW_EVENT_MODAL.REQUEST_ERROR');
                 });
             } else {
-                $translate('INDEX.NAVIGATION.NEW_EVENT_MODAL.VALIDATION.LOCATION')
-                .then(function (translatedValue) {
-                    alertService('danger', translatedValue);
-                });
+                alertService('danger', 'INDEX.NAVIGATION.NEW_EVENT_MODAL.VALIDATION.LOCATION');
             }
         }
     };
@@ -340,7 +334,7 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
     };
 });
 
-angular.module('eventApp').controller('EditEventCtrl', function($scope, eventData, googleLocationData, geoLocationData, $event, $googleLocationService, $geoLocationService, $translate, $dateEncoder, $uibModal) {
+angular.module('eventApp').controller('EditEventCtrl', function($scope, eventData, googleLocationData, geoLocationData, $event, $googleLocationService, $geoLocationService, $dateEncoder, $uibModal) {
     var init = function () {
         $scope.event = eventData;
         $scope.event.location.name = googleLocationData.name;
@@ -416,15 +410,9 @@ angular.module('eventApp').controller('EditEventCtrl', function($scope, eventDat
                 var location = { 'googleLocationID': $scope.selectedLocation.place_id };
                 var event = { 'id': $scope.event.id, 'name': $scope.event.name, 'description': $scope.event.description, 'startDate': $dateEncoder.formatDate($scope.event.startDate), 'endDate': $dateEncoder.formatDate($scope.event.endDate), 'multiDayEvent': $scope.event.multiDayEvent, 'location': location };
                 $event.updateEvent(event).then(function (event) {
-                    $translate('EVENT.EDIT.REQUEST_SUCCESS')
-                    .then(function (translatedValue) {
-                        alertService('success', translatedValue);
-                    });
+                    alertService('success', 'EVENT.EDIT.REQUEST_SUCCESS');
                 }).catch(function (error) {
-                    $translate('EVENT.EDIT.REQUEST_ERROR')
-                    .then(function (translatedValue) {
-                        alertService('danger', translatedValue);
-                    });
+                    alertService('danger', 'EVENT.EDIT.REQUEST_ERROR');
                 });
             }
         }

@@ -4,7 +4,7 @@
             <form name="signupForm">
                 <h2 ng-bind="'SIGNUP.HEADLINE' | translate"></h2>
                 <div class="request-error" ng-show="alert">
-                    <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg"></div>
+                    <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg | translate"></div>
                 </div>
                 <div class="signup-inputs">
                     <div class="form-group" ng-class="{'has-error': signupForm.email.$invalid && signupForm.email.$dirty}">

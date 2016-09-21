@@ -12,7 +12,7 @@
                 <div class="edit-account-details-container" ng-controller="EditAccountCtrl">
                     <form class="account-form form-horizontal" name="accountForm">
                         <div class="request-error" ng-show="alert">
-                            <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg"></div>
+                            <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg | translate"></div>
                         </div>
                         <div class="form-group" ng-class="{'has-error': accountForm.email.$invalid && accountForm.email.$dirty}">
                             <label for="email" class="col-md-3 control-label" ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.EMAIL' | translate"></label>

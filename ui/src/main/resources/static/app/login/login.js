@@ -1,4 +1,4 @@
-angular.module('loginApp').controller('LoginCtrl', function($scope, $state, $auth, $translate) {
+angular.module('loginApp').controller('LoginCtrl', function($scope, $state, $auth) {
     $scope.login = function() {
         var params = { 'username': $scope.username, 'password': $scope.password };
         
@@ -6,22 +6,13 @@ angular.module('loginApp').controller('LoginCtrl', function($scope, $state, $aut
             if (status) {
                 $state.go('/');
             } else {
-                $translate('SIGNIN.REQUEST_ERROR.SERVER_ERROR')
-                .then(function (translatedValue) {
-                    alertService('danger', translatedValue);
-                });
+                alertService('danger', 'SIGNIN.REQUEST_ERROR.SERVER_ERROR');
             }
         }).catch(function (error) {
             if (error.status === 401) {
-                $translate('SIGNIN.REQUEST_ERROR.CLIENT_ERROR')
-                .then(function (translatedValue) {
-                    alertService('danger', translatedValue);
-                });
+                alertService('danger', 'SIGNIN.REQUEST_ERROR.CLIENT_ERROR');
             } else {
-                $translate('SIGNIN.REQUEST_ERROR.SERVER_ERROR')
-                .then(function (translatedValue) {
-                    alertService('danger', translatedValue);
-                });
+                alertService('danger', 'SIGNIN.REQUEST_ERROR.SERVER_ERROR');
             }
 
             $scope.password = null;

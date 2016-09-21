@@ -4,7 +4,7 @@
             <h2 ng-bind="'SIGNIN.HEADLINE' | translate"></h2>
             <form name="signinForm">
                 <div class="request-error" ng-show="alert">
-                    <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg"></div>
+                    <div uib-alert ng-class="'alert-' + (alert.type)" close="closeAlert()" ng-bind="alert.msg | translate"></div>
                 </div>
                 <div class="input-group input-field">
                     <span class="input-group-addon" id="email-addon">@</span>

@@ -1,4 +1,4 @@
-angular.module('updatePassword').controller('UpdatePasswordCtrl', function($scope, $state, $stateParams, $auth, $translate) {
+angular.module('updatePassword').controller('UpdatePasswordCtrl', function($scope, $state, $stateParams, $auth) {
     if (!$stateParams.id || !$stateParams.token) {
         $state.go('/');
     }
@@ -8,25 +8,19 @@ angular.module('updatePassword').controller('UpdatePasswordCtrl', function($scop
             var requestObject = {'password' : $scope.password, 'id': $stateParams.id, 'token': $stateParams.token };
 
             $auth.updatePassword(requestObject).then(function (response) {
-                $translate('UPDATEPASSWORD.SUCCESS')
-                .then(function (translatedValue) {
-                    alertService('success', translatedValue);
-                });
+                alertService('success', 'UPDATEPASSWORD.SUCCESS');
                 $scope.passwordChangedSuccessfull = true;
             }).catch(function (error) {
-                $translate('UPDATEPASSWORD.REQUEST_ERROR.SERVER_ERROR')
-                .then(function (translatedValue) {
-                    alertService('danger', translatedValue);
-                });
+                alertService('danger', 'UPDATEPASSWORD.REQUEST_ERROR.SERVER_ERROR');
             });
         }
-    }
+    };
 
     var alertService = function (type, msg) {
         $scope.alert = { 'type': type, 'msg': msg };
-    }
+    };
     
     $scope.closeAlert = function () {
         $scope.alert = undefined;
-    }
+    };
 });
