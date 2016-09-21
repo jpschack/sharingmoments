@@ -63,6 +63,13 @@ Then fill out the missing config parameter:
 You find the config file at:
 /sharing-moments/authserver/src/main/resources/email.properties
 
+### Additional Config Properties
+
+* sm.ui.baseUrl (e.g. http://localhost:8080)
+
+You find this config file at:
+* /sharing-moments/authserver/src/main/resources/application.properties
+
 ### Dependency
 
 Please also note that the auth module needs the resource module as an dependency:

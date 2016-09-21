@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -63,6 +64,9 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
     private MessageSource messages;
 	
 	@Autowired
+    private Environment env;
+	
+	@Autowired
     private EmailSender htmlMailSender;
 	
 	
@@ -76,8 +80,13 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
 		} catch (UsernameExistsException e) {
 			throw new UserAlreadyExistException(e.getMessage(), e.getMessageKey(), e);
 		}
+
+        String serverPort = "";
+        if (request.getServerPort() != 80) {
+            serverPort = ":" + request.getServerPort();
+        }
         
-        final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        final String appUrl = "http://" + request.getServerName() + serverPort + request.getContextPath();
         eventPublisher.publishEvent(new RegistrationCompleteEvent(user, request.getLocale(), appUrl));
         
         final UserDetails authenticatedUser = userDetailsService.loadUserByUsername(user.getEmail());
@@ -92,19 +101,19 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
         final VerificationToken verificationToken = userService.getVerificationToken(token);
         
         if (verificationToken == null) {
-            return "redirect:http://localhost:8080/";
+            return "redirect:" + env.getProperty("sm.ui.baseUrl");
         }
 
         final User user = verificationToken.getUser();
         final Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "redirect:http://localhost:8080/";
+            return "redirect:" + env.getProperty("sm.ui.baseUrl");
         }
 
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
         
-        return "redirect:http://localhost:8080/?registrationConfirm=succeeded";
+        return "redirect:" + env.getProperty("sm.ui.baseUrl") + "/?registrationConfirm=succeeded";
     }
     
     @RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
@@ -112,7 +121,12 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
     public @ResponseBody ResponseEntity<?> resendRegistrationToken(final HttpServletRequest request, @RequestParam("token") final String existingToken) {
         final VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
         final User user = userService.getUser(newToken.getToken());
-        final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String serverPort = "";
+        if (request.getServerPort() != 80) {
+        	serverPort = ":" + request.getServerPort();
+        }
+        
+        final String appUrl = "http://" + request.getServerName() + serverPort + request.getContextPath();
         
         final String to = user.getEmail();
         final String subject = messages.getMessage("email.signup.subject", null, request.getLocale());
@@ -148,12 +162,17 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
             throw new UserNotFoundException();
         }
 
+        String serverPort = "";
+        if (request.getServerPort() != 80) {
+            serverPort = ":" + request.getServerPort();
+        }
+
         final String token = UUID.randomUUID().toString();
         userService.createPasswordResetTokenForUser(user, token);
         
         final String to = user.getEmail();
         final String subject = messages.getMessage("email.reset.password.subject", null, request.getLocale());
-        final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        final String appUrl = "http://" + request.getServerName() + serverPort + request.getContextPath();
         final String resetUrl = appUrl + "/account/changePassword?id=" + user.getId() + "&token=" + token;
         
         String address = messages.getMessage("email.address", null, request.getLocale());
@@ -180,10 +199,10 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
     	
         final User user = getUserByPasswordResetToken(token, id);
         if (user == null) {
-            return "redirect:http://localhost:8080/?redirectUrl=updatePassword&status=badtoken";
+            return "redirect:" + env.getProperty("sm.ui.baseUrl") + "/?redirectUrl=updatePassword&status=badtoken";
         }
         
-        return "redirect:http://localhost:8080/?redirectUrl=updatePassword&status=succeeded&id=" + id + "&token=" + token;
+        return "redirect:" + env.getProperty("sm.ui.baseUrl") + "/?redirectUrl=updatePassword&status=succeeded&id=" + id + "&token=" + token;
     }
     
     @RequestMapping(value = "/savePassword", method = RequestMethod.POST)
