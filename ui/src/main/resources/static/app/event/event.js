@@ -164,7 +164,7 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
     };
 });
 
-angular.module('eventApp').controller('EventCtrl', function($scope, eventData, googleLocationData, eventPhotoData, $event, $fileHandler, $modalPhotoViewSlider) {
+angular.module('eventApp').controller('EventCtrl', function($scope, eventData, userHasRightsToEdit, googleLocationData, eventPhotoData, $event, $fileHandler, $modalPhotoViewSlider) {
     $scope.getPhotos = function () {
         if(!$scope.photoPagination.last && !$scope.isLoadingNewPhotos) {
             $scope.isLoadingNewPhotos = true;
@@ -190,7 +190,8 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
         $scope.invalidPhotos = null;
         $scope.photoPagination = { 'nextPage': 1, 'size': 10, 'lastPage': true };
         $scope.isLoadingNewPhotos = false;
-        $scope.showPhotosDeleteButton = false;
+        $scope.photoEditButtonEnabled = false;
+        $scope.photosSelected = 0;
         $scope.event = eventData;
         $scope.googleLocation = { 'name': googleLocationData.name, 'address': googleLocationData.formatted_address, 'url': googleLocationData.url };
 
@@ -201,6 +202,10 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
                 $scope.showPhotoPlaceholder = true;
             }
             $scope.photoPagination = { 'nextPage': (eventPhotoData.number + 1), 'size': eventPhotoData.size, 'last': eventPhotoData.last, 'totalElements': eventPhotoData.totalElements };
+        }
+
+        if (userHasRightsToEdit) {
+            $scope.userHasRightsToEdit = true;
         }
     };
     init();
@@ -296,10 +301,11 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
     });
 
     $scope.enableEdit = function () {
-        $scope.showPhotosDeleteButton = !$scope.showPhotosDeleteButton;
+        $scope.photoEditButtonEnabled = !$scope.photoEditButtonEnabled;
     };
 
     $scope.deletePhotos = function () {
+        $scope.photosSelected = 0;
         angular.forEach($scope.event.photos, function(photo, key) {
             if (photo.isSelected) {
                 photo.pending = true;
@@ -316,13 +322,15 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, g
     };
 
     $scope.photoAction = function (index) {
-        if ($scope.showPhotosDeleteButton && $scope.event.photos[index].id) {
+        if ($scope.photoEditButtonEnabled && $scope.event.photos[index].id) {
             if (!$scope.event.photos[index].isSelected) {
                 $scope.event.photos[index].isSelected = true;
+                $scope.photosSelected++;
             } else {
                 $scope.event.photos[index].isSelected = false;
+                $scope.photosSelected--;
             }
-        } else if (!$scope.showPhotosDeleteButton) {
+        } else if (!$scope.photoEditButtonEnabled) {
             $modalPhotoViewSlider.open({
                 index: index,
                 photos: $scope.event.photos,

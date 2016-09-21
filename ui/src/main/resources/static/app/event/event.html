@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-2 col-md-2">
-                        <a class="btn btn-default btn-block pull-right" ui-sref="editEvent({ id : event.id })" ng-bind="'EVENT.EVENT_DETAILS.EDIT'|translate"></a>
+                        <a ng-if="userHasRightsToEdit" class="btn btn-default btn-block pull-right" ui-sref="editEvent({ id : event.id })" ng-bind="'EVENT.EVENT_DETAILS.EDIT'|translate"></a>
                     </div>
                 </div>
             </div>
@@ -57,9 +57,9 @@
                 <label for="file-upload" class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></label>
                 <input id="file-upload" type="file" accept="image/*" multiple="true" custom-on-change="filesSelected" />
             </div>
-            <div class="pull-right">
-                <button type="button" class="btn btn-danger" ng-show="showPhotosDeleteButton" ng-click="deletePhotos()" ng-bind="'EVENT.EVENT_PHOTOS.DELETE'|translate"></button>
-                <button type="button" class="btn btn-primary" ng-class="{'active' : showPhotosDeleteButton}" ng-click="enableEdit()" ng-bind="'EVENT.EVENT_PHOTOS.EDIT'|translate"></button>
+            <div class="pull-right" ng-if="userHasRightsToEdit">
+                <button type="button" class="btn btn-danger" ng-show="photoEditButtonEnabled && photosSelected > 0" ng-click="deletePhotos()" ng-bind="'EVENT.EVENT_PHOTOS.DELETE'|translate"></button>
+                <button type="button" class="btn btn-primary" ng-class="{'active' : photoEditButtonEnabled}" ng-click="enableEdit()" ng-bind="'EVENT.EVENT_PHOTOS.EDIT'|translate"></button>
             </div>
         </div>
     </div>
@@ -76,8 +76,8 @@
             <div class="col-xs-4 col-sm-4 col-md-4" ng-repeat="photo in event.photos track by $index">
                 <a href="" ng-click="photoAction($index)">
                     <span class="spinner-container" ng-show="photo.pending"><img class="spinner-img" src="/pix/spinner.gif" /></span>
-                    <img ng-if="photo.img" ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.img}} />
-                    <img ng-if="!photo.img" ng-class="{'selected' : photo.isSelected && showPhotosDeleteButton}" class="img-responsive" ng-src={{photo.url}} />
+                    <img ng-if="photo.img" ng-class="{'selected' : photo.isSelected && photoEditButtonEnabled}" class="img-responsive" ng-src={{photo.img}} />
+                    <img ng-if="!photo.img" ng-class="{'selected' : photo.isSelected && photoEditButtonEnabled}" class="img-responsive" ng-src={{photo.url}} />
                 </a>
             </div>
         </div>

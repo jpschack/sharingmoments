@@ -114,128 +114,143 @@ angular.module('accountApp').controller('PasswordCtrl', function($scope, $accoun
     };
 });
 
-angular.module('accountApp').service('$account', function($http) {
-    var user = null;
-
-    return {
-        getUser : function () {
-            return user;
-        },
-        getUserData : function () {
-            var url = '/api/v1/resource/account';
-            return $http.get(url)
-                .then(
-                    function (response) {
-                        if (response.status === 200 && response.data) {
-                            user = response.data;
-                            return user;
-                        } else {
-                            return null;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        },
-        updateUserData : function (jsonString) {
-            var url = '/api/v1/resource/account';
-            return $http.put(url, jsonString)
-                .then(
-                    function (response) {
-                        if (response.status === 200 && response.data.dataObject) {
-                            user = response.data.dataObject;
-                            return user;
-                        } else {
-                            return null;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        },
-        updatePrivacy : function (privateAccount) {
-            var url = '/api/v1/resource/account/privacy';
-            var privacy = { 'privateAccount': privateAccount };
-            return $http.put(url, privacy)
-                .then(
-                    function (response) {
-                        if (response.status === 200 && response.data) {
-                            user = response.data;
-                            return user;
-                        } else {
-                            return null;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        },
-        updateUserPassword : function (jsonString) {
-            var url = '/api/v1/resource/account/password';
-            return $http.put(url, jsonString)
-                .then(
-                    function (response) {
-                        if (esponse.status === 200) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        },
-        deleteAccount : function () {
-            var url = '/api/v1/resource/account';
-            return $http.delete(url)
-                .then(
-                    function (response) {
-                        if (response.status === 200) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        },
-        uploadUserImage : function (file) {
-            var url = '/api/v1/resource/account/userImage';
-            var fileData = new FormData();
-            fileData.append('file', file);
-
-            return $http.post(url, fileData, {
-                    transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined}
-                })
-                .then(
-                    function (response) {
-                        if (response.status === 200 && response.data) {
-                            user.userImage = response.data;
-                            return user.userImage;
-                        } else {
-                            return null;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        },
-        deleteUserImage : function () {
-            var url = '/api/v1/resource/account/userImage';
-            return $http.delete(url)
-                .then(
-                    function (response) {
-                        if (response.status === 200) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                },
-                function (httpError) {
-                    throw { 'status': httpError.status , 'data': httpError.data };
-                });
-        }
+angular.module('accountApp').service('$account', function($http, $cookies, $q) {
+    var getUserData = function () {
+        var url = '/api/v1/resource/account';
+        return $http.get(url)
+            .then(
+                function (response) {
+                    if (response.status === 200 && response.data) {
+                        return response.data;
+                    } else {
+                        return null;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
     };
+
+    var getLoggedInUserId = function () {
+        var deferred = $q.defer();
+
+        if ($cookies.get('sm-id')) {
+            deferred.resolve($cookies.get('sm-id'));
+        } else {
+            getUserData().then(function (user) {
+                if (user) {
+                    $cookies.put('sm-id', user.id);
+                    deferred.resolve(user.id);
+                } else {
+                    deferred.resolve(null);
+                }
+            });
+        }
+        return deferred.promise;
+    };
+
+    var updateUserData = function (jsonString) {
+        var url = '/api/v1/resource/account';
+        return $http.put(url, jsonString)
+            .then(
+                function (response) {
+                    if (response.status === 200 && response.data.dataObject) {
+                        return response.data.dataObject;
+                    } else {
+                        return null;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
+    };
+
+    var updatePrivacy = function (privateAccount) {
+        var url = '/api/v1/resource/account/privacy';
+        var privacy = { 'privateAccount': privateAccount };
+        return $http.put(url, privacy)
+            .then(
+                function (response) {
+                    if (response.status === 200 && response.data) {
+                        return response.data;
+                    } else {
+                        return null;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
+    };
+
+    var updateUserPassword = function (jsonString) {
+        var url = '/api/v1/resource/account/password';
+        return $http.put(url, jsonString)
+            .then(
+                function (response) {
+                    if (esponse.status === 200) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
+    };
+
+    var deleteAccount = function () {
+        var url = '/api/v1/resource/account';
+        return $http.delete(url)
+            .then(
+                function (response) {
+                    if (response.status === 200) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
+    };
+
+    var uploadUserImage = function (file) {
+        var url = '/api/v1/resource/account/userImage';
+        var fileData = new FormData();
+        fileData.append('file', file);
+
+        return $http.post(url, fileData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+            .then(
+                function (response) {
+                    if (response.status === 200 && response.data) {
+                        return response.data;
+                    } else {
+                        return null;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
+    };
+
+    var deleteUserImage = function () {
+        var url = '/api/v1/resource/account/userImage';
+        return $http.delete(url)
+            .then(
+                function (response) {
+                    if (response.status === 200) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+            },
+            function (httpError) {
+                throw { 'status': httpError.status , 'data': httpError.data };
+            });
+    };
+
+    return { getUserData, getLoggedInUserId, updateUserData, updatePrivacy, updateUserPassword, deleteAccount, uploadUserImage, deleteUserImage };
 });

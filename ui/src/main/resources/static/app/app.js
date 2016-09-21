@@ -5,12 +5,12 @@ angular.module('signupApp', ['app.services']);
 angular.module('resetPassword', ['app.services', 'authService']);
 angular.module('updatePassword', ['app.services', 'authService', 'app.directives']);
 angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'app.directives', 'infinite-scroll', 'modalPhotoViewSilderApp']);
-angular.module('accountApp', ['app.services', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'ngMessages', 'app.directives']);
+angular.module('accountApp', ['app.services', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'ngMessages', 'app.directives', 'ngCookies']);
 angular.module('photoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('modalPhotoViewApp', ['app.services']);
 angular.module('searchApp', ['googleLocationServices', 'app.services']);
 angular.module('userApp', ['app.controllers', 'app.services', 'infinite-scroll', 'modalPhotoViewSilderApp']);
-angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll', 'modalPhotoViewSilderApp']);
+angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll', 'modalPhotoViewSilderApp', 'accountApp']);
 angular.module('errorApp', []);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);
 angular.module('googleLocationServices', []);
@@ -158,6 +158,17 @@ angular.module("sharingMomentsApp").config(function($httpProvider, $locationProv
                 eventData: function ($event, $stateParams) {
                     return $event.getEventById($stateParams.id);
                 },
+                userHasRightsToEdit: function (eventData, $account, $q) {
+                    var deferred = $q.defer();
+                    $account.getLoggedInUserId().then(function (loggedInUserId) {
+                        if (loggedInUserId && loggedInUserId == eventData.user.id) {
+                            deferred.resolve(true);
+                        } else {
+                            deferred.resolve(false);
+                        }
+                    });
+                    return deferred.promise;
+                },
                 googleLocationData: function ($googleLocationService, eventData) {
                     return $googleLocationService.getLocationByID(eventData.location.googleLocationID);
                 },
@@ -270,6 +281,7 @@ angular.module("sharingMomentsApp").run(function ($rootScope, $translate, $trans
 
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) { 
         event.preventDefault();
+        
         if (error.status) {
             $state.transitionTo('error', { 'status': error.status });
         } else {
