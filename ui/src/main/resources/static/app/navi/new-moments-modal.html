@@ -1,9 +1,10 @@
 <div class="new-moments-modal-body" ng-hide="newEventModalLoaded">
     <div class="modal-header">
-        <h2 ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.HEADLINE' | translate"></h2>
-        <p class="intro-text" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.INTRO' | translate"></p>
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.HEADLINE' | translate"></h4>
     </div>
     <div class="modal-body">
+        <p class="intro-text" ng-bind="'INDEX.NAVIGATION.NEWMOMENTS.INTRO' | translate"></p>
         <div class="row">
             <div class="col-md-12 text-search">
                 <div class="row">

@@ -1,6 +1,7 @@
 <div class="delete-account-modal">
     <div class="modal-header">
-        <h2 ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.HEADLINE' | translate"></h2>
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.HEADLINE' | translate"></h4>
     </div>
     <div class="modal-body">
         <p ng-bind="'ACCOUNT.NAVIGATION.ACCOUNT.DELETE_MODAL.BODYTEXT' | translate"></p>

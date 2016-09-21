@@ -1,6 +1,7 @@
 <div class="event-list-modal" infinite-scroll="getEvents()" infinite-scroll-distance="0" infinite-scroll-disabled="!userEvents">
     <div class="modal-header">
-        <h2 ng-bind="('PROFILE.EVENT_LIST_MODAL.HEADLINE' | translate) + ' ' + user.username"></h2>
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 ng-bind="('PROFILE.EVENT_LIST_MODAL.HEADLINE' | translate) + ' ' + user.username"></h4>
     </div>
     <div class="modal-body">
         <div class="row">
