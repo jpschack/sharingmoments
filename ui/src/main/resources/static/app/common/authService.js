@@ -14,6 +14,7 @@ angular.module('authService').service('$auth', function($rootScope, $http, $cook
                     function (response) {
                         if (response.status === 200 && response.headers('X-AUTH-TOKEN')) {
                             $cookies.put('X-AUTH-TOKEN', response.headers('X-AUTH-TOKEN'));
+                            $cookies.put('sm-id', response.data.id);
                             $rootScope.authenticated = true;
                             return true;
                         } else {
@@ -46,6 +47,7 @@ angular.module('authService').service('$auth', function($rootScope, $http, $cook
                     function (response) {
                         if (response.status === 200 && response.headers('X-AUTH-TOKEN')) {
                             $cookies.put('X-AUTH-TOKEN', response.headers('X-AUTH-TOKEN'));
+                            $cookies.put('sm-id', response.data.id);
                             $rootScope.authenticated = true;
                             return true;
                         } else {
@@ -63,6 +65,7 @@ angular.module('authService').service('$auth', function($rootScope, $http, $cook
                     function (response) {
                         if (response.status === 200 && response.headers('X-AUTH-TOKEN')) {
                             $cookies.put('X-AUTH-TOKEN', response.headers('X-AUTH-TOKEN'));
+                            $cookies.put('sm-id', response.data.id);
                             $rootScope.authenticated = true;
                             return true;
                         } else {
@@ -75,6 +78,7 @@ angular.module('authService').service('$auth', function($rootScope, $http, $cook
         },
         logout: function () {
             $cookies.remove('X-AUTH-TOKEN');
+            $cookies.remove('sm-id');
             $rootScope.authenticated = false;
         }
     };

@@ -71,7 +71,7 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
 	
 	
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUserAccount(@RequestBody @Valid final UserDto accountDto, final HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody User registerUserAccount(@RequestBody @Valid final UserDto accountDto, final HttpServletRequest request, HttpServletResponse response) {
         User user;
         try {
         	user = createUserAccount(accountDto);
@@ -93,7 +93,7 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
         final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
         tokenAuthenticationService.addAuthentication(response, userAuthentication);
 
-        return ResponseEntity.ok(null);
+        return user;
     }
     
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
@@ -207,7 +207,7 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
     
     @RequestMapping(value = "/savePassword", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
-    public @ResponseBody ResponseEntity<?> savePassword(final Locale locale, @JsonArg final String password, @JsonArg final UUID id, @JsonArg final String token, HttpServletResponse response) {
+    public @ResponseBody User savePassword(final Locale locale, @JsonArg final String password, @JsonArg final UUID id, @JsonArg final String token, HttpServletResponse response) {
     	
     	final User user = getUserByPasswordResetToken(token, id);
         if (user == null) {
@@ -220,7 +220,7 @@ public class RegistrationController extends WebMvcConfigurerAdapter {
         final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
         tokenAuthenticationService.addAuthentication(response, userAuthentication);
         
-        return ResponseEntity.ok(null);
+        return user;
     }
     
     private User createUserAccount(final UserDto accountDto) throws EmailExistsException, UsernameExistsException {

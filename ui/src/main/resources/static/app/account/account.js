@@ -49,6 +49,7 @@ angular.module('accountApp').controller('DeleteAccountCtrl', function($scope, $r
     $scope.delete = function() {
         $account.deleteAccount().then(function () {
             $cookies.remove('X-AUTH-TOKEN');
+            $cookies.remove('sm-id');
             $rootScope.authenticated = false;
             $state.go('/');
         });
