@@ -164,7 +164,7 @@ angular.module('eventApp').controller('NewEventModalCtrl', function($scope, $roo
     };
 });
 
-angular.module('eventApp').controller('EventCtrl', function($scope, eventData, userHasRightsToEdit, googleLocationData, eventPhotoData, $event, $fileHandler, $modalPhotoViewSlider) {
+angular.module('eventApp').controller('EventCtrl', function($scope, eventData, userHasRightsToEdit, googleLocationData, eventPhotoData, $event, $fileReader, $modalPhotoViewSlider) {
     $scope.getPhotos = function () {
         if(!$scope.photoPagination.last && !$scope.isLoadingNewPhotos) {
             $scope.isLoadingNewPhotos = true;
@@ -186,8 +186,7 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, u
     };
 
     var init = function () {
-        $scope.photosToUpload = null;
-        $scope.invalidPhotos = null;
+        $scope.invalidPhotos = [];
         $scope.photoPagination = { 'nextPage': 1, 'size': 10, 'lastPage': true };
         $scope.isLoadingNewPhotos = false;
         $scope.photoEditButtonEnabled = false;
@@ -200,6 +199,7 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, u
                 $scope.event.photos = eventPhotoData.content;
             } else {
                 $scope.showPhotoPlaceholder = true;
+                $scope.event.photos = [];
             }
             $scope.photoPagination = { 'nextPage': (eventPhotoData.number + 1), 'size': eventPhotoData.size, 'last': eventPhotoData.last, 'totalElements': eventPhotoData.totalElements };
         }
@@ -209,94 +209,58 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, u
         }
     };
     init();
-
-    var handlePhotosToUpload = function () {
-        if ($scope.photosToUpload && $scope.photosToUpload.length > 0) {
-            if (!$scope.event.photos) {
-                $scope.event.photos = [];
-            }
-            angular.forEach($scope.photosToUpload, function(photoToUpload, key) {
-                $scope.event.photos.unshift(photoToUpload);
-                var photoInScope = $scope.event.photos[0];
-                photoInScope.pending = true;
-
-                $event.uploadPhoto($scope.event.id, photoInScope.file).then(function (photo) {
-                    photoInScope.pending = false;
-                    if (photo) {
-                        angular.extend(photoInScope, photo);
-                    }
-                }).catch(function (error) {
-                    photoInScope.pending = false;
-                });
-            });
-            $scope.photosToUpload = null;
-        }
-    };
     
     $scope.closeAlert = function () {
-        $scope.invalidPhotos = null;
+        $scope.invalidPhotos = [];
+    };
+
+    var uploadPhoto = function (photoInScope) {
+        photoInScope.uploadFailed = false;
+        photoInScope.pending = true;
+        $event.uploadPhoto($scope.event.id, photoInScope.file).then(function (photo) {
+            photoInScope.pending = false;
+            if (photo) {
+                angular.extend(photoInScope, photo);
+            } else {
+                $scope.invalidPhotos.push(photoInScope);
+                photoInScope.uploadFailed = true;
+            }
+        }, function(reason) {
+            $scope.invalidPhotos.push(photoInScope);
+            photoInScope.pending = false;
+            photoInScope.uploadFailed = true;
+        });
+    };
+
+    var processFiles = function (files) {
+        angular.forEach(files, function(file, key) {
+            $fileReader.loadFile(file).then(function (loadedImage) {
+                if (loadedImage.valid) {
+                    $scope.event.photos.unshift(loadedImage);
+                    uploadPhoto($scope.event.photos[0]);
+                } else {
+                    $scope.invalidPhotos.push(loadedImage);
+                }
+            }, function(reason) {
+                $scope.invalidPhotos.push(file);
+            });
+        });
+    };
+
+    $scope.retryUpload = function (photo) {
+        uploadPhoto(photo);
     };
 
     $scope.filesSelected = function (event) {
-        var reader, file, _files = [], files = [], invalidFiles;
-
-        reader = new FileReader();
-        reader.onloadend = function(evt) {
-            var image = {};
-            image.file = file;
-            image.name = file.name;
-            image.img = evt.target.result;
-            image.valid = true;
-
-            files.push(image);
-            loadFile();
-        };
-
-        var loadFile = function() {
-            if (_files.length > 0) {
-                file = _files[_files.length - 1];
-                var sizeValid = $fileHandler.checkSize(file.size);
-                var typeValid = $fileHandler.isTypeValid(file.type);
-
-                if (sizeValid && typeValid) {
-                    reader.readAsDataURL(file);
-                    _files.pop();
-                } else {
-                    var image = {};
-                    image.name = file.name;
-                    image.valid = false;
-                    image.sizeValid = sizeValid;
-                    image.typeValid = typeValid;
-
-                    if (!invalidFiles) {
-                        invalidFiles = [];
-                    }
-                    invalidFiles.push(image);
-
-                    _files.pop();
-                    loadFile();
-                }
-            } else {
-                if (!$scope.photosToUpload) {
-                    $scope.photosToUpload = [];
-                }
-                $scope.photosToUpload = files;
-                $scope.invalidPhotos = invalidFiles;
-                $scope.$digest()
-            }
-        };
-
         if (event.target.files.length > 0) {
-            angular.forEach(event.target.files, function(file, key) {
-                _files.push(file);
-            });
-            loadFile();
+            processFiles(event.target.files);
         }
     };
 
-    $scope.$watch('photosToUpload', function (newValue, oldValue) {
+    $scope.$watch('droppedFiles', function (newValue, oldValue) {
         if (newValue && newValue.length > 0) {
-            handlePhotosToUpload();
+            processFiles(newValue);
+            $scope.droppedFiles = null;
         }
     });
 
@@ -330,7 +294,7 @@ angular.module('eventApp').controller('EventCtrl', function($scope, eventData, u
                 $scope.event.photos[index].isSelected = false;
                 $scope.photosSelected--;
             }
-        } else if (!$scope.photoEditButtonEnabled) {
+        } else if (!$scope.photoEditButtonEnabled && $scope.event.photos[index].id) {
             $modalPhotoViewSlider.open({
                 index: index,
                 photos: $scope.event.photos,
@@ -647,83 +611,35 @@ angular.module('eventApp').service('$event', function ($http) {
     };
 });
 
-angular.module('eventApp').directive('imageDropzone', function($fileHandler) {
+angular.module('eventApp').directive('imageDropzone', function($fileReader) {
     return {
-      restrict: 'A',
-      scope: {
-        files: '=',
-        invalidFiles: '='
-      },
-      link: function(scope, element, attrs) {
-        var processDragOverOrEnter = function(event) {
-            if (event != null) {
-                event.preventDefault();
-            }
-            event.originalEvent.effectAllowed = 'copy';
-            return false;
-        };
-
-        element.bind('dragover', processDragOverOrEnter);
-        element.bind('dragenter', processDragOverOrEnter);
-
-        return element.bind('drop', function(event) {
-            var reader, file, _files = [], files = [], invalidFiles;
-
-            reader = new FileReader();
-            reader.onloadend = function(evt) {
-                var image = {};
-                image.file = file;
-                image.name = file.name;
-                image.img = evt.target.result;
-                image.valid = true;
-
-                files.push(image);
-                loadFile();
+        restrict: 'A',
+        scope: {
+            droppedFiles: '='
+        },
+        link: function(scope, element, attrs) {
+            var processDragOverOrEnter = function(event) {
+                if (event != null) {
+                    event.preventDefault();
+                }
+                event.originalEvent.effectAllowed = 'copy';
+                return false;
             };
 
-            var loadFile = function() {
-                if (_files.length > 0) {
-                    file = _files[_files.length - 1];
-                    var sizeValid = $fileHandler.checkSize(file.size);
-                    var typeValid = $fileHandler.isTypeValid(file.type);
+            element.bind('dragover', processDragOverOrEnter);
+            element.bind('dragenter', processDragOverOrEnter);
 
-                    if (sizeValid && typeValid) {
-                        reader.readAsDataURL(file);
-                        _files.pop();
-                    } else {
-                        var image = {};
-                        image.name = file.name;
-                        image.valid = false;
-                        image.sizeValid = sizeValid;
-                        image.typeValid = typeValid;
-
-                        if (!invalidFiles) {
-                            invalidFiles = [];
-                        }
-                        invalidFiles.push(image);
-
-                        _files.pop();
-                        loadFile();
+            return element.bind('drop', function(event) {
+                if (event != null) {
+                    event.preventDefault();
+                    if (event.originalEvent.dataTransfer.files.length > 0) {
+                        scope.$apply(function() {
+                            scope.droppedFiles = event.originalEvent.dataTransfer.files;
+                        });
                     }
-                } else {
-                    scope.$apply(function() {
-                        scope.files = files;
-                        scope.invalidFiles = invalidFiles;
-                    });
                 }
-            };
-
-            if (event != null) {
-                event.preventDefault();
-                if (event.originalEvent.dataTransfer.files.length > 0) {
-                    angular.forEach(event.originalEvent.dataTransfer.files, function(file, key) {
-                        _files.push(file);
-                    });
-                    loadFile();
-                }
-            }
-            return false;
-        });
-      }
+                return false;
+            });
+        }
     };
-  });
+});

@@ -4,20 +4,20 @@ angular.module('loginApp', ['authService']);
 angular.module('signupApp', ['app.services']);
 angular.module('resetPassword', ['app.services', 'authService']);
 angular.module('updatePassword', ['app.services', 'authService', 'app.directives']);
-angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'app.directives', 'infinite-scroll', 'modalPhotoViewSilderApp']);
+angular.module('profileApp', ['accountApp', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'app.directives', 'infinite-scroll', 'modalPhotoViewSilderApp', 'fileReader']);
 angular.module('accountApp', ['app.services', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'authService', 'ngMessages', 'app.directives', 'ngCookies']);
 angular.module('photoApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('modalPhotoViewApp', ['app.services']);
 angular.module('searchApp', ['googleLocationServices', 'app.services']);
 angular.module('userApp', ['app.controllers', 'app.services', 'infinite-scroll', 'modalPhotoViewSilderApp']);
-angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileHandler', 'infinite-scroll', 'modalPhotoViewSilderApp', 'accountApp']);
+angular.module('eventApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'googleLocationServices', 'app.services', 'app.directives', 'fileReader', 'infinite-scroll', 'modalPhotoViewSilderApp', 'accountApp']);
 angular.module('errorApp', []);
 angular.module('app.services', ['ui.bootstrap', 'ngAnimate']);
 angular.module('googleLocationServices', []);
 angular.module('authService', ['ngCookies']);
 angular.module('app.controllers', []);
 angular.module('app.directives', []);
-angular.module('fileHandler', []);
+angular.module('fileReader', []);
 angular.module('modalPhotoViewSilderApp', ['ui.bootstrap']);
 
 
@@ -46,7 +46,8 @@ angular.module('sharingMomentsApp',
         'app.directives',
         'ngCookies',
         'authService',
-        'modalPhotoViewSilderApp'
+        'modalPhotoViewSilderApp',
+        'fileReader'
     ]
 );
 

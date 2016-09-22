@@ -110,22 +110,30 @@ angular.module('profileApp').controller('ProfileEventListModalCtrl', function($s
     };
 });
 
-angular.module('profileApp').controller('ProfileImageCtrl', function($scope, $rootScope, $uibModalInstance, $account) {
+angular.module('profileApp').controller('ProfileImageCtrl', function($scope, $rootScope, $uibModalInstance, $uibModal, $account, $fileReader) {
     $scope.uploadFile = function (event) {
-        var files = event.target.files;
+        var file = event.target.files[0];
 
-        if (files[0].type == 'image/jpeg' || files[0].type == 'image/png') {
+        $scope.sizeValid = $fileReader.checkSize(file.size);
+        $scope.typeValid = $fileReader.isTypeValid(file.type);
+
+        if ($scope.sizeValid && $scope.typeValid) {
             $uibModalInstance.dismiss('cancel');
             $rootScope.$emit("userImageStartUpdating", {});
 
-            $account.uploadUserImage(files[0]).then(function (userImage) {
+            $account.uploadUserImage(file).then(function (userImage) {
                 $scope.user.userImage = userImage;
             }).finally(function() {
                 $rootScope.$emit("userImageStoppedUpdating", {});
             });
-
         } else {
-            //not an image -> modal alert
+            var modURL = 'app/profile/profile-image-alert-modal.html';
+            var profileImageAlertModal = $uibModal.open({
+                scope: $scope,
+                templateUrl: modURL,
+                controller: 'ProfileImageAlertCtrl',
+                size: 'sm'
+            });
         }
     };
 
@@ -136,6 +144,12 @@ angular.module('profileApp').controller('ProfileImageCtrl', function($scope, $ro
         });
     };
 
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+angular.module('profileApp').controller('ProfileImageAlertCtrl', function($scope, $uibModalInstance) {
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="row file-errors" ng-show="invalidPhotos">
+    <div class="row file-errors" ng-show="invalidPhotos.length > 0">
         <div uib-alert template-url="app/event/photo-file-upload-alert.html" ng-class="'alert-danger'" close="closeAlert()">
             <div uib-accordion>
                 <div uib-accordion-group heading="{{ 'EVENT.FILE_ALERT.HEADLINE'|translate }}" is-open="false" is-disabled="false">
@@ -45,13 +45,14 @@
                         <li class="file-error" ng-repeat="file in invalidPhotos">
                             <div class="error-message" ng-show="!file.sizeValid && file.typeValid" ng-bind="file.name + ' - ' + ('EVENT.FILE_ALERT.SIZE'|translate)"></div>
                             <div class="error-message" ng-show="!file.typeValid" ng-bind="file.name + ' - ' + ('EVENT.FILE_ALERT.TYPE'|translate)"></div>
+                            <div class="error-message" ng-show="file.typeValid && file.typeValid" ng-bind="file.name + ' - ' + ('EVENT.FILE_ALERT.UNKNOWN'|translate)"></div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row event-actions" ng-show="event.photos">
+    <div class="row event-actions" ng-show="event.photos.length > 0">
         <div class="col-md-12">
             <div class="container-upload-input pull-left">
                 <label for="file-upload" class="btn btn-primary" ng-bind="'EVENT.EVENT_PHOTOS.UPLOAD'|translate"></label>
@@ -63,8 +64,8 @@
             </div>
         </div>
     </div>
-    <div class="row event-photos" image-dropzone files="photosToUpload" invalid-files="invalidPhotos">
-        <div ng-show="showPhotoPlaceholder && !event.photos" class="jumbotron photos-placeholder">
+    <div class="row event-photos" image-dropzone dropped-files="droppedFiles">
+        <div ng-show="showPhotoPlaceholder && event.photos.length < 1" class="jumbotron photos-placeholder">
             <div class="h1" ng-bind="'EVENT.EVENT_PHOTOS.PLACEHOLDER.HEADLINE'|translate"></div>
             <p ng-bind="'EVENT.EVENT_PHOTOS.PLACEHOLDER.TEXT'|translate"></p>
             <div class="container-upload-input">
@@ -76,7 +77,8 @@
             <div class="col-xs-4 col-sm-4 col-md-4" ng-repeat="photo in event.photos track by $index">
                 <a href="" ng-click="photoAction($index)">
                     <span class="spinner-container" ng-show="photo.pending"><img class="spinner-img" src="/pix/spinner.gif" /></span>
-                    <img ng-if="photo.img" ng-class="{'selected' : photo.isSelected && photoEditButtonEnabled}" class="img-responsive" ng-src={{photo.img}} />
+                    <button class="button upload-retry-button" ng-show="photo.uploadFailed"><span class="glyphicon glyphicon-repeat" ng-click="retryUpload(photo)"></span></button>
+                    <img ng-if="photo.img" ng-class="{'selected' : (photo.isSelected && photoEditButtonEnabled), 'upload-failed': photo.uploadFailed}" class="img-responsive" ng-src={{photo.img}} />
                     <img ng-if="!photo.img" ng-class="{'selected' : photo.isSelected && photoEditButtonEnabled}" class="img-responsive" ng-src={{photo.url}} />
                 </a>
             </div>

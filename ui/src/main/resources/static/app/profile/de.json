@@ -11,6 +11,12 @@
             "DELETE_CURRENT": "Aktuelles Foto löschen",
             "CANCEL": "Abbrechen"
         },
+        "PROFILE_IMAGE_ALERT_MODAL": {
+            "HEADLINE": "Neues Profilbild",
+            "SIZE": "Die Größe des Bildes hat die Obergrenze von 5MB überschritten.",
+            "TYPE": "Dies ist leider kein zulässiges Bildformat. Bitte nur JPG oder PNG.",
+            "OK": "OK"
+        },
         "EVENT_LIST_MODAL": {
             "HEADLINE": "Events von",
             "CLOSE": "Schließen"

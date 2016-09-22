@@ -11,6 +11,12 @@
             "DELETE_CURRENT": "Remove current photo",
             "CANCEL": "Cancel"
         },
+        "PROFILE_IMAGE_ALERT_MODAL": {
+            "HEADLINE": "New profile image",
+            "SIZE": "Sorry, this image was too large. The maximum is 5MB.",
+            "TYPE": "Sorry, this is not an acceptable image format (JPG, PNG).",
+            "OK": "OK"
+        },
         "EVENT_LIST_MODAL": {
             "HEADLINE": "Events by",
             "CLOSE": "Close"

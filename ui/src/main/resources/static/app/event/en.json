@@ -16,7 +16,8 @@
         "FILE_ALERT": {
             "HEADLINE": "Some errors occurred, while uploading those selected files.",
             "SIZE": "The file is too big.",
-            "TYPE": "This file is not an image."
+            "TYPE": "This file is not an image.",
+            "UNKNOWN": "Unknown error - Please try again."
         },
         "EDIT": {
             "HEADLINE": "Edit Event",

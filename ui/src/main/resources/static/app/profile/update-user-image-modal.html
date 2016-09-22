@@ -4,6 +4,6 @@
         <label for="file-upload" class="custom-file-upload" ng-bind="'PROFILE.UPDATE_USER_IMAGE_MODAL.UPLOAD' | translate"></label>
         <input id="file-upload" type="file" accept="image/*" custom-on-change="uploadFile" />
     </div>
-    <button class="btn btn-default btn-block" ng-click="deleteUserImage()" ng-bind="'PROFILE.UPDATE_USER_IMAGE_MODAL.DELETE_CURRENT' | translate"></button>
+    <button class="btn btn-default btn-block" ng-if="user.userImage.id" ng-click="deleteUserImage()" ng-bind="'PROFILE.UPDATE_USER_IMAGE_MODAL.DELETE_CURRENT' | translate"></button>
     <button class="btn btn-default btn-block" ng-click="cancel()" ng-bind="'PROFILE.UPDATE_USER_IMAGE_MODAL.CANCEL' | translate"></button>
 </div>

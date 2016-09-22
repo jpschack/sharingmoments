@@ -1,0 +1,13 @@
+<div class="profile-image-alert-modal">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 ng-bind="'PROFILE.PROFILE_IMAGE_ALERT_MODAL.HEADLINE' | translate"></h4>
+    </div>
+    <div class="modal-body">
+        <p ng-if="!sizeValid" ng-bind="'PROFILE.PROFILE_IMAGE_ALERT_MODAL.SIZE' | translate"></p>
+        <p ng-if="!typeValid" ng-bind="'PROFILE.PROFILE_IMAGE_ALERT_MODAL.TYPE' | translate"></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="cancel()" ng-bind="'PROFILE.PROFILE_IMAGE_ALERT_MODAL.OK' | translate"></button>
+    </div>
+</div>

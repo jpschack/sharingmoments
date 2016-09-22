@@ -16,7 +16,8 @@
         "FILE_ALERT": {
             "HEADLINE": "Beim hochladen der Dateien sind Fehler aufgetreten:",
             "SIZE": "Die Datei ist zu groß.",
-            "TYPE": "Dies ist kein Bild."
+            "TYPE": "Dies ist kein Bild.",
+            "UNKNOWN": "Es ist ein unbekannter Fehler aufgerteten. Bitte probiere es erneut."
         },
         "EDIT": {
             "HEADLINE": "Event bearbeiten",
